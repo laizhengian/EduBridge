@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+build/
+
+# env & secrets
+.env
+.env.local
+.env*.local
+
+# logs
+*.log
+*.log.err
+.freebuff/*.log*
+
+# os junk
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# typescript
+*.tsbuildinfo
