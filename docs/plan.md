@@ -1,4 +1,4 @@
-# Project Plan — OIS Hub (working title)
+# Project Plan — EduBridge (formerly "OIS Hub")
 *The Clobas replacement for Oakbridge International School. Locked 16 Sep 2026.*
 
 ## North star
@@ -38,15 +38,18 @@
 5. **Events** — upcoming list + calendar with a legend that exists
 6. **Polish + offline cache** — fast loads, installable (PWA), stale-data badges
 7. **Pilot** — share with ~5 classmates, gather feedback, iterate
-8. **Teacher phase** (needs a teacher champion) — teacher accounts, official circulars,
-   attendance/results views; teacher posts appear on web *and* future app automatically
+8. **Teacher phase** (needs a teacher champion) — a **separate teacher/admin app**, same
+   design language, one shared database: posting homework, letters, attendance. Teacher
+   posts appear on web *and* future app automatically; the family app stays view-only
 
 ## Explicitly deferred
 Push notifications, fees, bus tracking, chat/DMs, photo gallery, admissions, alumni,
 auto-grading — killed for now per the wedge strategy; revisit only with school buy-in.
 
 ## Docs map
+- `docs/goals.md` — the why: goals, benefits, and principles every decision serves
 - `docs/plan.md` — this file (locked decisions)
+- `docs/how-its-built.md` — the plain-language, zero-jargon explainer to show parents and staff
 - `docs/ux-teardown.md` — failure log → design rules (updated as evidence arrives)
 - `docs/clobas-teardown/friction-log.md` — the teacher-showable evidence doc
 - `docs/clobas-teardown/screenshots/` — 20 captures of the current portal

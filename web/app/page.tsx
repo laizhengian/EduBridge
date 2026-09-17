@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { DotTag, SectionTitle, ArrowRightIcon } from "@/components/ui";
 import {
   circulars,
@@ -8,8 +12,34 @@ import {
   isSameDay,
   timeAgo,
 } from "@/lib/mock-data";
+import { loadProfile, type Profile } from "@/lib/profile";
+
+function Box({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`rounded-xl border border-hairline bg-paper ${className}`}>
+      {children}
+    </div>
+  );
+}
 
 export default function TodayPage() {
+  const router = useRouter();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    const p = loadProfile();
+    if (!p) router.replace("/welcome");
+    setProfile(p);
+    setChecked(true);
+  }, [router]);
+
   const now = new Date();
   const openCount = homeworkSeed.filter((h) => !h.done).length;
   const overdue = homeworkSeed.filter((h) => !h.done && new Date(h.dueAt) < now);
@@ -19,17 +49,23 @@ export default function TodayPage() {
     .sort((a, b) => +new Date(a.date) - +new Date(b.date))
     .slice(0, 2);
 
+  if (!checked) return null;
+
   return (
     <div>
       <header className="rise">
-        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
-          {now.toLocaleDateString("en-MY", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-          })}
+        <p className="text-sm text-muted">
+          {now.toLocaleDateString("en-MY", { weekday: "long", day: "numeric", month: "long" })}
+          {profile ? ` · ${profile.className}` : ""}
+        </p>
+        <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight md:text-4xl">
+          {now.getHours() < 12
+            ? "Good morning"
+            : now.getHours() < 17
+              ? "Good afternoon"
+              : "Good evening"}
         </h1>
-        <p className="mt-1 text-[15px] text-muted">
+        <p className="mt-1.5 text-[17px] text-foreground/80">
           {openCount > 0
             ? `${openCount} items to do · ${overdue.length} overdue`
             : "No homework to do right now."}
@@ -47,17 +83,22 @@ export default function TodayPage() {
           >
             Overdue
           </SectionTitle>
-          <ul className="mt-1 divide-y divide-hairline">
+          <Box className="mt-2 divide-y divide-hairline">
             {overdue.map((h) => (
-              <li key={h.id} className="flex items-center gap-3 py-3">
-                <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-danger" />
-                <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-danger">
+              <Link
+                key={h.id}
+                href="/homework"
+                className="flex items-center gap-3 px-4 py-3.5"
+              >
+                <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-danger" />
+                <span className="min-w-0 flex-1 truncate text-[15px] font-semibold text-danger">
                   {h.title}
+                  <span className="sr-only"> (overdue)</span>
                 </span>
                 <span className="shrink-0 text-xs text-muted">{dueLabel(h.dueAt)}</span>
-              </li>
+              </Link>
             ))}
-          </ul>
+          </Box>
         </section>
       )}
 
@@ -75,21 +116,27 @@ export default function TodayPage() {
           Due today
         </SectionTitle>
         {dueToday.length === 0 ? (
-          <p className="py-3 text-[15px] text-muted">Nothing due today.</p>
+          <Box className="mt-2 px-4 py-4">
+            <p className="text-[15px] text-muted">Nothing due today.</p>
+          </Box>
         ) : (
-          <ul className="mt-1 divide-y divide-hairline">
+          <Box className="mt-2 divide-y divide-hairline">
             {dueToday.map((h) => (
-              <li key={h.id} className="flex items-center gap-3 py-3">
-                <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+              <Link
+                key={h.id}
+                href="/homework"
+                className="flex items-center gap-3 px-4 py-3.5"
+              >
+                <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-accent" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[15px] font-medium leading-6">{h.title}</p>
                   <p className="text-xs text-muted">
                     {h.subject} · due {dueLabel(h.dueAt)}
                   </p>
                 </div>
-              </li>
+              </Link>
             ))}
-          </ul>
+          </Box>
         )}
       </section>
 
@@ -101,25 +148,25 @@ export default function TodayPage() {
             </Link>
           }
         >
-          From the office
+          Circulars
         </SectionTitle>
-        <ul className="mt-1 divide-y divide-hairline">
+        <Box className="mt-2 divide-y divide-hairline">
           {circulars.map((c) => (
-            <li key={c.id} className="py-3">
+            <Link key={c.id} href="/circulars" className="block px-4 py-3.5">
               <div className="flex items-baseline justify-between gap-3">
                 <p className="min-w-0 flex-1 truncate text-[15px] font-medium leading-6">
                   {c.title}
                 </p>
-                <span className="shrink-0 text-xs font-medium text-accent-strong">
+                <span className="shrink-0 text-xs font-semibold text-accent-strong">
                   New
                 </span>
               </div>
               <p className="mt-0.5 text-xs text-muted">
                 {c.postedBy} · {timeAgo(c.postedAt)}
               </p>
-            </li>
+            </Link>
           ))}
-        </ul>
+        </Box>
       </section>
 
       <section className="rise mt-8" style={{ "--i": 4 } as React.CSSProperties}>
@@ -132,26 +179,22 @@ export default function TodayPage() {
         >
           Coming up
         </SectionTitle>
-        <ul className="mt-1 divide-y divide-hairline">
+        <Box className="mt-2 divide-y divide-hairline">
           {upcomingEvents.map((e) => (
-            <li key={e.id} className="flex items-center gap-3 py-3">
+            <Link key={e.id} href="/events" className="flex items-center gap-3 px-4 py-3.5">
               <span
                 aria-hidden
-                className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                  e.type === "exam"
-                    ? "bg-amber-500"
-                    : e.type === "holiday"
-                      ? "bg-accent"
-                      : "bg-stone-400"
+                className={`h-2 w-2 shrink-0 rounded-full ${
+                  e.type === "exam" ? "bg-amber-500" : e.type === "holiday" ? "bg-accent" : "bg-stone-400"
                 }`}
               />
               <span className="min-w-0 flex-1 truncate text-[15px] font-medium">
                 {e.title}
               </span>
               <span className="shrink-0 text-xs text-muted">{dueLabel(e.date)}</span>
-            </li>
+            </Link>
           ))}
-        </ul>
+        </Box>
       </section>
     </div>
   );

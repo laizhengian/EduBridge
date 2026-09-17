@@ -2,14 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { EventsIcon, HomeIcon, HomeworkIcon, TimetableIcon } from "./ui";
+import {
+  EventsIcon,
+  HomeIcon,
+  HomeworkIcon,
+  TimetableIcon,
+  TreeIcon,
+} from "./ui";
 
 const tabs = [
   { href: "/", label: "Today", Icon: HomeIcon, exact: true },
   { href: "/homework", label: "Homework", Icon: HomeworkIcon, exact: false },
+  { href: "/more", label: "Hub", Icon: TreeIcon, exact: false, center: true },
   { href: "/timetable", label: "Timetable", Icon: TimetableIcon, exact: false },
   { href: "/events", label: "Events", Icon: EventsIcon, exact: false },
 ];
+
+const desktopLinks = tabs.filter((t) => !t.center);
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -19,14 +28,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
       {/* desktop header — same destinations, arranged generously */}
       <header className="hidden border-b border-hairline bg-paper md:block">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8">
-          <Link
-            href="/"
-            className="font-display text-xl font-semibold tracking-tight"
-          >
-            OIS Hub
+          <Link href="/" className="font-display text-xl font-semibold tracking-tight">
+            EduBridge
           </Link>
           <nav className="flex items-center gap-8 text-[15px]">
-            {tabs.map(({ href, label, exact }) => {
+            {desktopLinks.map(({ href, label, exact }) => {
               const active = exact ? pathname === href : pathname.startsWith(href);
               return (
                 <Link
@@ -34,9 +40,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   href={href}
                   aria-current={active ? "page" : undefined}
                   className={`inline-flex h-10 items-center transition-colors ${
-                    active
-                      ? "font-semibold text-accent"
-                      : "text-muted hover:text-foreground"
+                    active ? "font-semibold text-accent" : "text-muted hover:text-foreground"
                   }`}
                 >
                   {label}
@@ -51,14 +55,36 @@ export function Shell({ children }: { children: React.ReactNode }) {
         {children}
       </div>
 
-      {/* mobile bottom tabs — large touch targets, no blur for old devices */}
+      {/* mobile bottom tabs — 5 slots, the tree hub in the middle */}
       <nav
         aria-label="Main"
         className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-paper pb-[env(safe-area-inset-bottom)] md:hidden"
       >
-        <div className="mx-auto grid max-w-md grid-cols-4">
-          {tabs.map(({ href, label, Icon, exact }) => {
+        <div className="mx-auto grid max-w-md grid-cols-5">
+          {tabs.map(({ href, label, Icon, exact, center }) => {
             const active = exact ? pathname === href : pathname.startsWith(href);
+            if (center) {
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  aria-current={active ? "page" : undefined}
+                  aria-label={`${label} — everything else in the app`}
+                  className={`-mt-4 flex min-h-[60px] flex-col items-center justify-center gap-0.5 text-xs font-medium transition-transform active:scale-95 ${
+                    active ? "text-accent" : "text-muted"
+                  }`}
+                >
+                  <span
+                    className={`flex h-12 w-12 items-center justify-center rounded-full border shadow-sm transition-colors ${
+                      active ? "border-accent bg-accent text-paper" : "border-hairline bg-paper"
+                    }`}
+                  >
+                    <TreeIcon className="h-6 w-6" />
+                  </span>
+                  {label}
+                </Link>
+              );
+            }
             return (
               <Link
                 key={href}

@@ -26,6 +26,8 @@ export type SchoolEvent = {
   title: string;
   type: "event" | "holiday" | "exam";
   location?: string;
+  /** Longer description, shown when the reader taps "More". */
+  details?: string;
 };
 
 export type Circular = {
@@ -208,6 +210,8 @@ export const events: SchoolEvent[] = [
     title: "Sports Day",
     type: "event",
     location: " Stadium",
+    details:
+      "Gates open 7:30am. Students arrive in house shirts. Track events run from 8:00am to 1:00pm; the parent relay is at 12:15pm. Food stalls accept cashless vouchers only.",
   },
   {
     id: "e2",
@@ -220,6 +224,8 @@ export const events: SchoolEvent[] = [
     date: at(9, 9, 0),
     title: "Junior Kitchen Workshop — Grades 3, 4 & 5",
     type: "event",
+    details:
+      "Sign-up closes the Friday before. Aprons and ingredients are provided; students only need a water bottle and a container to bring their bakes home.",
   },
   {
     id: "e4",

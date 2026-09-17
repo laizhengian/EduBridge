@@ -1,6 +1,6 @@
-# Feature candidates — OIS Hub
+# Feature candidates — EduBridge
 
-*Every feature answers a real, observed problem. If a feature can't name the problem it solves, it doesn't get built. "Useful" beats "impressive."*
+*Every feature answers a real, observed problem and serves one of the goals in `goals.md`. If a feature can't name the problem it solves, it doesn't get built. "Useful" beats "impressive."*
 
 ## The filter
 
@@ -26,9 +26,9 @@ Everything else is a gimmick and goes on the "not building" list.
 - **Problem:** Clobas buries everything in menus; the important thing (what's due, what's new) is never on page one.
 - **Fix:** open the app → due today + overdue + new circulars + next event. Zero taps.
 
-### 4. Teacher post tools (web)
-- **Problem:** teachers don't use the old tools — friction kills posting (Teacher Notes is empty; homework form is a wall).
-- **Fix:** same chip-based post sheet as students, but with "which class" selector; posting from a laptop appears instantly for students on web and, later, the app — one database, both surfaces.
+### 4. Teacher & admin app — a separate companion app
+- **Problem:** teachers don't use the old tools — friction kills posting (Teacher Notes is empty; homework form is a wall). Mixing posting controls into the family app would clutter screens that children and parents use.
+- **Fix:** a **second app for teachers and administrators**, same design language and same database: post homework in under 30 seconds with chips, publish letters, take attendance later. One post lands everywhere the family app reads. The family app itself stays **view-only**: students and parents read, tick off, and add to calendar — nothing to configure, nothing to break.
 
 ### 5. Read receipts for homework
 - **Problem:** teachers currently have no idea whether students saw the homework.
@@ -38,7 +38,11 @@ Everything else is a gimmick and goes on the "not building" list.
 - **Problem:** school Wi-Fi dies; an app that shows an error is worse than no app (design rule 5).
 - **Fix:** last-loaded data stays visible with a "last updated 10:32" stamp; auto-refreshes when the network returns.
 
-### 7. Events + circulars with real text
+### 7. The Hub + absence notes + holidays (built in mockup)
+- **Problem:** four tabs can't hold a whole school app; parents especially need one obvious place to find "everything else". Absence notes currently mean phoning the office or a WhatsApp message into the void.
+- **Fix:** a tree-shaped Hub button in the middle of the bottom bar opens a big-tile page: Tell the school I'm away (reason chips + today/tomorrow + a photo of the doctor's certificate + send), Holidays (closed days, add-to-calendar), Circulars.
+
+### 8. Events + circulars with real text
 - **Problem:** circulars are table rows with a date bug (`00/08/2026`); calendar colors have no legend.
 - **Fix:** full-text letters on one scroll; every tag named; dates validated on entry.
 
@@ -47,6 +51,8 @@ Everything else is a gimmick and goes on the "not building" list.
 - **Homework reminders:** browser/phone notification the evening before something is due. Useful, but only once there's real data worth reminding about.
 - **Parent view:** a parent sees the same Today screen for their child (read-only). High value for the school pitch, zero extra data entry.
 - **Timetable:** built in mockup; becomes real once a class's timetable is typed in once by anyone (a student can do it — it's their own class).
+- **Add-to-calendar on every event** — built in mockup; one tap downloads a pre-filled event file, no account or setup needed.
+- **RSVP / sign-ups for events:** a real "I'm going" button wired to the database once real data exists. The Add-to-calendar action covers the need until then.
 - **Photo attach for homework:** teacher snaps the whiteboard instead of typing. Useful, but file storage can wait.
 
 ## Not building (the gimmick list)

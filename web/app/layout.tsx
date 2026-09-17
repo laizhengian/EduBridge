@@ -1,12 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Public_Sans } from "next/font/google";
+import { Nunito, Public_Sans } from "next/font/google";
 import { Shell } from "@/components/Shell";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// Two fonts, two clear jobs:
+// Nunito (headings, big numbers) — rounded and sturdy: friendly to an 8-year-old, clear to a 68-year-old
+// Public Sans (everything else) — neutral and easy to read for long text
+const nunito = Nunito({
   variable: "--font-display",
   subsets: ["latin"],
-  axes: ["opsz"],
 });
 
 const publicSans = Public_Sans({
@@ -15,9 +17,9 @@ const publicSans = Public_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "OIS Hub — what's due, what's new",
+  title: "EduBridge",
   description:
-    "The 10-second school app for Oakbridge: homework owed, today's timetable, and official circulars. No forms, nothing hidden.",
+    "Homework, timetable and school announcements for Oakbridge students and families.",
 };
 
 export const viewport: Viewport = {
@@ -29,10 +31,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${publicSans.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${nunito.variable} ${publicSans.variable} h-full antialiased`}>
       <body className="min-h-full">
         <Shell>{children}</Shell>
       </body>

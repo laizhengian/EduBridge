@@ -4,10 +4,9 @@ export default function CircularsPage() {
   return (
     <div className="mx-auto max-w-2xl">
       <header className="rise">
-        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
-          Circulars
-        </h1>
-        <p className="mt-1 text-[15px] text-muted">Letters from the school office</p>
+        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">          Circulars
+          </h1>
+          <p className="mt-1 text-[15px] text-muted">Announcements from the school office</p>
       </header>
 
       <div className="rise mt-6" style={{ "--i": 1 } as React.CSSProperties}>

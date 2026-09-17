@@ -66,6 +66,27 @@ body {
   }
 }
 
+@keyframes toast-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.toast-pop {
+  animation: toast-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-pop {
+    animation: none;
+  }
+}
+
 /* the signature: a drawn strike across finished work */
 
 .strike {

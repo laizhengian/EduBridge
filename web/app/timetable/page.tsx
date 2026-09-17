@@ -81,7 +81,7 @@ export default function TimetablePage() {
           ))}
         </div>
         <section className="rise mt-6" style={{ "--i": 2 } as React.CSSProperties}>
-          <h2 className="text-sm font-semibold tracking-wide text-foreground">
+          <h2 className="font-display text-base font-semibold text-foreground">
             {DAY_NAMES[day]}
           </h2>
           <div className="mt-1">
@@ -99,7 +99,7 @@ export default function TimetablePage() {
             style={{ "--i": i } as React.CSSProperties}
           >
             <h2
-              className={`text-sm font-semibold ${
+              className={`font-display text-base font-semibold ${
                 d === todayDay() ? "text-accent" : "text-foreground"
               }`}
             >

@@ -1,17 +1,35 @@
-# Design Constitution — OIS Hub
-*WEBSKILL.md translated from marketing sites to a school utility app. Every screen must pass this.*
+# Design Constitution — EduBridge
+*Implements the principles in `goals.md`; translated from WEBSKILL.md to a school utility app. Every screen must pass this.*
 
 ## The one-line bar
 A stranger opens this on their phone with one thumb and four seconds and thinks:
 **a person with taste made this, for this school specifically.**
 
+## Who we're building for (the 8–60 rule)
+Users range from **8-year-old kids to 60-year-old teachers**, plus parents and
+grandparents. Consequences:
+- Size follows importance: the thing that matters most on a screen is the biggest thing
+  (the day counter, section headers) — not decoration, information
+- Every touch target ≥44px, every label written in plain words a child can read
+- High contrast text; muted color only for genuinely secondary details
+- One obvious action per section; nothing depends on hover or prior app experience
+- Fonts have clear jobs (see below) — variety must mean something, never decoration
+
+## Fonts — two, each with a clear job
+- **Nunito** (`.font-display`): headings, section titles, big numbers, buttons' labels.
+  Rounded and sturdy — friendly to an 8-year-old, legible to a 68-year-old
+- **Public Sans**: body text, list rows, metadata. Neutral, quiet, easy for long reading
+- No third font. A serif for its own sake is decoration — decoration is not a job
+- Display sizes: page titles `text-2xl`–`text-4xl` (importance-sized), section headers
+  `text-[17px]`–`text-base`, everything else 13–15px
+
 ## Substitution test (app edition)
 Swap "Oakbridge" out. If the app still makes sense, it's generic slop. Our identity:
 - **Oakbridge green** (`#1d6b4f`) as the single accent — from the tree in the school's actual logo
-- **Fraunces** serif for display (warm, academic — like a school crest, not a SaaS dashboard)
-- **Public Sans** for UI/body (quiet, readable, not a default font)
 - Warm paper background (`#faf9f7`), ink text, hairlines — never cool gray, never pure white
 - Voice: plain and short. Say the thing, then stop — "2 homework items due today." No cleverness, no sentences trying to be charming
+- Everything written must be **customer-facing**: no tech words, no AI-slop phrasing, no
+  clever headlines — anything on screen could be shown to a parent or the school office as-is
 
 ## The space rule (added from user review, rebalanced after v2)
 - Air goes BETWEEN sections, not inside rows. Section gaps: `mt-8`–`mt-10` mobile.
@@ -26,6 +44,27 @@ Swap "Oakbridge" out. If the app still makes sense, it's generic slop. Our ident
   no large images without sizing, minimal client JS per page
 - Static-first: pages render on the server and cache; JS hydration is the exception
 - No blocking loaders; perceived <1s navigation on a 3-year-old mid-range Android
+
+## Segmentation rule (added from user review)
+Lists are boxed into cards with hairline borders on the paper background — the Today
+screen and Homework board read as clear separate "boxes" a child can point at, not one
+continuous open feed. Each box has one heading. Dividers inside a box are faint;
+the box edge itself is the boundary.
+
+## Navigation rule (added from user review)
+Five bottom slots: Today · Homework · **Hub** (tree icon, center, raised) · Timetable ·
+Events. The four tabs are the daily destinations; the Hub holds everything else
+(absence notes, holidays, letters, future sections) on a big-tile page. Desktop nav
+carries the same four links; the Hub lives in it too when there is more than one
+secondary page. A child should never wonder where a feature lives: daily things are
+tabs, everything else is in the tree.
+
+## Two apps, one design (added from user review)
+- **The family app (this app):** view-only for students and parents — read, tick off,
+  add to calendar. No posting UI anywhere; posting happens in the companion app below
+- **The teacher/admin app (later):** same visual language, same database; exists for
+  posting and managing. Never mix posting controls into the family app
+- A post in one app appears in the other automatically — one database, no syncing
 
 ## Hard bans (from WEBSKILL, enforced here)
 - No emoji in headings, buttons, or navigation

@@ -56,6 +56,51 @@ export function EventsIcon(p: IconProps) {
   );
 }
 
+export function TreeIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="8.5" r="5.5" />
+      <path d="M12 14v7" />
+      <path d="M12 17.5 9.5 15M12 16l2.2-1.8" />
+    </Svg>
+  );
+}
+
+export function EnvelopeIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+      <path d="m4.5 7.5 7.5 6 7.5-6" />
+    </Svg>
+  );
+}
+
+export function SunIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3 7 7M17 17l1.7 1.7M18.7 5.3 17 7M7 17l-1.7 1.7" />
+    </Svg>
+  );
+}
+
+export function NoteIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M21 3 3 10.5l6.5 2L11.5 19 21 3Z" />
+      <path d="m9.5 12.5 4-4" />
+    </Svg>
+  );
+}
+
+export function PaperclipIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 1 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.49" />
+    </Svg>
+  );
+}
+
 export function PlusIcon(p: IconProps) {
   return (
     <Svg {...p}>
@@ -76,6 +121,16 @@ export function CloseIcon(p: IconProps) {
   return (
     <Svg {...p}>
       <path d="M6 6l12 12M18 6L6 18" />
+    </Svg>
+  );
+}
+
+export function CalendarPlusIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="4" y="5" width="16" height="16" rx="2" />
+      <path d="M8 3v4M16 3v4M4 11h16" />
+      <path d="M12 14.5v5M9.5 17h5" />
     </Svg>
   );
 }
@@ -125,11 +180,19 @@ export function SectionTitle({
 }) {
   return (
     <div className="flex items-baseline justify-between">
-      <h2 className="text-sm font-semibold tracking-wide text-foreground">
+      <h2 className="font-display text-[17px] font-semibold text-foreground">
         {children}
       </h2>
       {right}
     </div>
+  );
+}
+
+export function ChevronIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="m9 5 7 7-7 7" />
+    </Svg>
   );
 }
 
