@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { competitions, galleryAlbums } from "@/lib/mock-data";
 import { PlayIcon } from "@/components/ui";
 
@@ -29,11 +30,12 @@ export default function LifePage() {
               className="overflow-hidden rounded-xl border border-hairline bg-paper"
             >
               <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={album.cover}
                   alt={album.photos[0]?.alt ?? album.title}
-                  loading="lazy"
+                  width={640}
+                  height={320}
+                  sizes="(min-width: 896px) 340px, calc(100vw - 40px)"
                   className="h-40 w-full object-cover"
                 />
                 <span className="block p-3.5">
@@ -49,12 +51,13 @@ export default function LifePage() {
               </summary>
               <div className="grid grid-cols-2 gap-2 border-t border-hairline p-2.5">
                 {album.photos.map((p) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     key={p.src}
                     src={p.src}
                     alt={p.alt}
-                    loading="lazy"
+                    width={320}
+                    height={224}
+                    sizes="(min-width: 896px) 160px, 40vw"
                     className="h-28 w-full rounded-lg object-cover"
                   />
                 ))}
@@ -74,11 +77,12 @@ export default function LifePage() {
               key={c.id}
               className="flex gap-4 rounded-xl border border-hairline bg-paper p-4"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={c.image}
                 alt={c.title}
-                loading="lazy"
+                width={256}
+                height={192}
+                sizes="128px"
                 className="hidden h-24 w-32 shrink-0 rounded-lg object-cover sm:block"
               />
               <div className="min-w-0">

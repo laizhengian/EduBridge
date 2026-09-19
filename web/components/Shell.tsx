@@ -37,7 +37,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="min-h-dvh bg-background text-foreground">
+    <div className="min-h-dvh bg-background pt-[env(safe-area-inset-top)] text-foreground">
       {/* desktop header — sticky masthead: wordmark, today's date, pill navigation */}
       <header className="sticky top-0 z-30 hidden border-b border-hairline bg-paper md:block">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8">

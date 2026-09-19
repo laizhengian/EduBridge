@@ -234,6 +234,9 @@ in layers:
   before each stage's gate
 - **The 8–60 rule on real people:** each release is used by an 8-year-old, a
   60-year-old and a teacher before it ships
+- **Real-device check:** before the pilot, run the app on an actual iPhone
+  (Safari + Add to Home Screen) and an Android phone, per the checklist in
+  [platform.md](platform.md); Lighthouse mobile ≥ 90 on the deployed site
 - **Load reality-check:** before school-wide launch, a scripted simulation of
   500 users refreshing at 7:00 AM (the real morning spike); free/pro tiers
   handle this comfortably, but we prove it, not assume it

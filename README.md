@@ -52,6 +52,8 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 | [`docs/design.md`](docs/design.md) | The design constitution: fonts with jobs, the 8–60 rule |
 | [`docs/how-its-built.md`](docs/how-its-built.md) | The tech stack explained with zero jargon |
 | [`docs/security-plan.md`](docs/security-plan.md) | Who can do what, and how student data stays safe |
+| [`docs/platform.md`](docs/platform.md) | iOS compatibility and the Expo/React Native decision |
+| [`docs/performance.md`](docs/performance.md) | What's already fast, what's staged for the backend |
 | [`docs/running-the-app.md`](docs/running-the-app.md) | Step-by-step guide to running the app in development |
 | [`docs/clobas-teardown/`](docs/clobas-teardown/) | Section-by-section teardown of the old portal, with evidence |
 

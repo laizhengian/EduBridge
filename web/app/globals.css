@@ -30,12 +30,20 @@
 
 html {
   color-scheme: light;
+  /* iOS Safari inflates small text on wide layouts — stop it. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
+  /* iOS: no grey flash on tap, no 300ms double-tap-zoom delay. */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  /* App feel: the page doesn't rubber-band or pull-to-refresh. */
+  overscroll-behavior-y: none;
 }
 
 ::selection {

@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   title: "EduBridge",
   description:
     "Homework, timetable and school announcements for Oakbridge students and families.",
+  // iOS: "Add to Home Screen" installs as a standalone app (no Safari chrome).
+  // "default" keeps dark status-bar text over our light paper background.
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "EduBridge",
+  },
+  // Stop iOS auto-linking phone numbers — we place tel: links deliberately.
+  formatDetection: { telephone: false },
+  // Home-screen tile. iOS needs PNG (it ignores SVG); the flat "EB" mark is
+  // a placeholder until the real logo exists (docs/platform.md).
+  icons: { apple: "/icon-180.png" },
 };
 
 export const viewport: Viewport = {

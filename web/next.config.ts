@@ -41,6 +41,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // The repo root is web/ itself; stops Turbopack searching for lockfiles above it.
   turbopack: { root: __dirname },
+  images: {
+    // School-life stock photos. Served through the built-in optimizer:
+    // AVIF/WebP, right-sized per device, lazy-loaded, cached.
+    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+  },
   // Hide the floating Next.js dev-tools badge — not part of the product.
   devIndicators: false,
   async headers() {
