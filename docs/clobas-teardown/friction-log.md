@@ -6,7 +6,7 @@
 ---
 
 ## The one-line summary
-> The portal makes you **search for data the app already has**, hides daily essentials **3 clicks deep**, shows **empty modules**, and gets details **wrong** (invalid dates, mislabeled pages, random colors) — so nobody trusts it and nobody uses it.
+> The portal makes you **search for data the app already has**, hides daily essentials **3 clicks deep**, shows **empty modules**, gets details **wrong** (invalid dates, mislabeled pages, random colors), **miscounts absences** — and a recent "AI update" shipped **without changing the data underneath** — so nobody trusts it and nobody uses it.
 
 ---
 
@@ -123,7 +123,88 @@ Evidence: `User Manual Parent` menu item (46-page document)
 
 ---
 
-## The patterns underneath (why every section fails the same way)
+## 14. Attendance — every absence counts the same
+
+*Direct testimony from a daily student user (Sept 2026), consistent with the screenshot in section 3.*
+
+- The attendance summary **counts every absence as "absent"**. An absence with a
+  medical certificate on file counts exactly the same as a skip.
+- There is **no excused/unexcused distinction anywhere** in the summary — the one
+  number parents and teachers argue about is wrong by construction.
+- **What good looks like:** "3 days away — all with a proper reason on file" is a
+  different sentence from "3 unexplained absences", and the app should say which
+  one is true. EduBridge's preview separates them and says it in plain words.
+
+## 15. ECA attendance — a roll call nobody can read
+
+*Direct testimony from a daily student user (Sept 2026).*
+
+- Extracurricular attendance is listed **per date**. To see how your club is
+  going you must **pick the exact date** of one session — the app will not group
+  sessions under the activity they belong to.
+- Different activities (Robotics, Choir, sports fixtures) are **mixed into one
+  date list**, so "ECA attendance" answers a question nobody asked.
+- The **period/activity selector buttons don't work at all** — tapping them does
+  nothing, shipped like that.
+- **What good looks like:** one card per activity, its weekday, and every session
+  with attended/not + the reason. EduBridge's preview is built exactly that way.
+
+## 16. Exam marks & the "AI update" that changed nothing
+
+*Direct testimony from a daily student user (Sept 2026).*
+
+- Exam marks are synced from **"A3000"** and parents report them as unreliable —
+  wrong or stale numbers surface with no way to question them in-app.
+- The **"Student Progress Report" is not updated** — it shows the same content as
+  before the school's recent portal update. The portal was recently **"updated
+  with AI"** and the report is **still the previous app's text**.
+- That is the sharpest possible proof of the pattern in this log: the surface was
+  refreshed, **the data layer was not touched**, and nothing flagged the staleness.
+- **What good looks like:** every report **stamped with its issue date** and an
+  up-to-date marker — so a stale report is visible at a glance instead of silent.
+  (EduBridge's preview does exactly this; see `/results`.)
+
+## 17. The pattern confirmed: surface polish, zero quality control
+
+*New testimony, Sept 2026 — after the portal's "AI update".*
+
+The portal now looks modern on the surface, but **one second of real use breaks
+it**: buttons that do nothing (section 15), a summary that miscounts (section
+14), a report that never updated (section 16), on top of the shipped defects
+already documented above (impossible dates, wrong banners, empty Details
+columns, "Senoir"). This is what software built and shipped **without anyone
+walking through the daily tasks** looks like — generation is not the same thing
+as quality control.
+
+The standard this replacement commits to: **every screen is walked through the
+real task before it ships**, and the honest label "design preview — sample data"
+sits on every screen until real data arrives. An app that lies about being done
+is worse than one that says it isn't.
+
+## 18. Feature inventory — what the portal offers, and what it does with it
+
+*Every module the portal advertises, with its actual state (evidence above +
+daily-user testimony) and what the EduBridge preview does instead.*
+
+| Feature the portal advertises | State in the portal today | In the EduBridge preview |
+|---|---|---|
+| Attendance tracker | All absences counted alike; excused/medical not separated; behind a date-range form | Today's status first; excused counted separately, in plain words (`/attendance`) |
+| Exam results | Rows colored pink on 98/100; marks reported unreliable (A3000); 11 exam pills to re-query | One exam at a glance, change-since-last, color only below pass mark, legend stated (`/results`) |
+| Student progress report | Not updated — same content as before the recent "AI update" | Issued date stamped on the report + "up to date" marker (`/results`) |
+| ECA / extracurricular attendance | Per-date list, exact date required, activities conflated; selector buttons don't work | One card per activity, weekday, per-session ✓/✗ with reasons (`/attendance`) |
+| Student timetable | Fine grid behind a 3-field query form | Opens showing this week, today preselected (`/timetable`) |
+| Homework notes | Search form (subject/status/date) to see your own homework; notes module dead | Opens showing everything owed, sorted, one-tap CSV export (`/homework`) |
+| Latest news (Flash News) | On the dashboard among empty modules | Circulars feed with poster + time, one name (`/circulars`) |
+| E-circulars | Impossible dates (00/08/2026), letter text in table cells | Clean feed, valid dates, poster and time on every item (`/circulars`) |
+| Hotlines | 5 numbers, empty Details column, "Senoir" typo | Role, working hours, tap-to-call on every row (`/hotlines`) |
+| Student feedback | Actually the hidden absence-reporting form | An explicit "Tell the school I'm away" flow with photo attach (`/absence`) |
+| Photo gallery | Empty page, zero photos | Real albums with covers and tap-to-open grids (`/life`) — content ships, never an empty shell |
+| Events calendar | Color-coded with no legend | Legend chips on every list, one-tap .ics export (`/events`, Hub) |
+| Competitions / past events | No module at all | Archive with results and a slot ready for highlight videos (`/life`) |
+| FAQ / manual | 46-page PDF manual required learning | In-app plain-language FAQ; zero documents (`/faq`) |
+| Campus info / YouTube (K-Links) | One lone video in a top-level menu | Part of School life, with room to grow (`/life`) |
+| Privacy | A child's photo & birthday broadcast school-wide | Plain-language privacy & terms page; minimum data (`/privacy`) |
+
 
 - **Search-first design.** Timetable, Attendance, Homework, Teacher Notes, Results — all demand form-filling before showing data the app already holds. The user does the querying; the app behaves like a database console.
 - **Buried daily essentials.** Homework (the daily job) is 3 taps + a form from the home page.

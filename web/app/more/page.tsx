@@ -1,10 +1,15 @@
 import Link from "next/link";
 import {
   CalendarPlusIcon,
+  CheckIcon,
   EnvelopeIcon,
+  ImagesIcon,
   NoteIcon,
+  PhoneIcon,
+  QuestionIcon,
   ShieldIcon,
   SunIcon,
+  TrophyIcon,
 } from "@/components/ui";
 
 export default function MorePage() {
@@ -22,6 +27,24 @@ export default function MorePage() {
         style={{ "--i": 1 } as React.CSSProperties}
       >
         <Tile
+          href="/attendance"
+          title="My attendance"
+          desc="Days in, late, and away — excused counted separately"
+          Icon={CheckIcon}
+        />
+        <Tile
+          href="/results"
+          title="Exam results"
+          desc="Marks by exam, with the teacher's progress report"
+          Icon={TrophyIcon}
+        />
+        <Tile
+          href="/life"
+          title="School life"
+          desc="Photo galleries, competitions and past events"
+          Icon={ImagesIcon}
+        />
+        <Tile
           href="/absence"
           title="Tell the school I'm away"
           desc="Send a quick absence note to your teacher"
@@ -38,6 +61,18 @@ export default function MorePage() {
           title="Circulars"
           desc="Announcements from the school office"
           Icon={NoteIcon}
+        />
+        <Tile
+          href="/hotlines"
+          title="Hotlines"
+          desc="Who to call, when, and for what"
+          Icon={PhoneIcon}
+        />
+        <Tile
+          href="/faq"
+          title="Common questions"
+          desc="Short answers to what families ask most"
+          Icon={QuestionIcon}
         />
         <Tile
           href="/privacy"

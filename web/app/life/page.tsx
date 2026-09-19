@@ -1,0 +1,124 @@
+import { competitions, galleryAlbums } from "@/lib/mock-data";
+import { PlayIcon } from "@/components/ui";
+
+function monthYear(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export default function LifePage() {
+  return (
+    <div className="mx-auto max-w-4xl">
+      <header className="rise">
+        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
+          School life
+        </h1>
+        <p className="mt-1 text-[15px] text-muted">
+          Photo galleries, competitions and events worth remembering
+        </p>
+      </header>
+
+      <section className="rise mt-6" style={{ "--i": 1 } as React.CSSProperties}>
+        <h2 className="font-display text-[17px] font-semibold">Photo galleries</h2>
+        <div className="mt-3 grid gap-3.5 md:grid-cols-3">
+          {galleryAlbums.map((album) => (
+            <details
+              key={album.id}
+              className="overflow-hidden rounded-xl border border-hairline bg-paper"
+            >
+              <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={album.cover}
+                  alt={album.photos[0]?.alt ?? album.title}
+                  loading="lazy"
+                  className="h-40 w-full object-cover"
+                />
+                <span className="block p-3.5">
+                  <span className="font-display text-[15px] font-semibold">
+                    {album.title}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-muted">
+                    {monthYear(album.date)} · {album.photos.length}{" "}
+                    {album.photos.length === 1 ? "photo" : "photos"} — tap to
+                    open
+                  </span>
+                </span>
+              </summary>
+              <div className="grid grid-cols-2 gap-2 border-t border-hairline p-2.5">
+                {album.photos.map((p) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={p.src}
+                    src={p.src}
+                    alt={p.alt}
+                    loading="lazy"
+                    className="h-28 w-full rounded-lg object-cover"
+                  />
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="rise mt-8 pb-2" style={{ "--i": 2 } as React.CSSProperties}>
+        <h2 className="font-display text-[17px] font-semibold">
+          Competitions &amp; big events
+        </h2>
+        <div className="mt-3 space-y-3.5">
+          {competitions.map((c) => (
+            <article
+              key={c.id}
+              className="flex gap-4 rounded-xl border border-hairline bg-paper p-4"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={c.image}
+                alt={c.title}
+                loading="lazy"
+                className="hidden h-24 w-32 shrink-0 rounded-lg object-cover sm:block"
+              />
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                  <h3 className="font-display text-[15px] font-semibold">
+                    {c.title}
+                  </h3>
+                  <span className="rounded-full bg-accent-soft px-2.5 py-0.5 text-xs font-semibold text-accent-strong">
+                    {c.result}
+                  </span>
+                </div>
+                <p className="mt-0.5 text-xs text-muted">{monthYear(c.date)}</p>
+                <p className="mt-1.5 text-sm leading-6 text-muted">
+                  {c.description}
+                </p>
+                {c.videoUrl ? (
+                  <a
+                    href={c.videoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-flex min-h-[36px] items-center gap-1.5 text-sm font-semibold text-accent"
+                  >
+                    <PlayIcon className="h-4 w-4" /> Watch highlights
+                  </a>
+                ) : (
+                  <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-muted">
+                    <PlayIcon className="h-4 w-4" aria-hidden /> Highlights video
+                    — slot ready for the school&apos;s link
+                  </p>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <p className="mt-5 pb-2 text-xs text-muted">
+        Sample photos are stock images for the preview — real school photos
+        replace them, and videos are linked by the school when ready.
+      </p>
+    </div>
+  );
+}

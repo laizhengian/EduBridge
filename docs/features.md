@@ -46,6 +46,38 @@ Everything else is a gimmick and goes on the "not building" list.
 - **Problem:** circulars are table rows with a date bug (`00/08/2026`); calendar colors have no legend.
 - **Fix:** full-text letters on one scroll; every tag named; dates validated on entry.
 
+### 9. Attendance, done honestly — built in mockup (`/attendance`)
+- **Problem:** the portal counts every absence the same — a medical-certificate
+  absence equals a skip (testimony, friction log §14); ECA rolls are per-date
+  with broken selector buttons (§15).
+- **Fix:** today's status first; days-away split into **excused** (reason on
+  file) and unexplained, said in a plain sentence; extracurriculars as **one
+  card per activity** with per-session ✓/✗ and reasons — no date picking.
+
+### 10. Exam results + a dated progress report — built in mockup (`/results`)
+- **Problem:** rows colored pink on 98/100 with no legend (screenshot 06); marks
+  reported unreliable; the "Student Progress Report" never updated after the
+  portal's recent "AI update" (§16).
+- **Fix:** one exam at a glance with change-since-last-exam, colour used for
+  exactly one thing (below pass mark) with the legend written out, teacher
+  comments kept, and the progress report **stamped with its issue date** plus an
+  up-to-date marker so staleness is visible, never silent.
+
+### 11. School life: gallery + competitions — built in mockup (`/life`)
+- **Problem:** the portal's Photo Gallery is an empty page with zero photos
+  (screenshot 07); past competitions and fun events exist nowhere, so the
+  school's best moments are unrecorded.
+- **Fix:** photo albums with covers and tap-to-open grids (stock photos now,
+  real school photos later); a competitions archive with results and a slot
+  ready for the school's highlight-video links. Content ships — never an empty
+  shell.
+
+### 12. Hotlines + FAQ — built in mockup (`/hotlines`, `/faq`)
+- **Problem:** the portal's hotline page has empty Details columns and a
+  "Senoir" typo; onboarding is a 46-page PDF manual (friction log §11, §13).
+- **Fix:** hotlines with role, working hours and tap-to-call; an in-app
+  plain-language FAQ answering what families actually ask. Zero documents.
+
 ## Later (only after the pilot proves the core)
 
 - **Homework reminders:** browser/phone notification the evening before something is due. Useful, but only once there's real data worth reminding about.

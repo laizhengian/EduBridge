@@ -34,7 +34,11 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 | **Homework** | Durable board, deadline-sorted, filter chips, tick-off with undo toast |
 | **Timetable** | Today preselected on mobile; full week board on desktop |
 | **Events** | Boxed list, add-to-calendar (.ics download), More/Less details |
-| **Hub** (tree) | Everything else: absence notes with photo attach, holidays, circulars |
+| **Hub** (tree) | Everything else: attendance, results, school life, absence notes, holidays, circulars, hotlines, FAQ, privacy |
+| **Attendance** | Today's status first; excused absences counted separately from unexplained; ECA as one card per activity |
+| **Exam results** | One exam at a glance with change-since-last; colour only below the pass mark; progress report stamped with its issue date |
+| **School life** | Photo galleries (tap-to-open albums) and a competitions archive with slots for highlight videos |
+| **Hotlines & FAQ** | Who to call with tap-to-call; plain-language answers to what families ask most |
 | **Welcome flow** | Google sign-in or username/password (mocked), then class selection |
 
 ## Docs worth reading

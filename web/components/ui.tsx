@@ -74,6 +74,64 @@ export function ShieldIcon(p: IconProps) {
   );
 }
 
+export function PlayIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="m10.2 9.2 4.6 2.8-4.6 2.8V9.2Z" />
+    </Svg>
+  );
+}
+
+export function CheckIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="m8.5 12.3 2.3 2.3 4.7-4.9" />
+    </Svg>
+  );
+}
+
+export function TrophyIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M8 4h8v5a4 4 0 0 1-8 0V4Z" />
+      <path d="M8 5H5.5a0 0 0 0 0 0 0c0 2.5 1 4 2.5 4.5M16 5h2.5c0 2.5-1 4-2.5 4.5" />
+      <path d="M12 13v3.5" />
+      <path d="M8.5 20.5h7M10 16.5h4l.8 4h-5.6l.8-4Z" />
+    </Svg>
+  );
+}
+
+export function ImagesIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="6" y="3.5" width="15" height="12" rx="2" />
+      <path d="M3 7.5v10a2 2 0 0 0 2 2h12" />
+      <path d="m9.5 12 2.5-2.5 3 3 1.5-1.5 2.5 2.5" />
+      <path d="M15.5 7h.01" />
+    </Svg>
+  );
+}
+
+export function QuestionIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M9.6 9.3A2.5 2.5 0 0 1 14.5 10c0 1.6-2.4 2-2.4 3.4" />
+      <path d="M12 16.6h.01" />
+    </Svg>
+  );
+}
+
+export function PhoneIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M6.8 3.8 9 3.2c.5-.1 1 .1 1.2.6l1.1 2.6c.2.4.1.9-.3 1.2l-1.4 1.2a12.4 12.4 0 0 0 5.6 5.6l1.2-1.4c.3-.4.8-.5 1.2-.3l2.6 1.1c.5.2.7.7.6 1.2l-.6 2.2c-.1.5-.6.9-1.1.9A16.2 16.2 0 0 1 5.9 4.9c0-.5.4-1 .9-1.1Z" />
+    </Svg>
+  );
+}
+
 export function EnvelopeIcon(p: IconProps) {
   return (
     <Svg {...p}>

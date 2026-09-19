@@ -72,6 +72,11 @@ The screens live in `web/app` — one folder per page:
 | `web/app/circulars` | Circulars |
 | `web/app/more` | The Hub (absence, holidays, circulars, privacy & terms) |
 | `web/app/privacy` | Privacy & terms page |
+| `web/app/attendance` | Attendance (excused vs unexcused, ECA per activity) |
+| `web/app/results` | Exam results + progress report |
+| `web/app/life` | School life: photo galleries, competitions |
+| `web/app/hotlines` | Hotlines with tap-to-call |
+| `web/app/faq` | Common questions |
 | `web/app/welcome` | First-run sign-in screen |
 | `web/lib/mock-data.ts` | The sample homework, events and classes |
 

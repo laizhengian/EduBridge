@@ -278,3 +278,228 @@ export const timetable: Record<"Mon" | "Tue" | "Wed" | "Thu" | "Fri", TimetableS
     { start: "13:30", end: "14:30", subject: "Assembly", room: "Hall", teacher: "—" },
   ],
 };
+
+/* ---- Attendance ------------------------------------------------------- */
+
+export type AttendanceDay = {
+  date: string; // ISO
+  status: "present" | "absent" | "late";
+  /** An absence with a proper reason (medical certificate, school letter). */
+  excused?: boolean;
+  reason?: string;
+};
+
+function day(dayOffset: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + dayOffset);
+  d.setHours(8, 0, 0, 0);
+  return d.toISOString();
+}
+
+/** Sample attendance: recent school days only (weekends skipped). */
+export const attendanceDays: AttendanceDay[] = [
+  { date: day(0), status: "present" },
+  { date: day(-1), status: "present" },
+  { date: day(-2), status: "absent", excused: true, reason: "Medical certificate — fever" },
+  { date: day(-3), status: "present" },
+  { date: day(-4), status: "late", reason: "Traffic — arrived 08:20" },
+  { date: day(-7), status: "present" },
+  { date: day(-8), status: "present" },
+  { date: day(-9), status: "present" },
+  { date: day(-10), status: "absent", excused: true, reason: "School letter — interstate family matter" },
+  { date: day(-11), status: "present" },
+];
+
+export type EcaSession = {
+  id: string;
+  activity: string;
+  weekday: string;
+  date: string; // ISO
+  attended: boolean;
+  note?: string;
+};
+
+/** Sample ECA roll: grouped per activity, one row per session. */
+export const ecaSessions: EcaSession[] = [
+  { id: "ec1", activity: "Robotics Club", weekday: "Mondays", date: at(-3, 15, 30), attended: true },
+  { id: "ec2", activity: "Robotics Club", weekday: "Mondays", date: at(-10, 15, 30), attended: false, note: "Away fixture — excused by coach" },
+  { id: "ec3", activity: "Robotics Club", weekday: "Mondays", date: at(-17, 15, 30), attended: true },
+  { id: "ec4", activity: "Choir", weekday: "Thursdays", date: at(-6, 15, 30), attended: true },
+  { id: "ec5", activity: "Choir", weekday: "Thursdays", date: at(-13, 15, 30), attended: true },
+];
+
+/* ---- Exam results ------------------------------------------------------ */
+
+export type SubjectResult = {
+  subject: string;
+  score: number;
+  max: number;
+  grade: string;
+  passMark: number; // minimum score (out of max) considered a pass
+  teacherComment?: string;
+};
+
+export type TermResult = {
+  term: string;
+  issuedAt: string; // ISO
+  results: SubjectResult[];
+  classTeacherComment: string;
+};
+
+export const examResults: TermResult[] = [
+  {
+    term: "Mid-term, September 2026",
+    issuedAt: at(-4, 9, 0),
+    results: [
+      { subject: "Mathematics", score: 88, max: 100, grade: "A", passMark: 40, teacherComment: "Strong algebra work — attempt the extension sets." },
+      { subject: "English", score: 76, max: 100, grade: "A−", passMark: 40 },
+      { subject: "Science", score: 93, max: 100, grade: "A", passMark: 40, teacherComment: "Excellent lab technique." },
+      { subject: "Bahasa Malaysia", score: 81, max: 100, grade: "A−", passMark: 40 },
+      { subject: "History", score: 34, max: 100, grade: "F", passMark: 40, teacherComment: "Essay structure needs work — see me Thursdays." },
+    ],
+    classTeacherComment:
+      "A solid term. The History result is the one to focus on — the Thursday support session is the fastest fix.",
+  },
+  {
+    term: "Assessment 1, June 2026",
+    issuedAt: at(-90, 9, 0),
+    results: [
+      { subject: "Mathematics", score: 84, max: 100, grade: "A", passMark: 40 },
+      { subject: "English", score: 71, max: 100, grade: "B+", passMark: 40 },
+      { subject: "Science", score: 90, max: 100, grade: "A", passMark: 40 },
+      { subject: "Bahasa Malaysia", score: 78, max: 100, grade: "B+", passMark: 40 },
+      { subject: "History", score: 45, max: 100, grade: "C+", passMark: 40 },
+    ],
+    classTeacherComment: "Steady across the board. Keep the reading habit going.",
+  },
+];
+
+/* ---- School life: gallery + competitions ------------------------------- */
+
+export type GalleryAlbum = {
+  id: string;
+  title: string;
+  date: string; // ISO
+  cover: string; // URL
+  photos: { src: string; alt: string }[];
+};
+
+/** Sample albums with stock photos — swapped for real school photos later. */
+export const galleryAlbums: GalleryAlbum[] = [
+  {
+    id: "g1",
+    title: "Sports Day 2026",
+    date: at(-9, 9, 0),
+    cover: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&q=80&auto=format&fit=crop",
+    photos: [
+      { src: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&q=80&auto=format&fit=crop", alt: "Sprinters at the start line" },
+      { src: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1200&q=80&auto=format&fit=crop", alt: "Runner mid-stride on the track" },
+      { src: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&q=80&auto=format&fit=crop", alt: "Football match on the field" },
+    ],
+  },
+  {
+    id: "g2",
+    title: "Science Fair",
+    date: at(-21, 10, 0),
+    cover: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&q=80&auto=format&fit=crop",
+    photos: [
+      { src: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&q=80&auto=format&fit=crop", alt: "Flask in the lab" },
+      { src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&q=80&auto=format&fit=crop", alt: "Study desk with books" },
+    ],
+  },
+  {
+    id: "g3",
+    title: "Art Week",
+    date: at(-35, 10, 0),
+    cover: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&q=80&auto=format&fit=crop",
+    photos: [
+      { src: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&q=80&auto=format&fit=crop", alt: "Paint brushes and colours" },
+      { src: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&q=80&auto=format&fit=crop", alt: "Library reading corner" },
+    ],
+  },
+  {
+    id: "g4",
+    title: "Kitchen Workshop",
+    date: at(-49, 10, 0),
+    cover: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1200&q=80&auto=format&fit=crop",
+    photos: [
+      { src: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1200&q=80&auto=format&fit=crop", alt: "Preparing food in the kitchen" },
+      { src: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1200&q=80&auto=format&fit=crop", alt: "Robotics build table" },
+    ],
+  },
+];
+
+export type Competition = {
+  id: string;
+  title: string;
+  result: string;
+  date: string; // ISO
+  description: string;
+  image: string; // URL
+  /** Highlight video gets linked here when the school provides one. */
+  videoUrl?: string;
+};
+
+export const competitions: Competition[] = [
+  {
+    id: "comp1",
+    title: "National Robotics Championship",
+    result: "Champions, Division B",
+    date: at(-60, 9, 0),
+    description:
+      "Our team took the top prize against 32 schools with a line-following robot that sorted recyclables on the fly.",
+    image: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1200&q=80&auto=format&fit=crop",
+  },
+  {
+    id: "comp2",
+    title: "Inter-school Debate Finals",
+    result: "Runner-up",
+    date: at(-75, 9, 0),
+    description:
+      "Second place after six rounds, arguing the affirmative on renewable energy for island grids.",
+    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&q=80&auto=format&fit=crop",
+  },
+  {
+    id: "comp3",
+    title: "State Swim Meet",
+    result: "4 gold, 2 silver",
+    date: at(-120, 9, 0),
+    description:
+      "The under-15 relay team set a new state record in the 4×50m freestyle.",
+    image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=1200&q=80&auto=format&fit=crop",
+  },
+  {
+    id: "comp4",
+    title: "Young Chef Challenge",
+    result: "Top 10 nationally",
+    date: at(-160, 9, 0),
+    description:
+      "A three-course menu built around local seasonal fruit earned a national top-10 place.",
+    image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1200&q=80&auto=format&fit=crop",
+  },
+  {
+    id: "comp5",
+    title: "Mathematics Olympiad",
+    result: "3 students in the top 1%",
+    date: at(-200, 9, 0),
+    description:
+      "Three of our students scored in the top percentile nationwide in the intermediate division.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&q=80&auto=format&fit=crop",
+  },
+];
+
+/* ---- Hotlines ----------------------------------------------------------- */
+
+export type Hotline = {
+  name: string;
+  role: string;
+  phone: string;
+  hours: string;
+};
+
+export const hotlines: Hotline[] = [
+  { name: "School office", role: "General enquiries, absence messages", phone: "03-5551 0100", hours: "Mon–Fri 7:30–16:30" },
+  { name: "Health room", role: "Sick bay, medication drop-off", phone: "03-5551 0114", hours: "Mon–Fri 8:00–15:30" },
+  { name: "Security gate", role: "Late arrival, early pickup", phone: "03-5551 0199", hours: "Daily 6:30–18:30" },
+  { name: "Bus coordinator", role: "Routes, delays, lost items", phone: "03-5551 0152", hours: "Mon–Fri 6:30–17:00" },
+];
