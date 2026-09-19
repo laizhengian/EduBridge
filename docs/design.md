@@ -1,5 +1,5 @@
 # Design Constitution — EduBridge
-*Implements the principles in `goals.md`; translated from WEBSKILL.md to a school utility app. Every screen must pass this.*
+*Implements the principles in `goals.md`; translated from app-skill.md to a school utility app. Every screen must pass this.*
 
 ## The one-line bar
 A stranger opens this on their phone with one thumb and four seconds and thinks:
@@ -66,7 +66,7 @@ tabs, everything else is in the tree.
   posting and managing. Never mix posting controls into the family app
 - A post in one app appears in the other automatically — one database, no syncing
 
-## Hard bans (from WEBSKILL, enforced here)
+## Hard bans (from app-skill, enforced here)
 - No emoji in headings, buttons, or navigation
 - No default indigo/blue-purple, no gradient heroes, no glassmorphism
 - No uniform chevron-card stacks; no two adjacent sections sharing the same layout

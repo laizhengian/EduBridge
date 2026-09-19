@@ -56,12 +56,20 @@ export function EventsIcon(p: IconProps) {
   );
 }
 
-export function TreeIcon(p: IconProps) {
+/** Universal "more places" glyph — a control mark, not a logo. */
+export function MoreIcon(p: IconProps) {
   return (
     <Svg {...p}>
-      <circle cx="12" cy="8.5" r="5.5" />
-      <path d="M12 14v7" />
-      <path d="M12 17.5 9.5 15M12 16l2.2-1.8" />
+      <path strokeWidth={2.6} d="M5.5 12h.01M12 12h.01M18.5 12h.01" />
+    </Svg>
+  );
+}
+
+export function ShieldIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 3.5 19 6v5.5c0 4.6-3 7.6-7 9-4-1.4-7-4.4-7-9V6l7-2.5Z" />
+      <path d="m9.3 11.8 2 2 3.4-3.6" />
     </Svg>
   );
 }

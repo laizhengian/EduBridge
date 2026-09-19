@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Chip, TreeIcon } from "@/components/ui";
+import { Chip } from "@/components/ui";
 import { loadProfile, saveProfile, type Profile } from "@/lib/profile";
 
 const CLASSES = [
@@ -51,11 +51,8 @@ export default function WelcomePage() {
   return (
     <div className="mx-auto flex min-h-[70dvh] max-w-md flex-col justify-center">
       <div className="rise text-center">
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent text-paper">
-          <TreeIcon className="h-7 w-7" />
-        </span>
-        <h1 className="mt-4 font-display text-2xl font-semibold tracking-tight md:text-3xl">
-          Welcome to EduBridge
+        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
+          EduBridge
         </h1>
         <p className="mt-1.5 text-[15px] leading-6 text-muted">
           Homework, timetable, events and school announcements — for students and

@@ -1,4 +1,4 @@
-# Run doc — OIS Hub web app (web/)
+# Run doc — EduBridge web app (web/)
 
 Next.js 16 (App Router, Turbopack) + Tailwind 4. No backend yet — all screens run on
 mock data (`web/lib/mock-data.ts`), so there are no env files or services to set up.
@@ -25,7 +25,14 @@ Notes:
 - Run from `web/` (the Next.js root is `web/`, not the repo root).
 - Port: Next.js auto-picks. 3000 is often taken by other local processes — read the
   chosen port from the log line `Local: http://localhost:PORT`, then get the listening
-  pid with `netstat -ano | grep :PORT` and register that pid.
+  pid with `netstat -ano | grep :PORT` and register that pid. **Register the PID from
+  netstat, not the one Start-Process printed** — that is the npm wrapper; the node
+  listener it spawns owns the port.
+- Next.js dev refuses to start a second instance in the same project: if the log's
+  stderr says "Another next dev server is already running", find the existing listener
+  (netstat) and use it instead of starting a new one.
+- If dev-only CSP `'unsafe-eval'` needs removal, it is gated on NODE_ENV in
+  `web/next.config.ts` and disappears automatically in production builds.
 - Confirm it survived a few seconds later: `Get-Process -Id <pid>` and
   `curl http://localhost:PORT` should return HTTP 200.
 - Production check when needed: `npm run build` and `npx tsc --noEmit` inside `web/`.

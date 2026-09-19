@@ -60,15 +60,47 @@ export default function HomeworkPage() {
     return s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s;
   }
 
+  /** One tap, complete export — the whole board leaves with you as a CSV file. */
+  function exportCsv() {
+    const rows = [
+      ["Subject", "Title", "Due", "Posted by", "Status"],
+      ...items.map((h) => [
+        h.subject,
+        h.title,
+        new Date(h.dueAt).toISOString(),
+        h.postedBy,
+        h.done ? "Done" : "To do",
+      ]),
+    ];
+    const csv = rows
+      .map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "edubridge-homework.csv";
+    a.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   return (
     <div className="mx-auto max-w-3xl">
-      <header className="rise">
-        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
-          Homework
-        </h1>
-        <p className="mt-1 text-[15px] text-muted">
-          {open.length} to do · {overdue.length} overdue
-        </p>
+      <header className="rise flex items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
+            Homework
+          </h1>
+          <p className="mt-1 text-[15px] text-muted">
+            {open.length} to do · {overdue.length} overdue
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={exportCsv}
+          className="min-h-[44px] shrink-0 rounded-xl border border-hairline bg-paper px-4 text-sm font-semibold text-accent transition-transform active:scale-[0.97]"
+        >
+          Export
+        </button>
       </header>
 
       <div className="rise mt-5 flex gap-2 overflow-x-auto pb-1" style={{ "--i": 1 } as React.CSSProperties}>

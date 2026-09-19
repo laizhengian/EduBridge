@@ -43,9 +43,12 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 |---|---|
 | [`docs/goals.md`](docs/goals.md) | The four goals and ten principles every feature must serve |
 | [`docs/plan.md`](docs/plan.md) | Locked decisions and build order |
+| [`docs/roadmap.md`](docs/roadmap.md) | From here to school-wide: interviews, the three apps, one vault, and real costs |
 | [`docs/features.md`](docs/features.md) | Every feature, tied to the problem it solves |
 | [`docs/design.md`](docs/design.md) | The design constitution: fonts with jobs, the 8–60 rule |
 | [`docs/how-its-built.md`](docs/how-its-built.md) | The tech stack explained with zero jargon |
+| [`docs/security-plan.md`](docs/security-plan.md) | Who can do what, and how student data stays safe |
+| [`docs/running-the-app.md`](docs/running-the-app.md) | Step-by-step guide to running the app in development |
 | [`docs/clobas-teardown/`](docs/clobas-teardown/) | Section-by-section teardown of the old portal, with evidence |
 
 ## Tech stack

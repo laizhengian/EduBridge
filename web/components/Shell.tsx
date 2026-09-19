@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -7,31 +8,49 @@ import {
   HomeIcon,
   HomeworkIcon,
   TimetableIcon,
-  TreeIcon,
+  MoreIcon,
 } from "./ui";
 
 const tabs = [
   { href: "/", label: "Today", Icon: HomeIcon, exact: true },
   { href: "/homework", label: "Homework", Icon: HomeworkIcon, exact: false },
-  { href: "/more", label: "Hub", Icon: TreeIcon, exact: false, center: true },
+  { href: "/more", label: "Hub", Icon: MoreIcon, exact: false, center: true },
   { href: "/timetable", label: "Timetable", Icon: TimetableIcon, exact: false },
   { href: "/events", label: "Events", Icon: EventsIcon, exact: false },
 ];
 
-const desktopLinks = tabs.filter((t) => !t.center);
+// Desktop gets every destination — the center treatment is mobile-only.
+const desktopLinks = tabs;
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [today, setToday] = useState("");
+
+  useEffect(() => {
+    setToday(
+      new Date().toLocaleDateString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      }),
+    );
+  }, []);
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
-      {/* desktop header — same destinations, arranged generously */}
-      <header className="hidden border-b border-hairline bg-paper md:block">
+      {/* desktop header — sticky masthead: wordmark, today's date, pill navigation */}
+      <header className="sticky top-0 z-30 hidden border-b border-hairline bg-paper md:block">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8">
-          <Link href="/" className="font-display text-xl font-semibold tracking-tight">
-            EduBridge
-          </Link>
-          <nav className="flex items-center gap-8 text-[15px]">
+          <div className="flex items-baseline gap-3">
+            <Link
+              href="/"
+              className="font-display text-xl font-semibold tracking-tight"
+            >
+              Edu<span className="text-accent">Bridge</span>
+            </Link>
+            <span className="hidden text-[13px] text-muted lg:inline">{today}</span>
+          </div>
+          <nav className="flex items-center gap-1 text-[15px]">
             {desktopLinks.map(({ href, label, exact }) => {
               const active = exact ? pathname === href : pathname.startsWith(href);
               return (
@@ -39,8 +58,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   key={href}
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  className={`inline-flex h-10 items-center transition-colors ${
-                    active ? "font-semibold text-accent" : "text-muted hover:text-foreground"
+                  className={`inline-flex h-9 items-center rounded-full px-4 transition-colors ${
+                    active
+                      ? "bg-accent-soft font-semibold text-accent-strong"
+                      : "text-muted hover:text-foreground"
                   }`}
                 >
                   {label}
@@ -79,7 +100,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                       active ? "border-accent bg-accent text-paper" : "border-hairline bg-paper"
                     }`}
                   >
-                    <TreeIcon className="h-6 w-6" />
+                    <MoreIcon className="h-6 w-6" />
                   </span>
                   {label}
                 </Link>
@@ -99,6 +120,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </Link>
             );
           })}
+        </div>
+        <div className="flex items-center justify-center gap-5 border-t border-hairline py-2.5 text-[11px] text-muted">
+          <Link href="/privacy" className="underline-offset-2 hover:text-foreground">
+            Privacy
+          </Link>
+          <span aria-hidden>·</span>
+          <Link href="/privacy#terms" className="underline-offset-2 hover:text-foreground">
+            Terms
+          </Link>
         </div>
       </nav>
     </div>
