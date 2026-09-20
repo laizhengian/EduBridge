@@ -4,14 +4,19 @@ import {
   CheckIcon,
   EnvelopeIcon,
   ImagesIcon,
+  MegaphoneIcon,
   NoteIcon,
   PhoneIcon,
   QuestionIcon,
   ShieldIcon,
   SunIcon,
   TrophyIcon,
+  UserIcon,
 } from "@/components/ui";
 
+// Hub = grouped by need, not one flat grid. A student looking for "what about
+// me?" sees four tiles; the school-reference stuff lives in its own corner
+// where it can't compete for attention (goals.md → principle 11).
 export default function MorePage() {
   return (
     <div>
@@ -22,10 +27,7 @@ export default function MorePage() {
         <p className="mt-1 text-[15px] text-muted">Everything else in the app</p>
       </header>
 
-      <div
-        className="mt-6 grid grid-cols-2 gap-3.5 rise"
-        style={{ "--i": 1 } as React.CSSProperties}
-      >
+      <Group icon={<UserIcon className="h-4.5 w-4.5" />} title="About me">
         <Tile
           href="/attendance"
           title="My attendance"
@@ -39,16 +41,22 @@ export default function MorePage() {
           Icon={TrophyIcon}
         />
         <Tile
-          href="/life"
-          title="School life"
-          desc="Photo galleries, competitions and past events"
-          Icon={ImagesIcon}
-        />
-        <Tile
           href="/absence"
           title="Tell the school I'm away"
           desc="Send a quick absence note to your teacher"
           Icon={EnvelopeIcon}
+        />
+      </Group>
+
+      <Group
+        icon={<MegaphoneIcon className="h-4.5 w-4.5" />}
+        title="From the school"
+      >
+        <Tile
+          href="/circulars"
+          title="Circulars"
+          desc="Announcements from the school office"
+          Icon={NoteIcon}
         />
         <Tile
           href="/holidays"
@@ -56,12 +64,18 @@ export default function MorePage() {
           desc="Days the school is closed this term"
           Icon={SunIcon}
         />
+      </Group>
+
+      <Group icon={<ImagesIcon className="h-4.5 w-4.5" />} title="School life">
         <Tile
-          href="/circulars"
-          title="Circulars"
-          desc="Announcements from the school office"
-          Icon={NoteIcon}
+          href="/life"
+          title="Photos & events"
+          desc="Galleries, competitions and past big days"
+          Icon={ImagesIcon}
         />
+      </Group>
+
+      <Group icon={<PhoneIcon className="h-4.5 w-4.5" />} title="Reference" last>
         <Tile
           href="/hotlines"
           title="Hotlines"
@@ -81,8 +95,30 @@ export default function MorePage() {
           Icon={ShieldIcon}
         />
         <CalendarTile />
-      </div>
+      </Group>
     </div>
+  );
+}
+
+function Group({
+  icon,
+  title,
+  children,
+  last = false,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  children: React.ReactNode;
+  last?: boolean;
+}) {
+  return (
+    <section className={`rise mt-6${last ? " pb-2" : ""}`}>
+      <h2 className="flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-wide text-muted">
+        <span className="text-accent">{icon}</span>
+        {title}
+      </h2>
+      <div className="mt-2.5 grid grid-cols-2 gap-3.5 md:grid-cols-4">{children}</div>
+    </section>
   );
 }
 
@@ -111,7 +147,7 @@ function Tile({
   );
 }
 
-/** One tap, complete export — homework as CSV, events as a calendar file. */
+/** One tap, complete export — every event leaves with you as a calendar file. */
 function CalendarTile() {
   return (
     <a

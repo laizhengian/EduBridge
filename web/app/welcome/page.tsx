@@ -62,6 +62,7 @@ export default function WelcomePage() {
 
       {step === "signin" && (
         <div className="rise mt-8 space-y-3" style={{ "--i": 1 } as React.CSSProperties}>
+          {/* One decision: sign in. The alternative waits below, quiet, until wanted. */}
           <button
             type="button"
             onClick={() => setStep("class")}
@@ -72,12 +73,12 @@ export default function WelcomePage() {
           <button
             type="button"
             onClick={() => setStep("username")}
-            className="min-h-[52px] w-full rounded-xl border border-hairline bg-paper text-[15px] font-semibold text-muted transition-transform active:scale-[0.99]"
+            className="mx-auto flex min-h-[44px] items-center text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
           >
-            I have a username and password
+            Use a username and password instead
           </button>
           <p className="pt-1 text-center text-xs text-muted">
-            Only @oakbridge.edu.my accounts can sign in. In this preview both buttons
+            Only @oakbridge.edu.my accounts can sign in. In this preview both ways
             continue without checking.
           </p>
         </div>

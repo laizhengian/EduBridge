@@ -159,6 +159,24 @@ export function NoteIcon(p: IconProps) {
   );
 }
 
+export function UserIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </Svg>
+  );
+}
+
+export function MegaphoneIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="m3 11 18-5v12L3 13v-2z" />
+      <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+    </Svg>
+  );
+}
+
 export function PaperclipIcon(p: IconProps) {
   return (
     <Svg {...p}>

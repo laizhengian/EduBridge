@@ -96,6 +96,12 @@ Help students act earlier, not just know later:
    future app alike; no syncing, ever
 10. **Honest data** — dates are validated on entry, counts are real. An app that
     shows `00/08/2026` once loses trust permanently
+11. **One decision per screen** — show only the choice that's relevant *now*,
+    hide the rest until they are (Higgs Law: every extra option adds decision
+    time, and decision time is friction). The Welcome screen asks *how do you
+    sign in?* — one primary door, the alternative revealed only when asked for.
+    The Hub groups ten destinations by need instead of listing them as equals.
+    Complex on the back end, one clear action on the front.
 
 ---
 
