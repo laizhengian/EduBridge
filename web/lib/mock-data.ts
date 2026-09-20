@@ -503,3 +503,94 @@ export const hotlines: Hotline[] = [
   { name: "Security gate", role: "Late arrival, early pickup", phone: "03-5551 0199", hours: "Daily 6:30–18:30" },
   { name: "Bus coordinator", role: "Routes, delays, lost items", phone: "03-5551 0152", hours: "Mon–Fri 6:30–17:00" },
 ];
+
+/* ---- Student feedback ---------------------------------------------------- */
+
+export type FeedbackKind = "Suggestion" | "Praise" | "Concern";
+
+export type FeedbackEntry = {
+  id: string;
+  kind: FeedbackKind;
+  message: string;
+  sentAt: string;
+  status: "received" | "replied";
+  reply?: { text: string; by: string; at: string };
+};
+
+export const feedbackKinds: FeedbackKind[] = ["Suggestion", "Praise", "Concern"];
+
+export const feedbackSeed: FeedbackEntry[] = [
+  {
+    id: "fb1",
+    kind: "Suggestion",
+    message:
+      "Could the canteen add a halal-friendly vegetarian line? The queue at the main counter is very long by 11am.",
+    sentAt: at(-21, 10, 0),
+    status: "replied",
+    reply: {
+      text:
+        "Thank you — the canteen committee reviewed this and a second vegetarian counter opens next term.",
+      by: "Student Affairs Office",
+      at: at(-14, 12, 0),
+    },
+  },
+  {
+    id: "fb2",
+    kind: "Concern",
+    message:
+      "The Year 7 corridor water fountain has been leaking for two weeks.",
+    sentAt: at(-5, 9, 0),
+    status: "received",
+  },
+];
+
+/* ---- Campus info ---------------------------------------------------------- */
+
+export const campusInfo = {
+  address: "12 Persiaran Akademik, 47810 Petaling Jaya, Selangor",
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Oakbridge+International+School+Petaling+Jaya",
+  officeHours: "Mon–Fri 7:30–16:30 · Sat 8:00–12:30 (activity days only)",
+  gates: "Gates open 6:45 · Classes start 7:55 · Dismissal 15:15 (15:00 Wed)",
+  facilities: [
+    "Library & learning hub",
+    "Science & robotics labs",
+    "Field, pool & indoor hall",
+    "Canteen & coffee cart",
+  ],
+};
+
+/* ---- School videos (YouTube) ---------------------------------------------- */
+
+export type SchoolVideo = {
+  id: string;
+  title: string;
+  date: string;
+  duration: string;
+  /** The school pastes its YouTube link here — until then the card is honest. */
+  url: string | null;
+};
+
+export const schoolVideos: SchoolVideo[] = [
+  {
+    id: "v1",
+    title: "Sports Day 2026 — full assembly replay",
+    date: at(-60, 9, 0),
+    duration: "1:12:40",
+    url: null,
+  },
+  {
+    id: "v2",
+    title: "Raya concert — choir & gamelan",
+    date: at(-95, 9, 0),
+    duration: "48:15",
+    url: null,
+  },
+  {
+    id: "v3",
+    title: "Robotics club: regional finals highlights",
+    date: at(-120, 9, 0),
+    duration: "6:02",
+    url: null,
+  },
+];

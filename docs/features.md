@@ -68,15 +68,24 @@ Everything else is a gimmick and goes on the "not building" list.
   (screenshot 07); past competitions and fun events exist nowhere, so the
   school's best moments are unrecorded.
 - **Fix:** photo albums with covers and tap-to-open grids (stock photos now,
-  real school photos later); a competitions archive with results and a slot
-  ready for the school's highlight-video links. Content ships — never an empty
-  shell.
+  real school photos later); a competitions archive with results; school-video
+  rows with slots ready for the school's YouTube links; and campus info —
+  address with a maps link, the shape of a school day, office hours, facilities.
+  Content ships — never an empty shell.
 
 ### 12. Hotlines + FAQ — built in mockup (`/hotlines`, `/faq`)
 - **Problem:** the portal's hotline page has empty Details columns and a
   "Senoir" typo; onboarding is a 46-page PDF manual (friction log §11, §13).
 - **Fix:** hotlines with role, working hours and tap-to-call; an in-app
   plain-language FAQ answering what families actually ask. Zero documents.
+
+### 13. Student feedback with a visible reply — built in mockup (`/feedback`)
+- **Problem:** the portal has a feedback module, but sending something into it
+  is a black hole — no confirmation, no status, no evidence anyone read it.
+- **Fix:** one decision on the screen (what you want to say — the kind is
+  pre-chosen, the name optional); after sending, the item appears with a status
+  tag ("Received — in review" → "Replied"), and the school's answer is printed
+  on the item itself. The loop visibly closes.
 
 ## Later (only after the pilot proves the core)
 

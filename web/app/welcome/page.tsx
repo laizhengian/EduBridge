@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+} from "motion/react";
 import { Chip } from "@/components/ui";
 import { haptic } from "@/lib/haptics";
 import { loadProfile, saveProfile, type Profile } from "@/lib/profile";
@@ -16,8 +21,17 @@ const CLASSES = [
 
 type Step = "signin" | "username" | "class" | "done";
 
+/** Stage changes animate like a native flow: the old stage slides up and
+    fades, the new one slides in. Nothing jumps. Reduced motion = fade only. */
+const stage = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -12 },
+};
+
 export default function WelcomePage() {
   const router = useRouter();
+  const reduce = useReducedMotion();
   const [step, setStep] = useState<Step>("signin");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -63,143 +77,162 @@ export default function WelcomePage() {
         </p>
       </div>
 
-      {step === "signin" && (
-        <div className="rise mt-8 space-y-3" style={{ "--i": 1 } as React.CSSProperties}>
-          {/* One decision: sign in. The alternative waits below, quiet, until wanted. */}
-          <button
-            type="button"
-            onClick={() => {
-              haptic("light");
-              setStep("class");
-            }}
-            className="pressable flex min-h-[52px] w-full items-center justify-center gap-3 rounded-xl border border-hairline bg-paper text-[15px] font-semibold shadow-sm"
+      <AnimatePresence mode="wait" initial={false}>
+        {step === "signin" && (
+          <motion.div
+            key="signin"
+            {...stage}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
+            className="mt-8 space-y-3"
           >
-            <GIcon /> Sign in with school Google account
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              haptic("light");
-              setStep("username");
-            }}
-            className="pressable mx-auto flex min-h-[44px] items-center text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
-          >
-            Use a username and password instead
-          </button>
-          <p className="pt-1 text-center text-xs text-muted">
-            Only @oakbridge.edu.my accounts can sign in. In this preview both ways
-            continue without checking.
-          </p>
-        </div>
-      )}
+            {/* One decision: sign in. The alternative waits below, quiet, until wanted. */}
+            <button
+              type="button"
+              onClick={() => {
+                haptic("light");
+                setStep("class");
+              }}
+              className="pressable flex min-h-[52px] w-full items-center justify-center gap-3 rounded-xl border border-hairline bg-paper text-[15px] font-semibold shadow-sm"
+            >
+              <GIcon /> Sign in with school Google account
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                haptic("light");
+                setStep("username");
+              }}
+              className="pressable mx-auto flex min-h-[44px] items-center text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+            >
+              Use a username and password instead
+            </button>
+            <p className="pt-1 text-center text-xs text-muted">
+              Only @oakbridge.edu.my accounts can sign in. In this preview both ways
+              continue without checking.
+            </p>
+          </motion.div>
+        )}
 
-      {step === "username" && (
-        <form
-          className="rise mt-8 space-y-4"
-          style={{ "--i": 1 } as React.CSSProperties}
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitUsername();
-          }}
-        >
-          <div>
-            <label htmlFor="u" className="text-sm font-semibold">Username</label>
-            <input
-              id="u"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="e.g. ian.tan"
-              autoCapitalize="none"
-              autoCorrect="off"
-              spellCheck={false}
-              autoComplete="username"
-              enterKeyHint="next"
-              className="mt-1.5 w-full rounded-xl border border-hairline bg-background px-3.5 py-3 text-base outline-none focus:border-accent"
-            />
-          </div>
-          <div>
-            <label htmlFor="p" className="text-sm font-semibold">Password</label>
-            <input
-              id="p"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="From the school office"
-              autoComplete="current-password"
-              enterKeyHint="go"
-              className="mt-1.5 w-full rounded-xl border border-hairline bg-background px-3.5 py-3 text-base outline-none focus:border-accent"
-            />
-          </div>
-          {error && <p className="text-sm text-danger">{error}</p>}
-          <button
-            type="submit"
-            className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+        {step === "username" && (
+          <motion.form
+            key="username"
+            {...stage}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
+            className="mt-8 space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitUsername();
+            }}
           >
-            Sign in
-          </button>
-          <p className="text-center text-xs text-muted">
-            In this preview any username and password will work.
-          </p>
-        </form>
-      )}
+            <div>
+              <label htmlFor="u" className="text-sm font-semibold">Username</label>
+              <input
+                id="u"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="e.g. ian.tan"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                autoComplete="username"
+                enterKeyHint="next"
+                className="mt-1.5 w-full rounded-xl border border-hairline bg-background px-3.5 py-3 text-base outline-none focus:border-accent"
+              />
+            </div>
+            <div>
+              <label htmlFor="p" className="text-sm font-semibold">Password</label>
+              <input
+                id="p"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="From the school office"
+                autoComplete="current-password"
+                enterKeyHint="go"
+                className="mt-1.5 w-full rounded-xl border border-hairline bg-background px-3.5 py-3 text-base outline-none focus:border-accent"
+              />
+            </div>
+            {error && <p className="text-sm text-danger">{error}</p>}
+            <button
+              type="submit"
+              className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+            >
+              Sign in
+            </button>
+            <p className="text-center text-xs text-muted">
+              In this preview any username and password will work.
+            </p>
+          </motion.form>
+        )}
 
-      {step === "class" && (
-        <div className="rise mt-8" style={{ "--i": 1 } as React.CSSProperties}>
-          <p className="text-center text-sm font-semibold">
-            {name ? `${name}, which class are you in?` : "Which class are you in?"}
-          </p>
-          <p className="mt-1 text-center text-xs text-muted">
-            This sets your timetable and homework for the whole app.
-          </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
-            {CLASSES.map((c) => (
-              <Chip key={c} active={klass === c} onClick={() => setKlass(c)}>
-                {c}
-              </Chip>
-            ))}
-          </div>
-          <button
-            type="button"
-            disabled={!klass}
-            onClick={() => {
-              haptic("success");
-              finish({ name: name || "Student", className: klass! });
-            }}
-            className="pressable mt-6 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
+        {step === "class" && (
+          <motion.div
+            key="class"
+            {...stage}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
+            className="mt-8"
           >
-            Start using the app
-          </button>
-        </div>
-      )}
+            <p className="text-center text-sm font-semibold">
+              {name ? `${name}, which class are you in?` : "Which class are you in?"}
+            </p>
+            <p className="mt-1 text-center text-xs text-muted">
+              This sets your timetable and homework for the whole app.
+            </p>
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              {CLASSES.map((c) => (
+                <Chip key={c} active={klass === c} onClick={() => setKlass(c)}>
+                  {c}
+                </Chip>
+              ))}
+            </div>
+            <button
+              type="button"
+              disabled={!klass}
+              onClick={() => {
+                haptic("success");
+                finish({ name: name || "Student", className: klass! });
+              }}
+              className="pressable mt-6 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
+            >
+              Start using the app
+            </button>
+          </motion.div>
+        )}
 
-      {step === "done" && (
-        <div className="rise mt-8 text-center" style={{ "--i": 1 } as React.CSSProperties}>
-          <p className="text-[15px] text-muted">
-            Signed in{name ? ` as ${name}` : ""}
-            {klass ? ` · ${klass}` : ""}
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              haptic("light");
-              router.replace("/");
-            }}
-            className="pressable mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+        {step === "done" && (
+          <motion.div
+            key="done"
+            {...stage}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
+            className="mt-8 text-center"
           >
-            Go to Today
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              haptic("light");
-              setStep("class");
-            }}
-            className="pressable mt-2 min-h-[44px] w-full rounded-xl text-sm font-semibold text-muted"
-          >
-            Change class
-          </button>
-        </div>
-      )}
+            <p className="text-[15px] text-muted">
+              Signed in{name ? ` as ${name}` : ""}
+              {klass ? ` · ${klass}` : ""}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                haptic("light");
+                router.replace("/");
+              }}
+              className="pressable mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+            >
+              Go to Today
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                haptic("light");
+                setStep("class");
+              }}
+              className="pressable mt-2 min-h-[44px] w-full rounded-xl text-sm font-semibold text-muted"
+            >
+              Change class
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

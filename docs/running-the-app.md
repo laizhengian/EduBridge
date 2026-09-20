@@ -74,7 +74,8 @@ The screens live in `web/app` — one folder per page:
 | `web/app/privacy` | Privacy & terms page |
 | `web/app/attendance` | Attendance (excused vs unexcused, ECA per activity) |
 | `web/app/results` | Exam results + progress report |
-| `web/app/life` | School life: photo galleries, competitions |
+| `web/app/life` | School life: photo galleries, videos, competitions, campus info |
+| `web/app/feedback` | Student feedback form with visible status and replies |
 | `web/app/hotlines` | Hotlines with tap-to-call |
 | `web/app/faq` | Common questions |
 | `web/app/welcome` | First-run sign-in screen |

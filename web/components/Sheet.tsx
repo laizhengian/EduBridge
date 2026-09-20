@@ -1,14 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useDragControls,
+  useReducedMotion,
+} from "motion/react";
 import { CloseIcon } from "./ui";
 import { haptic } from "@/lib/haptics";
 
 /**
  * A bottom sheet the way iOS presents one: springs up from the bottom edge,
  * dims the page behind, and closes on tap-outside, Escape, or a downward
- * drag on its grabber (with fling-to-dismiss). Content scrolls inside the
- * panel; the page behind is locked. Safe-area aware at the bottom edge.
+ * drag on its grabber — with real velocity, so a fling dismisses even a
+ * short drag, and a short pull springs back. Built on the motion library
+ * (gesture physics + exit animations) instead of hand-tracked touches.
+ * Content scrolls inside the panel; the page behind is locked; the bottom
+ * edge respects the safe area.
  */
 export function Sheet({
   open,
@@ -21,38 +30,12 @@ export function Sheet({
   title: string;
   children: React.ReactNode;
 }) {
-  const [mounted, setMounted] = useState(false); // stays mounted through the exit animation
-  const [entered, setEntered] = useState(false); // entry animation finished → drags take over
-  const [dragY, setDragY] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const drag = useRef<{
-    startY: number;
-    y: number;
-    prevY: number;
-    prevT: number;
-    t: number;
-  } | null>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const closing = !open && mounted;
-
-  useEffect(() => {
-    if (open) setMounted(true);
-  }, [open]);
-
-  // unmount after the exit animation has played
-  useEffect(() => {
-    if (open || !mounted) return;
-    const t = window.setTimeout(() => {
-      setMounted(false);
-      setEntered(false);
-      setDragY(0);
-    }, 300);
-    return () => window.clearTimeout(t);
-  }, [open, mounted]);
+  const dragControls = useDragControls();
+  const reduce = useReducedMotion();
 
   // page scroll lock + Escape while open
   useEffect(() => {
-    if (!mounted) return;
+    if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
@@ -63,106 +46,78 @@ export function Sheet({
       document.body.style.overflow = prev;
       window.removeEventListener("keydown", onKey);
     };
-  }, [mounted, onClose]);
-
-  if (!mounted) return null;
-
-  function onPanelAnimated() {
-    if (!closing) setEntered(true);
-  }
-
-  function touchStart(e: React.TouchEvent) {
-    if (!entered) return;
-    const t = e.touches[0];
-    drag.current = {
-      startY: t.clientY,
-      y: t.clientY,
-      prevY: t.clientY,
-      prevT: performance.now(),
-      t: performance.now(),
-    };
-    setDragging(true);
-  }
-
-  function touchMove(e: React.TouchEvent) {
-    if (!drag.current || !entered) return;
-    const t = e.touches[0];
-    const dy = t.clientY - drag.current.startY;
-    drag.current.prevY = drag.current.y;
-    drag.current.prevT = drag.current.t;
-    drag.current.y = t.clientY;
-    drag.current.t = performance.now();
-    if (dy > 0) setDragY(dy * 0.92); // a hint of resistance, like a well-behaved rubber band
-  }
-
-  function touchEnd() {
-    if (!drag.current || !entered) {
-      drag.current = null;
-      setDragging(false);
-      return;
-    }
-    const { startY, y, prevY, prevT, t } = drag.current;
-    drag.current = null;
-    setDragging(false);
-    const dy = y - startY;
-    const vy = (y - prevY) / Math.max(t - prevT, 1); // px/ms of the last movement
-    if (dy > 110 || (dy > 24 && vy > 0.5)) {
-      haptic("light");
-      onClose();
-    } else {
-      setDragY(0); // springs back
-    }
-  }
+  }, [open, onClose]);
 
   return (
-    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={title}>
-      <div
-        className={`sheet-backdrop absolute inset-0 bg-foreground/40${closing ? " closing" : ""}`}
-        onClick={onClose}
-      />
-      <div
-        ref={panelRef}
-        tabIndex={-1}
-        onAnimationEnd={onPanelAnimated}
-        className={`absolute inset-x-0 bottom-0 mx-auto max-w-2xl outline-none ${
-          entered && !closing ? "" : `sheet-panel${closing ? " closing" : ""}`
-        }`}
-        style={
-          entered && !closing
-            ? {
-                transform: `translateY(${dragY}px)`,
-                transition: dragging ? "none" : "transform 0.32s var(--spring)",
+    <AnimatePresence>
+      {open && (
+        <div
+          className="fixed inset-0 z-50"
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+        >
+          <motion.div
+            className="absolute inset-0 bg-foreground/40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={reduce ? { duration: 0 } : { duration: 0.22 }}
+            onClick={onClose}
+          />
+          <motion.div
+            className="absolute inset-x-0 bottom-0 mx-auto max-w-2xl"
+            initial={reduce ? { opacity: 0 } : { y: "100%" }}
+            animate={reduce ? { opacity: 1 } : { y: 0 }}
+            exit={reduce ? { opacity: 0 } : { y: "100%" }}
+            transition={
+              reduce
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 500, damping: 46 }
+            }
+            drag={reduce ? false : "y"}
+            dragListener={false} // only the grabber strip starts drags, so content still scrolls
+            dragControls={dragControls}
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0, bottom: 0.45 }} // rubber-band, like a native sheet
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 110 || info.velocity.y > 500) {
+                haptic("light");
+                onClose();
               }
-            : undefined
-        }
-      >
-        <div className="overflow-hidden rounded-t-2xl border-t border-hairline bg-paper shadow-[0_-8px_40px_rgba(33,29,25,0.18)]">
-          {/* the drag strip — vertical touches here move the sheet, not the page */}
-          <div
-            className="touch-none select-none px-5 pb-1 pt-2.5"
-            onTouchStart={touchStart}
-            onTouchMove={touchMove}
-            onTouchEnd={touchEnd}
-            onTouchCancel={touchEnd}
+            }}
           >
-            <div className="mx-auto h-1.5 w-10 rounded-full bg-stone-300" aria-hidden />
-            <div className="flex items-center justify-between pt-2.5">
-              <h2 className="font-display text-[17px] font-semibold">{title}</h2>
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label="Close"
-                className="pressable flex h-11 w-11 items-center justify-center rounded-full text-muted hover:bg-background"
+            <div className="overflow-hidden rounded-t-2xl border-t border-hairline bg-paper shadow-[0_-8px_40px_rgba(33,29,25,0.18)]">
+              {/* the drag strip — a downward pull moves the sheet itself */}
+              <div
+                className="touch-none select-none px-5 pb-1 pt-2.5"
+                onPointerDown={(e) => dragControls.start(e)}
               >
-                <CloseIcon className="h-5 w-5" />
-              </button>
+                <div
+                  className="mx-auto h-1.5 w-10 rounded-full bg-stone-300"
+                  aria-hidden
+                />
+                <div className="flex items-center justify-between pt-2.5">
+                  <h2 className="font-display text-[17px] font-semibold">
+                    {title}
+                  </h2>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label="Close"
+                    className="pressable flex h-11 w-11 items-center justify-center rounded-full text-muted hover:bg-background"
+                  >
+                    <CloseIcon className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+              <div className="max-h-[72dvh] overflow-y-auto overscroll-contain px-5 pb-[max(env(safe-area-inset-bottom),20px)] pt-1">
+                {children}
+              </div>
             </div>
-          </div>
-          <div className="max-h-[72dvh] overflow-y-auto overscroll-contain px-5 pb-[max(env(safe-area-inset-bottom),20px)] pt-1">
-            {children}
-          </div>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -34,10 +34,11 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 | **Homework** | Durable board, deadline-sorted, filter chips, tick-off with undo toast |
 | **Timetable** | Today preselected on mobile; full week board on desktop |
 | **Events** | Boxed list, add-to-calendar (.ics download), More/Less details |
-| **Hub** (tree) | Everything else: attendance, results, school life, absence notes, holidays, circulars, hotlines, FAQ, privacy |
+| **Hub** (tree) | Everything else: attendance, results, school life, absence notes, holidays, circulars, student feedback, hotlines, FAQ, privacy |
 | **Attendance** | Today's status first; excused absences counted separately from unexplained; ECA as one card per activity |
 | **Exam results** | One exam at a glance with change-since-last; colour only below the pass mark; progress report stamped with its issue date |
-| **School life** | Photo galleries (tap-to-open albums) and a competitions archive with slots for highlight videos |
+| **School life** | Photo galleries (tap-to-open albums), school-video slots, a competitions archive, and campus info (address, day schedule, facilities) |
+| **Student feedback** | One-decision form (kind pre-chosen, name optional) with status tags and the school's reply printed on the item |
 | **Hotlines & FAQ** | Who to call with tap-to-call; plain-language answers to what families ask most |
 | **Welcome flow** | Google sign-in or username/password (mocked), then class selection |
 
@@ -53,6 +54,7 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 | [`docs/how-its-built.md`](docs/how-its-built.md) | The tech stack explained with zero jargon |
 | [`docs/security-plan.md`](docs/security-plan.md) | Who can do what, and how student data stays safe |
 | [`docs/platform.md`](docs/platform.md) | iOS compatibility and the Expo/React Native decision |
+| [`docs/hosting.md`](docs/hosting.md) | What the backend will actually cost — Vercel/Supabase free tiers, risks, and decision rules |
 | [`docs/performance.md`](docs/performance.md) | What's already fast, what's staged for the backend |
 | [`docs/running-the-app.md`](docs/running-the-app.md) | Step-by-step guide to running the app in development |
 | [`docs/clobas-teardown/`](docs/clobas-teardown/) | Section-by-section teardown of the old portal, with evidence |
@@ -62,8 +64,10 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 - **Next.js 16 + TypeScript + Tailwind CSS 4** — one codebase, web now, native later
 - **Local-first state** — homework ticks persist on-device; the API shape mirrors the
   future database layer, so wiring Supabase swaps the implementation, not the screens
-- **Zero UI dependencies** — every icon and interaction is hand-built; no component
-  library pulling in half of npm
+- **Small, purposeful dependencies** — Lucide icons and the `motion` gesture/spring
+  library, tree-shaken to only what's used; no component framework pulling in half of npm
+- **Native-feel interactions** — bottom sheets with real drag physics, swipe-away toasts,
+  haptics, press states, all reduced-motion aware
 
 ## Roadmap
 

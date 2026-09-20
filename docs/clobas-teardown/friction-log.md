@@ -214,6 +214,23 @@ daily-user testimony) and what the EduBridge preview does instead.*
 - **Privacy blind spots.** A child's photo/birthday broadcast to all users.
 - **Manual-required UX.** 46-page PDF = the UI confessing it isn't self-explanatory.
 
+## 19. Student survey — early responses agree on the same four complaints
+
+*A structured survey of students is running (September 2026). Response count
+is still small — deliberately **not** quoted as a statistic until the poll
+closes — but every response so far names the same problems, unprompted.*
+
+| Concern (in every response so far) | What it means in practice | EduBridge's design answer |
+| --- | --- | --- |
+| **"It was slow"** | Long loads, unresponsive taps | All 18 routes statically prerendered; images served as compressed WebP at device size |
+| **"Unresponsive"** | Taps that do nothing, dead buttons | Every control is functional or honestly labeled; buttons press down and spring back so touch is always acknowledged |
+| **"Difficult to navigate"** | No sense of where things live | The Hub groups 10 destinations into 4 need-based groups; the tab bar carries the 4 things used daily |
+| **"Too many clicks to get anywhere"** | e.g. reaching the news takes ~5 taps | News/circulars sit on the home screen itself (Today opens with them); everything in the Hub is exactly one tap deep |
+
+*Full survey results to be appended when the poll closes — this section
+exists so the requirement (fast, one-tap, obvious) is on record before the
+redesign decisions are finalized.*
+
 ## Design rules this log commits us to (full list in `../ux-teardown.md`)
 
 1. **No data vanishes because a day passed** — show state (owed/overdue/done/upcoming), never recency-only.
@@ -227,4 +244,4 @@ daily-user testimony) and what the EduBridge preview does instead.*
 
 ---
 
-*Sources: 20 screenshots collected 16 Sep 2026 (`screenshots/`, 8 named + additional shots), plus direct testimony from a daily student user. Compiled as the requirements baseline for the replacement portal.*
+*Sources: 20 screenshots collected 16 Sep 2026 (`screenshots/`, 8 named + additional shots), direct testimony from a daily student user, and the September 2026 student survey (early responses; poll ongoing). Compiled as the requirements baseline for the replacement portal.*

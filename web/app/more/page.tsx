@@ -5,6 +5,7 @@ import {
   EnvelopeIcon,
   ImagesIcon,
   MegaphoneIcon,
+  MessageIcon,
   NoteIcon,
   PhoneIcon,
   QuestionIcon,
@@ -64,13 +65,19 @@ export default function MorePage() {
           desc="Days the school is closed this term"
           Icon={SunIcon}
         />
+        <Tile
+          href="/feedback"
+          title="Student feedback"
+          desc="Tell the school how it's going — read weekly"
+          Icon={MessageIcon}
+        />
       </Group>
 
       <Group icon={<ImagesIcon className="h-4.5 w-4.5" />} title="School life">
         <Tile
           href="/life"
-          title="Photos & events"
-          desc="Galleries, competitions and past big days"
+          title="Photos, videos & campus"
+          desc="Galleries, competitions and campus info"
           Icon={ImagesIcon}
         />
       </Group>
