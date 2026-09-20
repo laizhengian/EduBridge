@@ -29,6 +29,27 @@ generated from the brand tokens. It is deliberately not a logo — swap
 `web/public/icon-180.png`, `icon-192.png` and `icon-512.png` when the real
 logo is chosen. The in-app UI stays logo-free, as agreed.
 
+## Native feel (added September 20, 2026)
+
+The app now behaves like a native app in the ways the web can deliver, without
+a rewrite. The full motion rules live in `docs/design.md → Motion floor`.
+What's platform-specific:
+
+| Concern | How it works |
+| --- | --- |
+| Haptics | `navigator.vibrate` through `web/lib/haptics.ts` — Android Chrome ticks today. **iOS Safari has no web vibration API**, so calls silently no-op there; nothing breaks. When a Capacitor/Expo shell happens, the same helper maps to `UIImpactFeedbackGenerator` and iPhone users get real taps |
+| Bottom sheets | `web/components/Sheet.tsx` — springs up, drag-down to dismiss with fling, safe-area padded. Used by gallery albums and homework details |
+| Swipe-to-dismiss | toasts swipe away horizontally like system notifications |
+| Keyboard | `interactiveWidget: resizes-content` (Android resizes the page instead of overlaying buttons; iOS already behaves this way) + `enterKeyHint`/`autoComplete` on every field + Enter submits the sign-in form |
+| Press states | shared `pressable` response on every control — scale + dim + spring back |
+| Scroll elevation | tab bar and masthead gain their shadow only when content scrolls beneath |
+
+**Deliberately absent:** edge-swipe back (the browser owns that gesture in
+Safari; intercepting it breaks normal navigation), pull-to-refresh (disabled
+with the rest of the page rubber-band — refresh is a data question for when
+the database exists), and loading spinners (nothing loads yet; when real data
+arrives, skeletons — never spinners — are the documented plan).
+
 ## How to test on a real iPhone
 
 1. Start the dev server reachable on the network:

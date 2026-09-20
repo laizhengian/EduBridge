@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Chip } from "@/components/ui";
+import { haptic } from "@/lib/haptics";
 import { loadProfile, saveProfile, type Profile } from "@/lib/profile";
 
 const CLASSES = [
@@ -40,10 +41,12 @@ export default function WelcomePage() {
 
   function submitUsername() {
     if (!username.trim() || !password.trim()) {
+      haptic("warning");
       setError("Type both the username and the password from the school.");
       return;
     }
     setError("");
+    haptic("success");
     setName(username.trim());
     setStep("class");
   }
@@ -65,15 +68,21 @@ export default function WelcomePage() {
           {/* One decision: sign in. The alternative waits below, quiet, until wanted. */}
           <button
             type="button"
-            onClick={() => setStep("class")}
-            className="flex min-h-[52px] w-full items-center justify-center gap-3 rounded-xl border border-hairline bg-paper text-[15px] font-semibold shadow-sm transition-transform active:scale-[0.99]"
+            onClick={() => {
+              haptic("light");
+              setStep("class");
+            }}
+            className="pressable flex min-h-[52px] w-full items-center justify-center gap-3 rounded-xl border border-hairline bg-paper text-[15px] font-semibold shadow-sm"
           >
             <GIcon /> Sign in with school Google account
           </button>
           <button
             type="button"
-            onClick={() => setStep("username")}
-            className="mx-auto flex min-h-[44px] items-center text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+            onClick={() => {
+              haptic("light");
+              setStep("username");
+            }}
+            className="pressable mx-auto flex min-h-[44px] items-center text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
           >
             Use a username and password instead
           </button>
@@ -85,7 +94,14 @@ export default function WelcomePage() {
       )}
 
       {step === "username" && (
-        <div className="rise mt-8 space-y-4" style={{ "--i": 1 } as React.CSSProperties}>
+        <form
+          className="rise mt-8 space-y-4"
+          style={{ "--i": 1 } as React.CSSProperties}
+          onSubmit={(e) => {
+            e.preventDefault();
+            submitUsername();
+          }}
+        >
           <div>
             <label htmlFor="u" className="text-sm font-semibold">Username</label>
             <input
@@ -94,6 +110,10 @@ export default function WelcomePage() {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="e.g. ian.tan"
               autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              autoComplete="username"
+              enterKeyHint="next"
               className="mt-1.5 w-full rounded-xl border border-hairline bg-background px-3.5 py-3 text-base outline-none focus:border-accent"
             />
           </div>
@@ -105,21 +125,22 @@ export default function WelcomePage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="From the school office"
+              autoComplete="current-password"
+              enterKeyHint="go"
               className="mt-1.5 w-full rounded-xl border border-hairline bg-background px-3.5 py-3 text-base outline-none focus:border-accent"
             />
           </div>
           {error && <p className="text-sm text-danger">{error}</p>}
           <button
-            type="button"
-            onClick={submitUsername}
-            className="min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper transition-transform active:scale-[0.99]"
+            type="submit"
+            className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
           >
             Sign in
           </button>
           <p className="text-center text-xs text-muted">
             In this preview any username and password will work.
           </p>
-        </div>
+        </form>
       )}
 
       {step === "class" && (
@@ -140,8 +161,11 @@ export default function WelcomePage() {
           <button
             type="button"
             disabled={!klass}
-            onClick={() => finish({ name: name || "Student", className: klass! })}
-            className="mt-6 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper transition-transform active:scale-[0.99] disabled:opacity-40"
+            onClick={() => {
+              haptic("success");
+              finish({ name: name || "Student", className: klass! });
+            }}
+            className="pressable mt-6 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
           >
             Start using the app
           </button>
@@ -156,15 +180,21 @@ export default function WelcomePage() {
           </p>
           <button
             type="button"
-            onClick={() => router.replace("/")}
-            className="mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper transition-transform active:scale-[0.99]"
+            onClick={() => {
+              haptic("light");
+              router.replace("/");
+            }}
+            className="pressable mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
           >
             Go to Today
           </button>
           <button
             type="button"
-            onClick={() => setStep("class")}
-            className="mt-2 min-h-[44px] w-full rounded-xl text-sm font-semibold text-muted"
+            onClick={() => {
+              haptic("light");
+              setStep("class");
+            }}
+            className="pressable mt-2 min-h-[44px] w-full rounded-xl text-sm font-semibold text-muted"
           >
             Change class
           </button>

@@ -1,12 +1,18 @@
+import { haptic } from "@/lib/haptics";
+
 type IconProps = { className?: string };
 
-function Svg({ className, children }: IconProps & { children: React.ReactNode }) {
+function Svg({
+  className,
+  children,
+  strokeWidth = 1.8,
+}: IconProps & { children: React.ReactNode; strokeWidth?: number }) {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.8}
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
@@ -88,6 +94,50 @@ export function CheckIcon(p: IconProps) {
     <Svg {...p}>
       <circle cx="12" cy="12" r="8.5" />
       <path d="m8.5 12.3 2.3 2.3 4.7-4.9" />
+    </Svg>
+  );
+}
+
+export function CrossIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="m9.2 9.2 5.6 5.6M14.8 9.2l-5.6 5.6" />
+    </Svg>
+  );
+}
+
+/** Bare glyphs for filled badges — no circle, stroke inherits the badge color.
+    Text glyphs ("✓") render differently in every platform font; these don't. */
+export function CheckGlyph(p: IconProps) {
+  return (
+    <Svg {...p} strokeWidth={2.6}>
+      <path d="m7 12.6 3.1 3.1L17 8.7" />
+    </Svg>
+  );
+}
+
+export function CrossGlyph(p: IconProps) {
+  return (
+    <Svg {...p} strokeWidth={2.6}>
+      <path d="M8.2 8.2l7.6 7.6M15.8 8.2l-7.6 7.6" />
+    </Svg>
+  );
+}
+
+export function DashGlyph(p: IconProps) {
+  return (
+    <Svg {...p} strokeWidth={2.6}>
+      <path d="M7 12h10" />
+    </Svg>
+  );
+}
+
+export function ExclaimGlyph(p: IconProps) {
+  return (
+    <Svg {...p} strokeWidth={2.6}>
+      <path d="M12 6.5v7" />
+      <path d="M12 17.2h.01" />
     </Svg>
   );
 }
@@ -294,8 +344,11 @@ export function Chip({
   return (
     <button
       type={type}
-      onClick={onClick}
-      className={`min-h-[44px] rounded-full px-4 text-sm font-semibold transition-transform active:scale-[0.97] ${
+      onClick={() => {
+        haptic("light");
+        onClick();
+      }}
+      className={`pressable min-h-[44px] rounded-full px-4 text-sm font-semibold ${
         active
           ? "bg-accent text-white"
           : "border border-hairline bg-paper text-muted hover:border-stone-300 hover:text-foreground"

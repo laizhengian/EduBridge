@@ -25,6 +25,7 @@ const desktopLinks = tabs;
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [today, setToday] = useState("");
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setToday(
@@ -36,10 +37,24 @@ export function Shell({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
+  // scroll-linked elevation: the bars gain a shadow only once content
+  // actually passes beneath them — quiet, but it reads as depth
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div className="min-h-dvh bg-background pt-[env(safe-area-inset-top)] text-foreground">
-      {/* desktop header — sticky masthead: wordmark, today's date, pill navigation */}
-      <header className="sticky top-0 z-30 hidden border-b border-hairline bg-paper md:block">
+      {/* desktop header — sticky masthead: wordmark, today's date, pill navigation.
+          System material: translucent paper over the page, blurred beneath. */}
+      <header
+        className={`sticky top-0 z-30 hidden border-b border-hairline bg-paper/85 backdrop-blur-xl transition-shadow md:block ${
+          scrolled ? "shadow-[0_8px_24px_-16px_rgba(33,29,25,0.4)]" : ""
+        }`}
+      >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8">
           <div className="flex items-baseline gap-3">
             <Link
@@ -58,7 +73,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   key={href}
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  className={`inline-flex h-9 items-center rounded-full px-4 transition-colors ${
+                  className={`pressable inline-flex h-9 items-center rounded-full px-4 ${
                     active
                       ? "bg-accent-soft font-semibold text-accent-strong"
                       : "text-muted hover:text-foreground"
@@ -76,10 +91,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
         {children}
       </div>
 
-      {/* mobile bottom tabs — 5 slots, the tree hub in the middle */}
+      {/* mobile bottom tabs — 5 slots, the tree hub in the middle.
+          The tab bar is the one true iOS material: paper, translucent, blurred. */}
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-paper pb-[env(safe-area-inset-bottom)] md:hidden"
+        className={`fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-paper/85 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl transition-shadow md:hidden ${
+          scrolled ? "shadow-[0_-12px_24px_-20px_rgba(33,29,25,0.5)]" : ""
+        }`}
       >
         <div className="mx-auto grid max-w-md grid-cols-5">
           {tabs.map(({ href, label, Icon, exact, center }) => {
@@ -91,7 +109,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   href={href}
                   aria-current={active ? "page" : undefined}
                   aria-label={`${label} — everything else in the app`}
-                  className={`-mt-4 flex min-h-[60px] flex-col items-center justify-center gap-0.5 text-xs font-medium transition-transform active:scale-95 ${
+                  className={`pressable -mt-4 flex min-h-[60px] flex-col items-center justify-center gap-0.5 text-xs font-medium ${
                     active ? "text-accent" : "text-muted"
                   }`}
                 >
@@ -111,7 +129,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 key={href}
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`flex min-h-[60px] flex-col items-center justify-center gap-1 text-xs font-medium transition-transform active:scale-[0.96] ${
+                className={`pressable flex min-h-[60px] flex-col items-center justify-center gap-1 text-xs font-medium ${
                   active ? "text-accent" : "text-muted"
                 }`}
               >

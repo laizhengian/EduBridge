@@ -39,9 +39,12 @@ Swap "Oakbridge" out. If the app still makes sense, it's generic slop. Our ident
 - Nothing cramped may ship. Made for kids and grandparents: primary targets ≥44px,
   labels unabbreviated.
 
-## Speed budget (added from user review)
-- Must feel instant on old hardware: no `backdrop-blur` (a top killer on cheap phones),
-  no large images without sizing, minimal client JS per page
+## Speed budget (added from user review, amended when materials arrived)
+- Must feel instant on old hardware: no `backdrop-blur` on page content (a top killer
+  on cheap phones), no large images without sizing, minimal client JS per page
+- **Exception — system materials:** translucent blurred surfaces are allowed *only*
+  on fixed chrome that floats above the page: the tab bar, the desktop masthead,
+  bottom sheets, and toasts. Never on in-flow content
 - Static-first: pages render on the server and cache; JS hydration is the exception
 - No blocking loaders; perceived <1s navigation on a 3-year-old mid-range Android
 
@@ -85,12 +88,32 @@ The web app **is** the app. APK/iOS later = this exact app wrapped (Capacitor), 
   Desktop never has content mobile lacks — and vice versa
 - Zero horizontal scroll 320→1440px
 
-## Motion floor
+## Motion floor (rebuilt for native feel)
 - First screen: items enter with staggered rise within 1s of load, no input needed
 - Signature moment (one): **the strike** — marking homework done draws a strike-through
   line across the title and the day's counter ticks. Tied to the actual work
-- Every control responds on press; focus states visible; all motion respects
-  `prefers-reduced-motion` (transforms off, counters render final values)
+- **Springs, not eases:** anything a finger causes — press states, chips, sheet
+  return, toast release — settles with a hint of overshoot (`--spring`). Entrances
+  and exits stay quick and quiet
+- **Press feedback is universal:** every tappable control uses the shared
+  `pressable` response (scales down ~3%, dims slightly, springs back). No control
+  may feel dead under the finger
+- **Bottom sheets** present like iOS: spring up from the bottom edge, dim the page,
+  close on tap-outside, Escape, or a downward drag on the grabber — with
+  fling-to-dismiss on velocity. Content scrolls inside the sheet; the page locks
+- **Toasts swipe away** horizontally like system notifications, with fling
+- **Scroll-linked elevation:** fixed chrome gains its shadow only when content
+  actually passes beneath it
+- **Tactile feedback:** committed actions give a short haptic tick (Android today;
+  iOS gets it when the native shell arrives — see platform.md). Successes feel
+  different from warnings. Never on scroll or hover
+- **Keyboard:** forms submit with Enter; fields carry `enterKeyHint`,
+  `autoComplete`, and disable autocorrect where wrong; the keyboard resizes the
+  page (never overlays the buttons)
+- **Glyphs, not text marks:** status symbols (✓, ✗, —, !) are drawn SVG glyphs,
+  never characters — text glyphs shift with every platform font
+- Focus states visible (`:focus-visible` only — never on touch); all motion
+  respects `prefers-reduced-motion` (transforms off, counters render final values)
 - No bounce easing, nothing delays comprehension, no loaders
 
 ## Color discipline

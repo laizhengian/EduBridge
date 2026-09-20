@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Chip, DotTag, SubjectChip } from "@/components/ui";
+import { CheckGlyph, Chip, DotTag, SubjectChip } from "@/components/ui";
+import { Sheet } from "@/components/Sheet";
 import { Toast, type ToastState } from "@/components/Toast";
+import { haptic } from "@/lib/haptics";
 import {
   dayGroupLabel,
   dueLabel,
@@ -46,6 +48,8 @@ export default function HomeworkPage() {
 
   function toggleDone(h: Homework) {
     storeToggle(h.id);
+    if (!h.done) haptic("success");
+    else haptic("light");
     setToast(
       h.done
         ? { message: "Moved back to to do", undo: () => toggleDone({ ...h, done: !h.done }) }
@@ -97,7 +101,7 @@ export default function HomeworkPage() {
         <button
           type="button"
           onClick={exportCsv}
-          className="min-h-[44px] shrink-0 rounded-xl border border-hairline bg-paper px-4 text-sm font-semibold text-accent transition-transform active:scale-[0.97]"
+          className="pressable min-h-[44px] shrink-0 rounded-xl border border-hairline bg-paper px-4 text-sm font-semibold text-accent"
         >
           Export
         </button>
@@ -152,33 +156,46 @@ function Row({
   onToggle: () => void;
 }) {
   const isOverdue = !h.done && new Date(h.dueAt) < new Date();
+  const [open, setOpen] = useState(false);
+
+  function toggle() {
+    haptic(h.done ? "light" : "success");
+    onToggle();
+  }
+
   return (
     <article
-      className={`flex items-start gap-3.5 py-3.5${index > 0 ? " border-t border-hairline" : ""}`}
+      className={`no-callout flex items-start gap-3.5 py-3.5${index > 0 ? " border-t border-hairline" : ""}`}
       style={{ "--i": index } as React.CSSProperties}
     >
       <button
         type="button"
-        onClick={onToggle}
+        onClick={toggle}
         aria-pressed={h.done}
         aria-label={h.done ? "Mark as not done" : "Mark as done"}
-        className={`mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 text-base transition-all active:scale-90 ${
+        className={`pressable mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
           h.done
             ? "border-accent bg-accent text-paper"
-            : "border-stone-300 text-transparent hover:border-accent"
+            : "border-stone-300 hover:border-accent"
         }`}
       >
-        ✓
+        {h.done && <CheckGlyph className="h-5 w-5" />}
       </button>
 
       <div className="min-w-0 flex-1">
-        <p
-          className={`strike text-[15px] font-medium leading-6 ${
+        {/* the title opens the detail sheet — the tick stays the one-tap toggle */}
+        <button
+          type="button"
+          onClick={() => {
+            haptic("light");
+            setOpen(true);
+          }}
+          className={`strike block w-full text-left text-[15px] font-medium leading-6 ${
             h.done ? "struck text-muted" : ""
           }`}
         >
           {h.title}
-        </p>
+        </button>
         <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1">
           <SubjectChip>{h.subject}</SubjectChip>
           <span className="text-xs text-muted">due {dueLabel(h.dueAt)}</span>
@@ -189,6 +206,43 @@ function Row({
         </div>
         {h.note && <p className="mt-0.5 text-xs text-muted">{h.note}</p>}
       </div>
+
+      {/* detail sheet: the full item, plus the same toggle for when you want context */}
+      <Sheet open={open} onClose={() => setOpen(false)} title={h.subject}>
+        <div className="space-y-4 pt-2">
+          <div>
+            <p className="font-display text-lg font-semibold leading-7">{h.title}</p>
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
+              <SubjectChip>{h.subject}</SubjectChip>
+              <span className="text-xs text-muted">due {dueLabel(h.dueAt)}</span>
+              {isOverdue && <DotTag color="red">overdue</DotTag>}
+            </div>
+          </div>
+          <div className="rounded-xl border border-hairline bg-background px-4 py-3 text-sm leading-6">
+            <p>
+              <span className="text-muted">Posted by</span> {h.postedBy}
+            </p>
+            <p className="text-muted">{dayGroupLabel(h.postedAt)}</p>
+            {h.note && (
+              <p className="mt-2 border-t border-hairline pt-2">{h.note}</p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              toggle();
+              setOpen(false);
+            }}
+            className={`pressable min-h-[48px] w-full rounded-xl text-[15px] font-semibold ${
+              h.done
+                ? "border border-hairline bg-paper text-foreground"
+                : "bg-accent text-paper"
+            }`}
+          >
+            {h.done ? "Move back to to do" : "Mark as done"}
+          </button>
+        </div>
+      </Sheet>
     </article>
   );
 }

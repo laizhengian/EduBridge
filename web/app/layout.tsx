@@ -39,6 +39,10 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: "#1d6b4f",
+  // Android: the keyboard resizes the page instead of overlaying it, so the
+  // focused input and the action buttons always stay visible above it.
+  // iOS Safari already behaves this way with the visual viewport.
+  interactiveWidget: "resizes-content",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

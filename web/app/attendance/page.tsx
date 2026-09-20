@@ -4,7 +4,7 @@ import {
   ecaSessions,
   type EcaSession,
 } from "@/lib/mock-data";
-import { DotTag, SectionTitle } from "@/components/ui";
+import { DotTag, SectionTitle, CheckGlyph, CrossGlyph, DashGlyph, ExclaimGlyph } from "@/components/ui";
 
 function shortDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -49,7 +49,7 @@ export default function AttendancePage() {
         style={{ "--i": 1 } as React.CSSProperties}
       >
         <span
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-xl ${
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${
             today.status === "present"
               ? "bg-accent text-paper"
               : today.status === "late"
@@ -58,7 +58,13 @@ export default function AttendancePage() {
           }`}
           aria-hidden
         >
-          {today.status === "present" ? "✓" : today.status === "late" ? "!" : "—"}
+          {today.status === "present" ? (
+            <CheckGlyph className="h-6 w-6" />
+          ) : today.status === "late" ? (
+            <ExclaimGlyph className="h-6 w-6" />
+          ) : (
+            <DashGlyph className="h-6 w-6" />
+          )}
         </span>
         <div>
           <p className="font-display text-lg font-semibold">
@@ -163,14 +169,18 @@ export default function AttendancePage() {
                       className="flex items-center gap-2.5 text-[13px]"
                     >
                       <span
-                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
                           s.attended
                             ? "bg-accent-soft text-accent-strong"
                             : "bg-danger-soft text-danger"
                         }`}
                         aria-hidden
                       >
-                        {s.attended ? "✓" : "✗"}
+                        {s.attended ? (
+                          <CheckGlyph className="h-4 w-4" />
+                        ) : (
+                          <CrossGlyph className="h-4 w-4" />
+                        )}
                       </span>
                       <span className="text-muted">{shortDate(s.date)}</span>
                       {s.note && (

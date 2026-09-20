@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
-import { competitions, galleryAlbums } from "@/lib/mock-data";
+import { competitions, galleryAlbums, type GalleryAlbum } from "@/lib/mock-data";
+import { Sheet } from "@/components/Sheet";
 import { PlayIcon } from "@/components/ui";
+import { haptic } from "@/lib/haptics";
 
 function monthYear(iso: string): string {
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -24,45 +29,8 @@ export default function LifePage() {
       <section className="rise mt-6" style={{ "--i": 1 } as React.CSSProperties}>
         <h2 className="font-display text-[17px] font-semibold">Photo galleries</h2>
         <div className="mt-3 grid gap-3.5 md:grid-cols-3">
-          {galleryAlbums.map((album) => (
-            <details
-              key={album.id}
-              className="overflow-hidden rounded-xl border border-hairline bg-paper"
-            >
-              <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <Image
-                  src={album.cover}
-                  alt={album.photos[0]?.alt ?? album.title}
-                  width={640}
-                  height={320}
-                  sizes="(min-width: 896px) 340px, calc(100vw - 40px)"
-                  className="h-40 w-full object-cover"
-                />
-                <span className="block p-3.5">
-                  <span className="font-display text-[15px] font-semibold">
-                    {album.title}
-                  </span>
-                  <span className="mt-0.5 block text-xs text-muted">
-                    {monthYear(album.date)} · {album.photos.length}{" "}
-                    {album.photos.length === 1 ? "photo" : "photos"} — tap to
-                    open
-                  </span>
-                </span>
-              </summary>
-              <div className="grid grid-cols-2 gap-2 border-t border-hairline p-2.5">
-                {album.photos.map((p) => (
-                  <Image
-                    key={p.src}
-                    src={p.src}
-                    alt={p.alt}
-                    width={320}
-                    height={224}
-                    sizes="(min-width: 896px) 160px, 40vw"
-                    className="h-28 w-full rounded-lg object-cover"
-                  />
-                ))}
-              </div>
-            </details>
+          {galleryAlbums.map((album, i) => (
+            <AlbumCard key={album.id} album={album} first={i === 0} />
           ))}
         </div>
       </section>
@@ -103,7 +71,7 @@ export default function LifePage() {
                     href={c.videoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-2 inline-flex min-h-[36px] items-center gap-1.5 text-sm font-semibold text-accent"
+                    className="pressable mt-2 inline-flex min-h-[36px] items-center gap-1.5 text-sm font-semibold text-accent"
                   >
                     <PlayIcon className="h-4 w-4" /> Watch highlights
                   </a>
@@ -124,5 +92,64 @@ export default function LifePage() {
         replace them, and videos are linked by the school when ready.
       </p>
     </div>
+  );
+}
+
+/** The album cover taps open a bottom sheet — like Photos on a phone —
+    which drags down to close. No page jump, no expanding layout. */
+function AlbumCard({ album, first }: { album: GalleryAlbum; first: boolean }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          haptic("light");
+          setOpen(true);
+        }}
+        className="pressable block overflow-hidden rounded-xl border border-hairline bg-paper text-left"
+        aria-haspopup="dialog"
+      >
+        <Image
+          src={album.cover}
+          alt={album.photos[0]?.alt ?? album.title}
+          width={640}
+          height={320}
+          sizes="(min-width: 896px) 340px, calc(100vw - 40px)"
+          priority={first}
+          className="h-40 w-full object-cover"
+        />
+        <span className="block p-3.5">
+          <span className="font-display text-[15px] font-semibold">
+            {album.title}
+          </span>
+          <span className="mt-0.5 block text-xs text-muted">
+            {monthYear(album.date)} · {album.photos.length}{" "}
+            {album.photos.length === 1 ? "photo" : "photos"} — tap to open
+          </span>
+        </span>
+      </button>
+
+      <Sheet open={open} onClose={() => setOpen(false)} title={album.title}>
+        <p className="pb-2 text-xs text-muted">
+          {monthYear(album.date)} · {album.photos.length}{" "}
+          {album.photos.length === 1 ? "photo" : "photos"}
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {album.photos.map((p) => (
+            <Image
+              key={p.src}
+              src={p.src}
+              alt={p.alt}
+              width={320}
+              height={224}
+              sizes="(min-width: 896px) 340px, 42vw"
+              className="h-32 w-full rounded-lg object-cover"
+            />
+          ))}
+        </div>
+      </Sheet>
+    </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Chip, CloseIcon, PaperclipIcon, SectionTitle } from "@/components/ui";
+import { haptic } from "@/lib/haptics";
 
 const REASONS = ["Sick", "Family matter", "Appointment", "Other"];
 
@@ -21,9 +22,11 @@ export default function AbsencePage() {
   }
 
   function send() {
+    haptic("medium");
     setSending(true);
     // Design preview: pretend to upload, then confirm.
     window.setTimeout(() => {
+      haptic("success");
       setSending(false);
       setSent(true);
     }, 900);
@@ -48,7 +51,7 @@ export default function AbsencePage() {
             setDetail("");
             setPhoto(null);
           }}
-          className="mt-6 min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper transition-transform active:scale-[0.99]"
+          className="pressable mt-6 min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
         >
           Done
         </button>
@@ -111,7 +114,7 @@ export default function AbsencePage() {
               </div>
             </div>
           ) : (
-            <label className="mt-2.5 flex min-h-[56px] cursor-pointer items-center gap-3 rounded-xl border border-dashed border-stone-300 bg-paper px-4 text-[15px] font-medium text-accent transition-transform active:scale-[0.99]">
+            <label className="pressable mt-2.5 flex min-h-[56px] cursor-pointer items-center gap-3 rounded-xl border border-dashed border-stone-300 bg-paper px-4 text-[15px] font-medium text-accent">
               <PaperclipIcon className="h-5 w-5" />
               Take or choose a photo
               <input
@@ -140,7 +143,7 @@ export default function AbsencePage() {
           type="button"
           disabled={!valid || sending}
           onClick={send}
-          className="min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper transition-transform active:scale-[0.99] disabled:opacity-40"
+          className="pressable min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
         >
           {sending ? "Sending…" : "Send note"}
         </button>
