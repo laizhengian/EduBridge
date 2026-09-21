@@ -190,7 +190,7 @@ export function Chip({
         haptic("light");
         onClick();
       }}
-      className={`pressable min-h-[44px] rounded-full px-4 text-sm font-semibold ${
+      className={`pressable min-h-[38px] rounded-full px-3.5 text-sm font-semibold ${
         active
           ? "bg-accent text-white"
           : "border border-hairline bg-paper text-muted hover:border-stone-300 hover:text-foreground"

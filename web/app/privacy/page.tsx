@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ShieldIcon } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Privacy & terms",
@@ -9,10 +8,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl pb-6">
       <header className="rise">
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent">
-          <ShieldIcon className="h-5.5 w-5.5" />
-        </span>
-        <h1 className="mt-3 font-display text-2xl font-semibold tracking-tight md:text-3xl">
+        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Privacy &amp; terms
         </h1>
         <p className="mt-1 text-[15px] text-muted">
@@ -95,22 +91,20 @@ export default function PrivacyPage() {
           If something goes wrong
         </h2>
         <p className="mt-2 text-[15px] leading-7 text-muted">
-          Talk to us first — we sort things out directly.
-        </p>
-        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+          Talk to us first — we sort things out directly. If the trouble is
+          with the app itself, message Ian:{" "}
           <a
             href="mailto:zhengianlai@gmail.com"
-            className="pressable min-h-[44px] rounded-xl border border-hairline bg-background px-4 py-2.5 text-sm font-semibold text-accent"
+            className="font-semibold text-accent"
           >
-            zhengianlai@gmail.com
-          </a>
-          <a
-            href="tel:+601154043298"
-            className="pressable min-h-[44px] rounded-xl border border-hairline bg-background px-4 py-2.5 text-sm font-semibold text-accent"
-          >
+            email
+          </a>{" "}
+          or{" "}
+          <a href="tel:+601154043298" className="font-semibold text-accent">
             +60 11-5404 3298
           </a>
-        </div>
+          .
+        </p>
       </section>
 
       <p className="rise mt-4 text-xs text-muted">

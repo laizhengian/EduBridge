@@ -141,13 +141,13 @@ function Row({
         onClick={toggle}
         aria-pressed={h.done}
         aria-label={h.done ? "Mark as not done" : "Mark as done"}
-        className={`pressable mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
+        className={`pressable relative mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 transition-all after:absolute after:-inset-2 after:rounded-full after:content-[''] ${
           h.done
             ? "border-accent bg-accent text-paper"
             : "border-stone-300 hover:border-accent"
         }`}
       >
-        {h.done && <CheckGlyph className="h-5 w-5" />}
+        {h.done && <CheckGlyph className="h-4 w-4" />}
       </button>
 
       <div className="min-w-0 flex-1">
@@ -201,7 +201,7 @@ function Row({
               toggle();
               setOpen(false);
             }}
-            className={`pressable min-h-[48px] w-full rounded-xl text-[15px] font-semibold ${
+            className={`pressable min-h-[44px] w-full rounded-xl text-sm font-semibold ${
               h.done
                 ? "border border-hairline bg-paper text-foreground"
                 : "bg-accent text-paper"

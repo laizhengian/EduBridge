@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { DotTag, SectionTitle, ArrowRightIcon } from "@/components/ui";
 import {
   circulars,
@@ -29,16 +28,16 @@ function Box({
 }
 
 export default function TodayPage() {
-  const router = useRouter();
+  // Signing in is optional in the preview: without a profile the page still
+  // shows everything, just without the personal class line. The welcome flow
+  // is there when you want it — never a locked door.
   const [profile, setProfile] = useState<Profile | null>(null);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    const p = loadProfile();
-    if (!p) router.replace("/welcome");
-    setProfile(p);
+    setProfile(loadProfile());
     setChecked(true);
-  }, [router]);
+  }, []);
 
   const now = new Date();
   const openCount = homeworkSeed.filter((h) => !h.done).length;

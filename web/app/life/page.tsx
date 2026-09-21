@@ -105,12 +105,7 @@ export default function LifePage() {
               key={v.id}
               className="flex items-center gap-3.5 rounded-xl border border-hairline bg-paper p-4"
             >
-              <span
-                aria-hidden
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent"
-              >
-                <PlayIcon className="h-5 w-5" />
-              </span>
+              <PlayIcon className="h-5 w-5 shrink-0 text-accent" aria-hidden />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[15px] font-semibold leading-6">
                   {v.title}
@@ -144,13 +139,10 @@ export default function LifePage() {
         <h2 className="font-display text-[17px] font-semibold">The campus</h2>
         <div className="mt-3 grid gap-3.5 md:grid-cols-3">
           <div className="rounded-xl border border-hairline bg-paper p-4">
-            <span
-              aria-hidden
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-accent-soft text-accent"
-            >
-              <MapPinIcon className="h-4.5 w-4.5" />
-            </span>
-            <h3 className="mt-2.5 font-display text-[15px] font-semibold">Find us</h3>
+            <h3 className="flex items-center gap-1.5 font-display text-[15px] font-semibold">
+              <MapPinIcon className="h-4 w-4 text-accent" aria-hidden />
+              Find us
+            </h3>
             <p className="mt-1 text-sm leading-6 text-muted">{campusInfo.address}</p>
             <a
               href={campusInfo.mapsUrl}
@@ -162,13 +154,10 @@ export default function LifePage() {
             </a>
           </div>
           <div className="rounded-xl border border-hairline bg-paper p-4">
-            <span
-              aria-hidden
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-accent-soft text-accent"
-            >
-              <ClockIcon className="h-4.5 w-4.5" />
-            </span>
-            <h3 className="mt-2.5 font-display text-[15px] font-semibold">A school day</h3>
+            <h3 className="flex items-center gap-1.5 font-display text-[15px] font-semibold">
+              <ClockIcon className="h-4 w-4 text-accent" aria-hidden />
+              A school day
+            </h3>
             <p className="mt-1 text-sm leading-6 text-muted">{campusInfo.gates}</p>
             <p className="mt-1.5 text-sm leading-6 text-muted">
               Office: {campusInfo.officeHours}

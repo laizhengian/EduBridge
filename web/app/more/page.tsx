@@ -3,7 +3,6 @@ import {
   BookOpenIcon,
   CalendarCheckIcon,
   CalendarPlusIcon,
-  EnvelopeIcon,
   ImagesIcon,
   MegaphoneIcon,
   MessageIcon,
@@ -105,41 +104,7 @@ export default function MorePage() {
         />
         <CalendarTile />
       </Group>
-
-      <ContactCard />
     </div>
-  );
-}
-
-/** Quiet, out of the way — the app's builder, reachable if something's wrong. */
-function ContactCard() {
-  return (
-    <section className="rise mt-8 pb-2">
-      <div className="rounded-xl border border-hairline bg-paper p-4">
-        <p className="text-[13px] font-semibold text-foreground">
-          Any issues with the app?
-        </p>
-        <p className="mt-1 text-xs leading-5 text-muted">
-          Message Ian — bugs, ideas, or anything confusing.
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <a
-            href="mailto:zhengianlai@gmail.com"
-            className="pressable inline-flex min-h-[40px] items-center gap-2 rounded-full border border-hairline bg-background px-3.5 text-xs font-semibold text-accent"
-          >
-            <EnvelopeIcon className="h-4 w-4" />
-            Email
-          </a>
-          <a
-            href="tel:+601154043298"
-            className="pressable inline-flex min-h-[40px] items-center gap-2 rounded-full border border-hairline bg-background px-3.5 text-xs font-semibold text-accent"
-          >
-            <PhoneIcon className="h-4 w-4" />
-            Call or WhatsApp
-          </a>
-        </div>
-      </div>
-    </section>
   );
 }
 
