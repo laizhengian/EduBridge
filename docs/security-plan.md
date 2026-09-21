@@ -81,6 +81,8 @@ Done while the app still runs on sample data, so it is correct before real users
 ## Phase B — when the real backend lands (Supabase)
 
 This is the "real users" gate. Nothing goes live until every line here is true.
+The full recipes — RLS SQL, auth vendor decision, caching, job queue, load ladder —
+live in [production-hardening.md](production-hardening.md).
 
 - [ ] **Accounts:** Supabase Auth — Google sign-in restricted to the school email
       domain, plus issued-username/password for younger students

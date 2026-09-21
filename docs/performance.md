@@ -45,7 +45,9 @@ backend exists (backend work was explicitly deferred by the product owner).
 
 **Rule:** optimize against the real database and real usage data, not before.
 Front-end speed work without a backend is done; the next performance work
-happens the week the first real table is queried.
+happens the week the first real table is queried. The backend-side map —
+what to cache per content type, which indexes ship with which table — is
+[production-hardening.md](production-hardening.md) §4.
 
 ## How to check
 

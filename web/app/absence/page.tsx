@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Chip, CloseIcon, PaperclipIcon, SectionTitle } from "@/components/ui";
 import { haptic } from "@/lib/haptics";
+import { absenceNoteSchema, firstIssue } from "@/lib/validation";
 
 const REASONS = ["Sick", "Family matter", "Appointment", "Other"];
 
@@ -18,10 +19,28 @@ export default function AbsencePage() {
 
   function attach(f: File | undefined) {
     if (!f) return;
+    // Same 10 MB cap the server will enforce — fail here, not after upload.
+    if (f.size > 10 * 1024 * 1024) {
+      window.alert("Photos are capped at 10 MB — please choose a smaller one.");
+      return;
+    }
     setPhoto({ name: f.name, url: URL.createObjectURL(f) });
   }
 
   function send() {
+    // Validate against the schema the server will also run — the rules users
+    // see are the rules that will actually be enforced.
+    const parsed = absenceNoteSchema.safeParse({
+      reason,
+      when,
+      detail,
+      photo: photo ? { name: photo.name, sizeBytes: 0 } : null,
+    });
+    if (!parsed.success) {
+      haptic("warning");
+      window.alert(firstIssue(parsed.error));
+      return;
+    }
     haptic("medium");
     setSending(true);
     // Design preview: pretend to upload, then confirm.

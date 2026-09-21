@@ -56,6 +56,7 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 | [`docs/platform.md`](docs/platform.md) | iOS compatibility and the Expo/React Native decision |
 | [`docs/hosting.md`](docs/hosting.md) | What the backend will actually cost — Vercel/Supabase free tiers, risks, and decision rules |
 | [`docs/performance.md`](docs/performance.md) | What's already fast, what's staged for the backend |
+| [`docs/production-hardening.md`](docs/production-hardening.md) | Rate limiting (live), RLS recipes, auth decision, caching, async jobs, secrets gate, load testing |
 | [`docs/running-the-app.md`](docs/running-the-app.md) | Step-by-step guide to running the app in development |
 | [`docs/clobas-teardown/`](docs/clobas-teardown/) | Section-by-section teardown of the old portal, with evidence |
 

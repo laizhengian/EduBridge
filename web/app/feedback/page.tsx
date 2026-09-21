@@ -11,6 +11,7 @@ import {
 import { Chip, DotTag, SectionTitle } from "@/components/ui";
 import { Toast, type ToastState } from "@/components/Toast";
 import { haptic } from "@/lib/haptics";
+import { feedbackSchema, firstIssue } from "@/lib/validation";
 
 const STORE_KEY = "edubridge:feedback";
 
@@ -31,15 +32,17 @@ export default function FeedbackPage() {
   }, []);
 
   function send() {
-    if (message.trim().length < 4) {
+    // Same schema the server will enforce when the backend lands.
+    const parsed = feedbackSchema.safeParse({ kind, message, name });
+    if (!parsed.success) {
       haptic("warning");
-      setToast({ message: "Write a little more so the office can act on it." });
+      setToast({ message: firstIssue(parsed.error) });
       return;
     }
     const entry: FeedbackEntry = {
       id: `mine-${Date.now()}`,
-      kind,
-      message: message.trim(),
+      kind: parsed.data.kind,
+      message: parsed.data.message,
       sentAt: new Date().toISOString(),
       status: "received",
     };

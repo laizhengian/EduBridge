@@ -75,6 +75,9 @@ now means the teacher app has data to post into on day one.
 - **The API the future apps share:** the teacher app, admin app and any mobile
   app will call the same database and rules — there is nothing "extra" to build
   per app, which is the whole point of one vault
+- **Hardening recipes pre-written:** RLS SQL, auth flow, caching, async job
+  queue, secrets gate, load-test ladder —
+  [production-hardening.md](production-hardening.md)
 
 **Gate:** the adversarial security tests pass before any real user signs in.
 
