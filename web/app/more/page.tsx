@@ -1,14 +1,16 @@
 import Link from "next/link";
 import {
+  BookOpenIcon,
+  CalendarCheckIcon,
   CalendarPlusIcon,
-  CheckIcon,
   EnvelopeIcon,
   ImagesIcon,
   MegaphoneIcon,
   MessageIcon,
-  NoteIcon,
+  PenLineIcon,
   PhoneIcon,
   QuestionIcon,
+  ScrollTextIcon,
   ShieldIcon,
   SunIcon,
   TrophyIcon,
@@ -33,7 +35,7 @@ export default function MorePage() {
           href="/attendance"
           title="My attendance"
           desc="Days in, late, and away — excused counted separately"
-          Icon={CheckIcon}
+          Icon={CalendarCheckIcon}
         />
         <Tile
           href="/results"
@@ -45,7 +47,7 @@ export default function MorePage() {
           href="/absence"
           title="Tell the school I'm away"
           desc="Send a quick absence note to your teacher"
-          Icon={EnvelopeIcon}
+          Icon={PenLineIcon}
         />
       </Group>
 
@@ -57,7 +59,7 @@ export default function MorePage() {
           href="/circulars"
           title="Circulars"
           desc="Announcements from the school office"
-          Icon={NoteIcon}
+          Icon={ScrollTextIcon}
         />
         <Tile
           href="/holidays"
@@ -82,7 +84,7 @@ export default function MorePage() {
         />
       </Group>
 
-      <Group icon={<PhoneIcon className="h-4.5 w-4.5" />} title="Reference" last>
+      <Group icon={<BookOpenIcon className="h-4.5 w-4.5" />} title="Reference" last>
         <Tile
           href="/hotlines"
           title="Hotlines"
@@ -103,7 +105,41 @@ export default function MorePage() {
         />
         <CalendarTile />
       </Group>
+
+      <ContactCard />
     </div>
+  );
+}
+
+/** Quiet, out of the way — the app's builder, reachable if something's wrong. */
+function ContactCard() {
+  return (
+    <section className="rise mt-8 pb-2">
+      <div className="rounded-xl border border-hairline bg-paper p-4">
+        <p className="text-[13px] font-semibold text-foreground">
+          Any issues with the app?
+        </p>
+        <p className="mt-1 text-xs leading-5 text-muted">
+          Message Ian — bugs, ideas, or anything confusing.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <a
+            href="mailto:zhengianlai@gmail.com"
+            className="pressable inline-flex min-h-[40px] items-center gap-2 rounded-full border border-hairline bg-background px-3.5 text-xs font-semibold text-accent"
+          >
+            <EnvelopeIcon className="h-4 w-4" />
+            Email
+          </a>
+          <a
+            href="tel:+601154043298"
+            className="pressable inline-flex min-h-[40px] items-center gap-2 rounded-full border border-hairline bg-background px-3.5 text-xs font-semibold text-accent"
+          >
+            <PhoneIcon className="h-4 w-4" />
+            Call or WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 

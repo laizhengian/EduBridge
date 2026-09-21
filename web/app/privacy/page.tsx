@@ -6,7 +6,6 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const updated = "19 September 2026";
   return (
     <div className="mx-auto max-w-3xl pb-6">
       <header className="rise">
@@ -25,11 +24,15 @@ export default function PrivacyPage() {
         className="rise mt-6 rounded-xl border border-hairline bg-paper p-5"
         style={{ "--i": 1 } as React.CSSProperties}
       >
-        <p className="text-[15px] leading-7">
-          EduBridge is a school tool for Oakbridge families. It shows homework,
-          the timetable, school events and announcements from the office. This
-          page tells you what it stores and the few rules of using it, written
-          to be read, not skimmed.
+        <h2 className="font-display text-[17px] font-semibold">
+          What this app stores
+        </h2>
+        <p className="mt-2 text-[15px] leading-7 text-muted">
+          Almost nothing, and only on your own device. Your sign-in name, your
+          class, and the homework you mark as done stay in this browser. Right
+          now there is no server to send anything to. When the school version
+          arrives, class homework and announcements will live on the school's
+          own database — this page will be updated before that happens.
         </p>
       </section>
 
@@ -38,19 +41,13 @@ export default function PrivacyPage() {
         style={{ "--i": 2 } as React.CSSProperties}
       >
         <h2 className="font-display text-[17px] font-semibold">
-          What this app stores
+          The absence note and your photo
         </h2>
         <p className="mt-2 text-[15px] leading-7 text-muted">
-          Almost nothing, and only on your own device. Your sign-in name and
-          your class stay in this browser. The list of homework you mark as
-          done stays in this browser too. Nothing is sent anywhere: right now
-          the app has no server to send it to.
-        </p>
-        <p className="mt-2 text-[15px] leading-7 text-muted">
-          When the school version arrives, this will change in one way: your
-          class's homework and the school's announcements will be kept on the
-          school's database so every family sees the same things. We will
-          update this page before that happens.
+          A photo you attach to an absence note, such as a medical certificate,
+          never leaves your device in this preview. In the school version it
+          goes only to your class teacher and the office, and is deleted once
+          the absence is dealt with.
         </p>
       </section>
 
@@ -59,50 +56,22 @@ export default function PrivacyPage() {
         style={{ "--i": 3 } as React.CSSProperties}
       >
         <h2 className="font-display text-[17px] font-semibold">
-          The absence note and your photo
-        </h2>
-        <p className="mt-2 text-[15px] leading-7 text-muted">
-          When you send an absence note you may attach a photo, for example a
-          medical certificate. In this preview the photo never leaves your
-          device — there is no server to receive it. In the school version the
-          photo goes only to your class teacher and the office, and it is
-          deleted after the school has dealt with the absence.
-        </p>
-      </section>
-
-      <section
-        className="rise mt-4 rounded-xl border border-hairline bg-paper p-5"
-        style={{ "--i": 4 } as React.CSSProperties}
-      >
-        <h2 className="font-display text-[17px] font-semibold">
           What we do not do
         </h2>
         <p className="mt-2 text-[15px] leading-7 text-muted">
-          No advertising. No tracking. No selling data, ever. The app does not
-          follow you to other websites or apps.
+          No advertising. No tracking. No selling data, ever.
         </p>
-      </section>
-
-      <section
-        className="rise mt-4 rounded-xl border border-hairline bg-paper p-5"
-        style={{ "--i": 5 } as React.CSSProperties}
-      >
-        <h2 className="font-display text-[17px] font-semibold">
-          Children's information
-        </h2>
         <p className="mt-2 text-[15px] leading-7 text-muted">
-          This app is built for schoolchildren and their parents. That sets a
-          high bar: we collect the minimum needed to run the school day — a
-          name, a class, and the work the school itself assigns. Parents see
-          their own child's information, and the school — not any company —
-          stays in control of the records.
+          This app is built for schoolchildren and their parents, so it
+          collects the minimum: a name, a class, and the work the school
+          assigns. Parents see their own child's information only.
         </p>
       </section>
 
       <section
         id="terms"
         className="rise mt-4 scroll-mt-6 rounded-xl border border-hairline bg-paper p-5"
-        style={{ "--i": 6 } as React.CSSProperties}
+        style={{ "--i": 4 } as React.CSSProperties}
       >
         <h2 className="font-display text-[17px] font-semibold">
           The few rules of using it
@@ -120,21 +89,32 @@ export default function PrivacyPage() {
 
       <section
         className="rise mt-4 rounded-xl border border-hairline bg-paper p-5"
-        style={{ "--i": 7 } as React.CSSProperties}
+        style={{ "--i": 5 } as React.CSSProperties}
       >
         <h2 className="font-display text-[17px] font-semibold">
           If something goes wrong
         </h2>
         <p className="mt-2 text-[15px] leading-7 text-muted">
-          Talk to us first. Write to the school office and mention EduBridge,
-          and we will sort it out with you directly.
+          Talk to us first — we sort things out directly.
         </p>
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+          <a
+            href="mailto:zhengianlai@gmail.com"
+            className="pressable min-h-[44px] rounded-xl border border-hairline bg-background px-4 py-2.5 text-sm font-semibold text-accent"
+          >
+            zhengianlai@gmail.com
+          </a>
+          <a
+            href="tel:+601154043298"
+            className="pressable min-h-[44px] rounded-xl border border-hairline bg-background px-4 py-2.5 text-sm font-semibold text-accent"
+          >
+            +60 11-5404 3298
+          </a>
+        </div>
       </section>
 
       <p className="rise mt-4 text-xs text-muted">
-        Written in simple English on purpose. It is not a lawyer's document and
-        not legal advice; the school's official policies come first. Last
-        updated {updated}.
+        Last updated 19 September 2026.
       </p>
     </div>
   );

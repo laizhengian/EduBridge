@@ -1,6 +1,8 @@
 import { haptic } from "@/lib/haptics";
 import {
   ArrowRight,
+  BookOpen,
+  CalendarCheck,
   CalendarDays,
   CalendarPlus,
   Check,
@@ -20,8 +22,10 @@ import {
   Megaphone,
   Minus,
   Paperclip,
+  PenLine,
   Phone,
   Plus,
+  ScrollText,
   Send,
   ShieldCheck,
   Sun,
@@ -62,6 +66,10 @@ export {
   ArrowRight as ArrowRightIcon,
   CalendarPlus as CalendarPlusIcon,
   ChevronRight as ChevronIcon,
+  BookOpen as BookOpenIcon,
+  CalendarCheck as CalendarCheckIcon,
+  PenLine as PenLineIcon,
+  ScrollText as ScrollTextIcon,
 } from "lucide-react";
 
 export function CloseIcon(p: IconProps) {
