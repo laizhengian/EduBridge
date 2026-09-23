@@ -49,6 +49,8 @@ fast on cheap hardware, usable by an 8-year-old or a grandparent.
 | [`docs/goals.md`](docs/goals.md) | The four goals and ten principles every feature must serve |
 | [`docs/plan.md`](docs/plan.md) | Locked decisions and build order |
 | [`docs/roadmap.md`](docs/roadmap.md) | From here to school-wide: interviews, the three apps, one vault, and real costs |
+| [`docs/backend-plan.md`](docs/backend-plan.md) | The database schema, RLS rules, caching and job design — derived from the teacher interviews |
+| [`docs/maintenance.md`](docs/maintenance.md) | Who fixes, updates and pays for the app after launch — the runbook and the licence plan |
 | [`docs/features.md`](docs/features.md) | Every feature, tied to the problem it solves |
 | [`docs/design.md`](docs/design.md) | The design constitution: fonts with jobs, the 8–60 rule |
 | [`docs/how-its-built.md`](docs/how-its-built.md) | The tech stack explained with zero jargon |

@@ -1,5 +1,17 @@
 // Mock data for the design preview. The shapes intentionally mirror the
 // future Supabase tables so real data can replace this file later.
+//
+// School identity lives in ONE place (below) so the app can be handed to any
+// school without hunting through screens for someone else's name.
+
+/** The single source of school identity for the whole app. Every screen reads
+    this — no school name, address, or domain is ever hardcoded elsewhere. */
+export const school = {
+  name: "Hillcrest School", // placeholder — set per deployment (env/config)
+  domain: "school.edu.my", // the only domain school sign-ins accept
+  address: "12 Hillcrest Road, 46150 Petaling Jaya",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hillcrest+School",
+} as const;
 
 export type Homework = {
   id: string;
@@ -498,10 +510,10 @@ export type Hotline = {
 };
 
 export const hotlines: Hotline[] = [
-  { name: "School office", role: "General enquiries, absence messages", phone: "03-5551 0100", hours: "Mon–Fri 7:30–16:30" },
-  { name: "Health room", role: "Sick bay, medication drop-off", phone: "03-5551 0114", hours: "Mon–Fri 8:00–15:30" },
-  { name: "Security gate", role: "Late arrival, early pickup", phone: "03-5551 0199", hours: "Daily 6:30–18:30" },
-  { name: "Bus coordinator", role: "Routes, delays, lost items", phone: "03-5551 0152", hours: "Mon–Fri 6:30–17:00" },
+  { name: "School office", role: "General enquiries, absence messages", phone: "03-5550 0100", hours: "Mon–Fri 7:30–16:30" },
+  { name: "Health room", role: "Sick bay, medication drop-off", phone: "03-5550 0114", hours: "Mon–Fri 8:00–15:30" },
+  { name: "Security gate", role: "Late arrival, early pickup", phone: "03-5550 0199", hours: "Daily 6:30–18:30" },
+  { name: "Bus coordinator", role: "Routes, delays, lost items", phone: "03-5550 0152", hours: "Mon–Fri 6:30–17:00" },
 ];
 
 /* ---- Student feedback ---------------------------------------------------- */
@@ -547,9 +559,8 @@ export const feedbackSeed: FeedbackEntry[] = [
 /* ---- Campus info ---------------------------------------------------------- */
 
 export const campusInfo = {
-  address: "12 Persiaran Akademik, 47810 Petaling Jaya, Selangor",
-  mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Oakbridge+International+School+Petaling+Jaya",
+  address: school.address,
+  mapsUrl: school.mapsUrl,
   officeHours: "Mon–Fri 7:30–16:30 · Sat 8:00–12:30 (activity days only)",
   gates: "Gates open 6:45 · Classes start 7:55 · Dismissal 15:15 (15:00 Wed)",
   facilities: [

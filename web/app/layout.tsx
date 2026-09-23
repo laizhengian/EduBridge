@@ -19,7 +19,7 @@ const publicSans = Public_Sans({
 export const metadata: Metadata = {
   title: "EduBridge",
   description:
-    "Homework, timetable and school announcements for Oakbridge students and families.",
+    "Homework, timetable and school announcements for students and families.",
   // iOS: "Add to Home Screen" installs as a standalone app (no Safari chrome).
   // "default" keeps dark status-bar text over our light paper background.
   appleWebApp: {

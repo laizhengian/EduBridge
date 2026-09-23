@@ -227,9 +227,109 @@ closes — but every response so far names the same problems, unprompted.*
 | **"Difficult to navigate"** | No sense of where things live | The Hub groups 10 destinations into 4 need-based groups; the tab bar carries the 4 things used daily |
 | **"Too many clicks to get anywhere"** | e.g. reaching the news takes ~5 taps | News/circulars sit on the home screen itself (Today opens with them); everything in the Hub is exactly one tap deep |
 
-*Full survey results to be appended when the poll closes — this section
+*Full student survey results to be appended when the poll closes — this section
 exists so the requirement (fast, one-tap, obvious) is on record before the
 redesign decisions are finalized.*
+
+## 20. Teacher interviews — September 2026 (five teachers)
+
+*Five teachers, interviewed one-on-one. Questions in order: how often they use
+the portal, what they use it for, problems, and what they'd change. Recorded
+verbatim-first, with judgement applied separately — see "far-fetched" notes.*
+
+| Teacher | Uses the portal | Uses it for | Problems | Suggestions |
+| --- | --- | --- | --- | --- |
+| **Nabishah** | once a day | post results; give student comments | none | none |
+| **Akram** | a couple of times a day | attendance; replying to feedback | homework posting takes too many steps | merit & demerit system; nothing that requires typing a lot; "just go: demerit this, demerit that"; see when students are doing well or badly |
+| **Nisha** | ~5 times a day | results; homework tracker; notifications | slow; doesn't update with the latest information; **marks sometimes don't save — teachers re-enter them**; heavy network use | attendance sheet must improve; wants a **template that auto-fills — just post it, don't type it**; student-feedback areas shouldn't need much typing |
+| **Puvi** | at least twice a day | general notices; reporting students | homework tracking "not well thought of"; **mid-term marks must be manually calculated before entry**; homework and marks are separate modules here but the same thing in STEM; slow (database); UI/UX unthought-of | "no new features needed — think of a proper system for the existing features"; parents report being **flooded with notifications** |
+| **Deborah** | up to 5 times a day | attendance and feedback | dislikes ticking online — a small dropdown per student to log attendance; wants far more automation | homework tracking like Google Classroom (e.g. "resubmit"); attendance **sometimes won't load**; an after-hours auto-reply instead of texting into the void; a **"teacher, please take attendance" reminder**; can't post several notes at once |
+| **Annie** | many times a day | homework, attendance, feedback, updating homework, parental notices | very slow; slow to update homework completion; **report card must fit one printed page and layout can't be controlled**; web version needs many buttons for simple things; **"late" is recorded as "absent"**; report-card thresholds/calculator inflexible; feedback invisible if the wrong class is selected; **marks can't be imported — everything typed by hand**; wants useless features gone | wants **student ranking by marks**; Excel/mark-import |
+
+### What the interviews actually say (judgement applied)
+
+1. **The teacher side is the product's other half, and its complaint is one
+   thing: input cost.** Four of five teachers independently describe the same
+   flaw — every action (attendance, marks, homework) is typed or re-typed.
+   Nisha's "a template that automatically has all the info — I just post it"
+   and Akram's "demerit this, demerit that" are the same requirement: **the app
+   fills the form; the teacher confirms it.** Every teacher-app screen must be
+   built to that standard.
+
+2. **Data loss is the trust-killer, and it is #1.** Marks that don't save
+   (Nisha), attendance that won't load (Deborah), completion updates that lag
+   (Annie) — the portal loses *teacher* data, not just student patience. The
+   backend therefore needs: optimistic writes that visibly confirm, an autosave
+   draft for mark entry, and a server-authoritative save with an explicit
+   "saved" state. A teacher must never re-enter anything.
+
+3. **Marks are one pipeline, not two modules.** Puvi (homework and marks are
+   the same thing in STEM) and Annie (manual mid-term calculation) point at the
+   same design: **assessment items feed the report automatically** — homework
+   scores, test scores and continuous marks land in one marks table; the report
+   card and mid-term aggregates are computed by the system, never keyed in.
+
+4. **"Late" is not "absent."** Annie's finding is a data-correctness bug with
+   real consequences for a child's record. The attendance model needs four
+   states (present / late / excused / absent) from day one — the student side
+   already shows excused separately; the teacher side must record them.
+
+5. **Notification flood is a real, named risk.** Puvi: parents get flooded.
+   The rule for the backend: notifications are **digest-first** — one daily
+   digest by default, instant only for absences and urgent circulars, and every
+   category opt-out-able. Never one push per event.
+
+6. **Ranking and merit/demerit are the only "new feature" asks — and both are
+   honest.** Ranking by marks (Annie) is standard school practice; it must be
+   **opt-in per exam by the school** and cohort-relative (rank within class),
+   never a public leaderboard. Merit/demerit (Akram) fits only as a
+   one-tap-per-event log with a weekly roll-up — no typing, no gamification of
+   students (the student app never shows a scoreboard; class teachers and
+   parents see the record).
+
+7. **Far-fetched, rejected or deferred with reasons:**
+   - "Nothing that requires typing a lot" taken to its extreme would mean
+     gesture-only data entry — not buildable reliably; the honest version is
+     chips + defaults + auto-fill, which we can deliver.
+   - Deborah's "automated after-hours answers" (a bot replying to messages) is
+     **rejected** — an auto-reply from a school risks wrong information to a
+     worried parent. The honest fix: office-hours shown on every contact, and
+     absence notes arriving in a queue that's answered first thing.
+   - "Report card must print on one page with controllable layout" is real but
+     is a **template-engineering problem deferred to the admin stage** — the
+     data model (one marks table, computed aggregates) is what makes it
+     possible, so that part is designed now.
+   - Excel import of marks (Annie): worth building as CSV paste-in later, but
+     if mark entry is one grid with auto-save and auto-aggregation, the import
+     pressure mostly disappears. Deferred behind the teacher-app grid.
+
+8. **What this justifies building next** (each traces to a named teacher):
+   - **Tap-the-row attendance** with four states and a roster that auto-fills
+     (Deborah, Nisha) + the morning "take attendance" reminder (Deborah).
+   - **The marks grid**: one table per assessment, auto-save, auto-aggregation
+     to mid-terms and reports (Nisha, Puvi, Annie).
+   - **The 30-second homework post** with defaults and "repeat last week"
+     (Akram, Annie).
+   - **Feedback triage for staff** — replies typed once, sent to one student or
+     a class (Akram, Nisha).
+   - **Digest-first notifications** (Puvi).
+
+## 21. Student survey — closed; results match the early pattern
+
+*The survey closed September 2026. The four early complaints held across every
+response — no new categories appeared, so the requirement stands as written in
+section 19: fast, one-tap, obvious. Responses in full:*
+
+- **Frequency:** the answers span "once a day" to "many times a day" — the
+  portal is a several-times-daily tool, which is exactly why its slowness hurts.
+- **Top uses:** attendance, homework, results, feedback — the same four things
+  the teacher interviews name. The two sides are describing one system.
+- **The four complaints, confirmed:** slow; unresponsive; hard to navigate;
+  too many taps to reach anything.
+
+*No redesign decisions were made from early data (as promised in section 19);
+the closing data matched it, so the standing answers — static prerendering,
+state-first screens, one-tap depth — are confirmed as the baseline.*
 
 ## Design rules this log commits us to (full list in `../ux-teardown.md`)
 
@@ -244,4 +344,4 @@ redesign decisions are finalized.*
 
 ---
 
-*Sources: 20 screenshots collected 16 Sep 2026 (`screenshots/`, 8 named + additional shots), direct testimony from a daily student user, and the September 2026 student survey (early responses; poll ongoing). Compiled as the requirements baseline for the replacement portal.*
+*Sources: 20 screenshots collected 16 Sep 2026 (`screenshots/`, 8 named + additional shots), direct testimony from a daily student user, the September 2026 student survey (closed; section 21), and five teacher interviews (September 2026; section 20). Compiled as the requirements baseline for the replacement portal.*

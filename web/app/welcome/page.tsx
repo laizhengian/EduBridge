@@ -107,7 +107,7 @@ export default function WelcomePage() {
               Use a username and password instead
             </button>
             <p className="pt-1 text-center text-xs text-muted">
-              Only @oakbridge.edu.my accounts can sign in. In this preview both ways
+              Only school Google accounts can sign in. In this preview both ways
               continue without checking.
             </p>
           </motion.div>

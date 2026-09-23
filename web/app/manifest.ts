@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "EduBridge",
     short_name: "EduBridge",
     description:
-      "Homework, timetable and school announcements for Oakbridge students and families.",
+      "Homework, timetable and school announcements for students and families.",
     start_url: "/",
     display: "standalone",
     background_color: "#faf9f7",
