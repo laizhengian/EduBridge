@@ -8,6 +8,7 @@ import {
   CalendarCheckIcon,
   CalendarPlusIcon,
   Chip,
+  EventsIcon,
   GraduationCapIcon,
   ImagesIcon,
   MegaphoneIcon,
@@ -21,6 +22,7 @@ import {
   TrophyIcon,
   UserIcon,
 } from "@/components/ui";
+import { circulars, events } from "@/lib/mock-data";
 import { loadProfile, type Role } from "@/lib/profile";
 import {
   loadTextSize,
@@ -29,19 +31,32 @@ import {
   type TextSize,
 } from "@/lib/text-size";
 
-// Hub = grouped by need, not one flat grid. A student looking for "what about
-// me?" sees four tiles; the school-reference stuff lives in its own corner
-// where it can't compete for attention (goals.md → principle 11).
+/** Live "new this week" counts — the Hub proves it's organized, not stale.
+    Counts fill after mount so server and client render identically. */
+function useNewCounts(): { news: number; events: number } {
+  const [counts, setCounts] = useState({ news: 0, events: 0 });
+  useEffect(() => {
+    const now = Date.now();
+    const week = 7 * 24 * 60 * 60 * 1000;
+    setCounts({
+      news: circulars.filter((c) => now - +new Date(c.postedAt) < week).length,
+      events: events.filter((e) => +new Date(e.date) - now < week && +new Date(e.date) > now).length,
+    });
+  }, []);
+  return counts;
+}
+
+// Hub = grouped by need, not one flat grid (goals.md → principle 11). News
+// leads because the survey says announcements are the #1 use; teacher tools
+// appear only for teacher profiles; Administration is an honest placeholder.
 export default function MorePage() {
-  // Role decides whether Teacher tools appear at all — same app, different
-  // doors. Text size is the accessibility setting (design.md: the whole app
-  // scales from the root font size, so nothing clips).
   const [size, setSize] = useState<TextSize>("standard");
   const [role, setRole] = useState<Role>("student");
   useEffect(() => {
     setSize(loadTextSize());
     setRole(loadProfile()?.role ?? "student");
   }, []);
+  const counts = useNewCounts();
 
   return (
     <div>
@@ -51,6 +66,35 @@ export default function MorePage() {
         </h1>
         <p className="mt-1 text-[15px] text-muted">Everything else in the app</p>
       </header>
+
+      <Group icon={<MegaphoneIcon className="h-4.5 w-4.5" />} title="From the school">
+        <Tile
+          href="/circulars"
+          title="News"
+          desc="Announcements and latest news from the office"
+          Icon={MegaphoneIcon}
+          badge={counts.news > 0 ? `${counts.news} new this week` : undefined}
+        />
+        <Tile
+          href="/events"
+          title="Events"
+          desc="What's coming up, with add-to-calendar"
+          Icon={EventsIcon}
+          badge={counts.events > 0 ? `${counts.events} this week` : undefined}
+        />
+        <Tile
+          href="/holidays"
+          title="Holidays"
+          desc="Days the school is closed this term"
+          Icon={SunIcon}
+        />
+        <Tile
+          href="/feedback"
+          title="Student feedback"
+          desc="Tell the school how it's going — read weekly"
+          Icon={MessageIcon}
+        />
+      </Group>
 
       <Group icon={<UserIcon className="h-4.5 w-4.5" />} title="About me">
         <Tile
@@ -93,30 +137,6 @@ export default function MorePage() {
         </Group>
       )}
 
-      <Group
-        icon={<MegaphoneIcon className="h-4.5 w-4.5" />}
-        title="From the school"
-      >
-        <Tile
-          href="/circulars"
-          title="Circulars"
-          desc="Announcements from the school office"
-          Icon={ScrollTextIcon}
-        />
-        <Tile
-          href="/holidays"
-          title="Holidays"
-          desc="Days the school is closed this term"
-          Icon={SunIcon}
-        />
-        <Tile
-          href="/feedback"
-          title="Student feedback"
-          desc="Tell the school how it's going — read weekly"
-          Icon={MessageIcon}
-        />
-      </Group>
-
       <Group icon={<ImagesIcon className="h-4.5 w-4.5" />} title="School life">
         <Tile
           href="/life"
@@ -126,7 +146,7 @@ export default function MorePage() {
         />
       </Group>
 
-      <Group icon={<BookOpenIcon className="h-4.5 w-4.5" />} title="Reference" last>
+      <Group icon={<BookOpenIcon className="h-4.5 w-4.5" />} title="Reference">
         <Tile
           href="/hotlines"
           title="Hotlines"
@@ -148,6 +168,13 @@ export default function MorePage() {
         <CalendarTile />
       </Group>
 
+      <Group icon={<UserIcon className="h-4.5 w-4.5" />} title="Administration" last>
+        <SoonTile
+          title="Office & admin tools"
+          desc="Circulars with read receipts, absence overview, accounts — after the admin interviews"
+        />
+      </Group>
+
       <Group icon={<AdjustIcon className="h-4.5 w-4.5" />} title="Settings" last>
         <TextSizeSetting
           size={size}
@@ -157,33 +184,6 @@ export default function MorePage() {
           }}
         />
       </Group>
-    </div>
-  );
-}
-
-/** The accessibility setting. It scales the ROOT font size (see
-    lib/text-size.ts), so every screen grows in proportion and nothing can
-    clip — the layout is fluid, there is no zoom to break it. */
-function TextSizeSetting({
-  size,
-  onChoose,
-}: {
-  size: TextSize;
-  onChoose: (s: TextSize) => void;
-}) {
-  return (
-    <div className="col-span-2 rounded-xl border border-hairline bg-paper p-4 md:col-span-4">
-      <p className="font-display text-[15px] font-semibold">Text size</p>
-      <p className="mt-1 text-xs leading-5 text-muted">
-        Makes every word in the app bigger — nothing moves or gets cut off
-      </p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {TEXT_SIZES.map((s) => (
-          <Chip key={s} active={size === s} onClick={() => onChoose(s)}>
-            {s === "standard" ? "Standard" : s === "large" ? "Large" : "Larger"}
-          </Chip>
-        ))}
-      </div>
     </div>
   );
 }
@@ -215,11 +215,13 @@ function Tile({
   title,
   desc,
   Icon,
+  badge,
 }: {
   href: string;
   title: string;
   desc: string;
   Icon: (p: { className?: string }) => React.ReactNode;
+  badge?: string;
 }) {
   return (
     <Link
@@ -231,7 +233,32 @@ function Tile({
       </span>
       <p className="mt-3 font-display text-[15px] font-semibold leading-5">{title}</p>
       <p className="mt-1 text-xs leading-5 text-muted">{desc}</p>
+      {badge && (
+        <p className="mt-2 text-xs font-semibold text-accent-strong">{badge}</p>
+      )}
     </Link>
+  );
+}
+
+/** An honest placeholder: says what will exist and why it isn't here yet. */
+function SoonTile({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div
+      aria-disabled
+      className="col-span-2 rounded-xl border border-dashed border-hairline bg-paper/60 p-4 md:col-span-4"
+    >
+      <div className="flex items-center gap-3">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-background text-muted">
+          <ShieldIcon className="h-5.5 w-5.5" />
+        </span>
+        <div className="min-w-0">
+          <p className="font-display text-[15px] font-semibold leading-5">
+            {title} <span className="text-xs font-semibold text-muted">— coming soon</span>
+          </p>
+          <p className="mt-1 text-xs leading-5 text-muted">{desc}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -253,5 +280,32 @@ function CalendarTile() {
         Add every school event to your calendar app
       </p>
     </a>
+  );
+}
+
+/** The accessibility setting. It scales the ROOT font size (see
+    lib/text-size.ts), so every screen grows in proportion and nothing can
+    clip — the layout is fluid, there is no zoom to break it. */
+function TextSizeSetting({
+  size,
+  onChoose,
+}: {
+  size: TextSize;
+  onChoose: (s: TextSize) => void;
+}) {
+  return (
+    <div className="col-span-2 rounded-xl border border-hairline bg-paper p-4 md:col-span-4">
+      <p className="font-display text-[15px] font-semibold">Text size</p>
+      <p className="mt-1 text-xs leading-5 text-muted">
+        Makes every word in the app bigger — nothing moves or gets cut off
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {TEXT_SIZES.map((s) => (
+          <Chip key={s} active={size === s} onClick={() => onChoose(s)}>
+            {s === "standard" ? "Standard" : s === "large" ? "Large" : "Larger"}
+          </Chip>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -56,6 +56,9 @@ until they land, and nothing admin-side gets built before they do.
 The backend is one shared vault that **every** app reads and writes. Building it
 now means the teacher app has data to post into on day one. Full schema, RLS
 policies, caching and job design: [backend-plan.md](backend-plan.md).
+**The migrations are written**: `supabase/migrations/0001_init.sql` (schema +
+deny-by-default RLS) with the adversarial test suite in
+`supabase/migrations/tests/` — setup steps in `supabase/README.md`.
 
 - **Supabase** (Postgres): the five core tables first — profiles, classes,
   homework, attendance (four states), assessments + marks — plus circulars,

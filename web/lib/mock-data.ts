@@ -198,6 +198,33 @@ export const homeworkSeed: Homework[] = [
     postedAt: at(-4, 15, 20),
     done: true,
   },
+  {
+    id: "h9",
+    subject: "Art",
+    title: "Lantern sketch for Raya decor",
+    dueAt: at(2, 12, 0),
+    postedBy: "Mr. Ravi",
+    postedAt: at(-1, 10, 0),
+    done: false,
+  },
+  {
+    id: "h10",
+    subject: "PE",
+    title: "Track try-outs permission slip",
+    dueAt: at(1, 12, 0),
+    postedBy: "Ms. Nadia",
+    postedAt: at(0, 9, 0),
+    done: false,
+  },
+  {
+    id: "h11",
+    subject: "Geography",
+    title: "River processes: diagrams 3–4",
+    dueAt: at(6, 12, 0),
+    postedBy: "Mr. Wood",
+    postedAt: at(-2, 14, 0),
+    done: false,
+  },
 ];
 
 export const circulars: Circular[] = [
@@ -216,6 +243,54 @@ export const circulars: Circular[] = [
       "Please find attached the final list of student participants and the track event schedule for this Friday…",
     postedBy: "Sports Department",
     postedAt: at(-2, 12, 30),
+  },
+  {
+    id: "c4",
+    title: "Road closure in front of the school on Friday",
+    snippet:
+      "Jalan Kenari will be closed 6:30–8:30am for utility works. Please use the Southgate drop-off…",
+    postedBy: "School Office",
+    postedAt: at(0, 7, 45),
+  },
+  {
+    id: "c5",
+    title: "Canteen: new cashless top-up kiosk opens Monday",
+    snippet:
+      "Students can top up meal cards at the new kiosk beside the canteen entrance, before school and during both breaks…",
+    postedBy: "Operations",
+    postedAt: at(0, 8, 30),
+  },
+  {
+    id: "c6",
+    title: "Chess Open: register your class by Friday",
+    snippet:
+      "The annual Chess Open runs next Saturday. Register through your class teacher; open to all grades…",
+    postedBy: "Co-Curricular Office",
+    postedAt: at(-1, 14, 0),
+  },
+  {
+    id: "c7",
+    title: "Library hours extended during exam weeks",
+    snippet:
+      "From Monday the library stays open until 5:30pm on weekdays, with quiet study in the reading room…",
+    postedBy: "Library",
+    postedAt: at(-2, 10, 0),
+  },
+  {
+    id: "c8",
+    title: "Bus route 4: revised pickup times from next week",
+    snippet:
+      "Pickup moves 10 minutes earlier along Jalan Batu Tiga. Drivers will confirm at tomorrow's drop-off…",
+    postedBy: "Transport Desk",
+    postedAt: at(-3, 9, 0),
+  },
+  {
+    id: "c9",
+    title: "Flu season advisory — keep sick children home",
+    snippet:
+      "A gentle reminder that children with fever should rest at home until 24 hours after it passes…",
+    postedBy: "Health Room",
+    postedAt: at(-4, 11, 0),
   },
 ];
 
@@ -261,6 +336,24 @@ export const events: SchoolEvent[] = [
     date: at(24, 14, 0),
     title: "Parent–Teacher Conference",
     type: "event",
+  },
+  {
+    id: "e6",
+    date: at(6, 8, 0),
+    title: "School closure — staff training day",
+    type: "holiday",
+  },
+  {
+    id: "e7",
+    date: at(12, 8, 0),
+    title: "Inter-house football finals",
+    type: "event",
+    location: "Main field",
+    details:
+      "The finals kick off at 8:30am. House captains must submit final squad lists to Mr. Ravi by Wednesday.\n\nSpectators bring house colours; the canteen runs a special stall all morning.",
+    links: [
+      { label: "House points standing", url: "https://example.com/house-points" },
+    ],
   },
 ];
 
@@ -450,6 +543,17 @@ export const galleryAlbums: GalleryAlbum[] = [
       { src: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1200&q=80&auto=format&fit=crop", alt: "Robotics build table" },
     ],
   },
+  {
+    id: "g5",
+    title: "Raya Celebration",
+    date: at(-70, 9, 0),
+    cover: "https://images.unsplash.com/photo-1568393691622-c7ba131d63b4?w=1200&q=80&auto=format&fit=crop",
+    photos: [
+      { src: "https://images.unsplash.com/photo-1568393691622-c7ba131d63b4?w=1200&q=80&auto=format&fit=crop", alt: "Ketupat decorations" },
+      { src: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=1200&q=80&auto=format&fit=crop", alt: "Concert on the school stage" },
+      { src: "https://images.unsplash.com/photo-1496024840928-4c417adf211d?w=1200&q=80&auto=format&fit=crop", alt: "Festive class decorations" },
+    ],
+  },
 ];
 
 export type Competition = {
@@ -508,6 +612,15 @@ export const competitions: Competition[] = [
     description:
       "Three of our students scored in the top percentile nationwide in the intermediate division.",
     image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1200&q=80&auto=format&fit=crop",
+  },
+  {
+    id: "comp6",
+    title: "National Chess Open",
+    result: "2nd, team standings",
+    date: at(-30, 9, 0),
+    description:
+      "A last-round draw sealed second place overall, with two students finishing on the individual podium.",
+    image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=1200&q=80&auto=format&fit=crop",
   },
 ];
 

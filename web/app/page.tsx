@@ -147,7 +147,7 @@ export default function TodayPage() {
             </Link>
           }
         >
-          Circulars
+          Latest news
         </SectionTitle>
         <Box className="mt-2 divide-y divide-hairline">
           {circulars.map((c) => (

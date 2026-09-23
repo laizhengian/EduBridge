@@ -7,15 +7,17 @@ import {
   EventsIcon,
   HomeIcon,
   HomeworkIcon,
-  TimetableIcon,
+  MegaphoneIcon,
   MoreIcon,
 } from "./ui";
 
+// The four daily jobs each get a tab (survey: announcements are the #1 use,
+// so News rides the bar and Timetable lives one tap away in the Hub).
 const tabs = [
   { href: "/", label: "Today", Icon: HomeIcon, exact: true },
   { href: "/homework", label: "Homework", Icon: HomeworkIcon, exact: false },
   { href: "/more", label: "Hub", Icon: MoreIcon, exact: false, center: true },
-  { href: "/timetable", label: "Timetable", Icon: TimetableIcon, exact: false },
+  { href: "/circulars", label: "News", Icon: MegaphoneIcon, exact: false },
   { href: "/events", label: "Events", Icon: EventsIcon, exact: false },
 ];
 
