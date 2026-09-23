@@ -48,7 +48,20 @@ export default function TodayPage() {
     .sort((a, b) => +new Date(a.date) - +new Date(b.date))
     .slice(0, 2);
 
-  if (!checked) return null;
+  // Teachers land on their own app at /teacher — Today stays the family view.
+  if (profile?.role === "teacher") {
+    return (
+      <div className="flex min-h-[60dvh] flex-col items-center justify-center text-center">
+        <p className="text-[15px] text-muted">You're signed in as a teacher.</p>
+        <Link
+          href="/teacher"
+          className="pressable mt-4 min-h-[52px] rounded-xl bg-accent px-8 text-[15px] font-semibold leading-[52px] text-paper"
+        >
+          Open the teacher app
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div>

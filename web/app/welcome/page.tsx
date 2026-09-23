@@ -197,15 +197,14 @@ export default function WelcomePage() {
             <button
               type="button"
               onClick={() => {
-                haptic("light");
-                setRole("teacher");
-                setStep("class");
+                haptic("success");
+                finish({ name: name || "Teacher", className: "", role: "teacher" });
               }}
               className="pressable flex min-h-[64px] w-full flex-col items-start justify-center rounded-xl border border-hairline bg-paper px-4 text-left shadow-sm"
             >
               <span className="text-[15px] font-semibold">Teacher</span>
               <span className="mt-0.5 text-[13px] text-muted">
-                Everything above, plus attendance and homework posting
+                Your classes come from the school's assignment — no setup
               </span>
             </button>
           </motion.div>
@@ -219,14 +218,10 @@ export default function WelcomePage() {
             className="mt-8"
           >
             <p className="text-center text-sm font-semibold">
-              {role === "teacher"
-                ? "Which class do you teach?"
-                : name
-                  ? `${name}, which class are you in?`
-                  : "Which class are you in?"}
+              {name ? `${name}, which class are you in?` : "Which class are you in?"}
             </p>
             <p className="mt-1 text-center text-xs text-muted">
-              This sets {role === "teacher" ? "the class you take attendance for" : "your timetable and homework"} for the whole app.
+              This sets your timetable and homework for the whole app.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               {CLASSES.map((c) => (

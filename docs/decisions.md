@@ -119,6 +119,10 @@ This is the decision the user specifically asked to see justified:
 - **Why it won:** open the app and read top-to-bottom: overdue (pinned),
   due today, latest news, coming up. Zero taps to the most important
   information; each section links to its tab so nothing is a dead end.
+- **Plain words rule (added from user review):** the UI never explains
+  itself with design jargon — no "one tap away", "tree", "in two taps".
+  Buttons say what they do ("Post homework"), not how clever the layout is
+  ("in 30 seconds"). The jargon lives in the docs, where it belongs.
 
 ### 12. One decision per screen (Higgs Law) — over showing all options
 - **Why it won:** fewer visible choices measurably reduces hesitation; the
@@ -133,10 +137,15 @@ This is the decision the user specifically asked to see justified:
 
 ### 14. View-only family app; tools live behind roles — over one screen for everyone
 - **Why it won:** children and parents get read/act screens with nothing to
-  configure or break; teacher tools exist at `/teacher/*` only for teacher
-  profiles (the Hub grows the group, the welcome flow asks the role once).
-  One codebase, one design system, role-based doors — the same mechanism the
-  database's RLS uses, so frontend visibility and backend permission agree.
+  configure or break; teacher tools exist under `/teacher/*` only for teacher
+  profiles — with their **own chrome** (own tab bar, own home, teacher-green
+  header) rather than family tabs plus a hidden group, because a teacher's
+  app should look like a teacher's app. Classes come **from the account**:
+  the office assigns them at year start (`teacher_classes` in the schema) and
+  the app personalizes itself — nothing is picked at sign-in, and a new year
+  re-personalizes everyone. One codebase, one design system, role-based
+  doors — the same mechanism the database's RLS uses, so frontend visibility
+  and backend permission agree.
 
 ### 15. Progress stamped and dated; averages state their basis — over pretty numbers
 - **Why it won:** the old portal's silent staleness (progress report never

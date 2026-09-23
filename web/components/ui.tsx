@@ -73,6 +73,7 @@ export {
   ExternalLink as ExternalLinkIcon,
   Settings2 as AdjustIcon,
   GraduationCap as GraduationCapIcon,
+  ClipboardList as ClipboardListIcon,
 } from "lucide-react";
 
 export function CloseIcon(p: IconProps) {

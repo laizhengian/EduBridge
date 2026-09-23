@@ -1,7 +1,7 @@
 // Teacher-side state for the preview. Everything lives in memory for the
 // session (this is a design preview, not persistence) and every write lands
-// in the same stores the family app reads — proving the "one vault, every
-// surface" architecture before the database exists.
+// in the same stores the family app reads — proving the one-vault
+// architecture before the database exists.
 import {
   homeworkSeed,
   roster,
@@ -9,13 +9,24 @@ import {
   type RosterStudent,
 } from "@/lib/mock-data";
 
+/** The signed-in teacher's classes. In the preview this stands in for the
+    account: classes are ASSIGNED at the start of the year (by the office),
+    never picked by the teacher at sign-in — the app is personalized to what
+    they teach, and updates when the year rolls over. */
+export const TEACHER_CLASSES = ["Class 7A", "Class 8B", "Class 9A"] as const;
+
 export type AttState = "present" | "late" | "excused" | "absent";
 export const ATT_STATES: AttState[] = ["present", "late", "excused", "absent"];
 
-/** Roster of this class with all students present — the template that fills
-    itself. A well-behaved class needs two taps: "Everyone in?" → "Post". */
-export function freshRoster(): RosterStudent[] {
-  return roster.map((s) => ({ ...s, att: "present" as AttState }));
+/** Roster of a class with all students present — the template that fills
+    itself. A well-behaved class is "Post" with nothing to change. The demo
+    rotates the sample names per class; the vault supplies the real roll. */
+export function freshRoster(klass: string): RosterStudent[] {
+  const shift = klass.length % roster.length;
+  return roster
+    .slice(shift)
+    .concat(roster.slice(0, shift))
+    .map((s) => ({ ...s, att: "present" as AttState }));
 }
 
 export function cycleAtt(s: RosterStudent): RosterStudent {

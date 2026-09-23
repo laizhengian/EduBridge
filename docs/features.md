@@ -28,7 +28,7 @@ Everything else is a gimmick and goes on the "not building" list.
 
 ### 4. Teacher & admin app — a separate companion app
 - **Problem:** teachers don't use the old tools — friction kills posting (Teacher Notes is empty; homework form is a wall). Mixing posting controls into the family app would clutter screens that children and parents use.
-- **Fix:** a **second app for teachers and administrators**, same design language and same database: post homework in under 30 seconds with chips, publish letters, take attendance in two taps per class. One post lands everywhere the family app reads. The family app itself stays **view-only**: students and parents read, tick off, and add to calendar — nothing to configure, nothing to break.
+- **Fix:** a **second app for teachers and administrators**, same design language and same database, with its own chrome: an own tab bar (Home · Attendance · Post · Family app), a teacher home listing the classes assigned to the account, and a teacher-green header so it never reads like the family app. Post homework with date chips (Tomorrow / End of this week / pick a date), publish letters, take attendance per class. One post lands everywhere the family app reads. The family app itself stays **view-only**: students and parents read, tick off, and add to calendar — nothing to configure, nothing to break.
 - **Now evidence-backed:** five teacher interviews (friction log §20) name the
   same flaw from four of five teachers — every action is typed or re-typed, and
   the portal sometimes loses what was entered. The two flows below (§14–15) are
@@ -97,7 +97,7 @@ Everything else is a gimmick and goes on the "not building" list.
   tag ("Received — in review" → "Replied"), and the school's answer is printed
   on the item itself. The loop visibly closes.
 
-### 14. Tap-the-row attendance — the template that fills itself (**mocked up at `/teacher/attendance`**, September 2026)
+### 14. Tap-the-row attendance — the template that fills itself (**mocked up at `/teacher/attendance`** with its own class switcher, September 2026)
 - **Problem (Nisha, Deborah, Annie):** attendance is a per-student dropdown, sometimes won't load, and records "late" as "absent". Nisha's ask is the whole spec: *"a template that automatically has all the info — I just post it."*
 - **Fix:** the roster opens **all present by default** — the template *is* filled in. A tap moves a child through present → late → excused → absent (four states from day one; "late ≠ absent" is a live data bug in the old portal). Default-nothing is the old app's mistake; default-everyone-present means a well-behaved class is **two taps total** ("Everyone in?" → "Post"), and a normal class is one tap per exception. A morning reminder arrives if attendance isn't taken by a set time (Deborah's ask). Reasons are chips, not typing. Saves autosave-as-draft, and the post shows an explicit server-confirmed "Saved" — because the portal's habit of losing entered marks (Nisha) is the trust-killer we are reversing.
 

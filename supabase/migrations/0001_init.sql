@@ -156,6 +156,13 @@ alter table circulars     enable row level security;
 alter table absence_notes enable row level security;
 alter table read_receipts enable row level security;
 alter table enrolments    enable row level security;
+alter table teacher_classes enable row level security;
+
+-- teacher_classes: staff read their own assignments; admins manage.
+create policy teacher_classes_read on teacher_classes for select
+  using (teacher_id = auth.uid() or auth_role() in ('teacher','admin'));
+create policy teacher_classes_admin_write on teacher_classes for all
+  using (auth_role() = 'admin') with check (auth_role() = 'admin');
 
 -- Helper: the caller's role, from their own profile row.
 create or replace function auth_role() returns text
@@ -163,15 +170,26 @@ language sql stable security definer set search_path = public as $$
   select role from profiles where id = auth.uid()
 $$;
 
--- Helper: is the caller a teacher (or admin) of this class?
+-- Teacher class assignments — the year-start personalization. A teacher's
+-- account is assigned the classes they teach (by the office); when the year
+-- rolls over, new rows here re-personalize every teacher's app. Nothing is
+-- picked by the teacher at sign-in.
+create table if not exists teacher_classes (
+  teacher_id uuid not null references profiles(id) on delete cascade,
+  class_id uuid not null references classes(id) on delete cascade,
+  academic_year int not null,
+  primary key (teacher_id, class_id, academic_year)
+);
+
+-- Helper: is the caller an assigned teacher (this year) of this class, or an admin?
 create or replace function is_teacher_of(cid uuid) returns boolean
 language sql stable security definer set search_path = public as $$
   select exists (
-    select 1 from profiles p
-    where p.id = auth.uid()
-      and p.role in ('teacher','admin')
-      and (p.role = 'admin' or p.class_id = cid)
-  )
+    select 1 from teacher_classes tc
+    where tc.teacher_id = auth.uid()
+      and tc.class_id = cid
+      and tc.academic_year = (select date_part('year', now()))
+  ) or auth_role() = 'admin'
 $$;
 
 -- Helper: a student's class (used by policies on tables that only know the

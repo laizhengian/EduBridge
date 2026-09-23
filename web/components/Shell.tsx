@@ -48,6 +48,12 @@ export function Shell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Teacher routes carry their own chrome (TeacherShell) — no family tabs.
+  // Placed after all hooks so React's hook order never changes.
+  if (pathname.startsWith("/teacher")) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="min-h-dvh bg-background pt-[env(safe-area-inset-top)] text-foreground">
       {/* desktop header — sticky masthead: wordmark, today's date, pill navigation.

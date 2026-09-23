@@ -1,10 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import { ChevronIcon, Chip } from "@/components/ui";
+import { Chip } from "@/components/ui";
 import { type RosterStudent } from "@/lib/mock-data";
-import { attLabel, cycleAtt, freshRoster } from "@/lib/teacher-store";
+import {
+  attLabel,
+  cycleAtt,
+  freshRoster,
+  TEACHER_CLASSES,
+} from "@/lib/teacher-store";
 import { haptic } from "@/lib/haptics";
 
 const REASONS = [
@@ -23,8 +27,16 @@ const REASONS = [
  * trust-killer we are reversing (Nisha, friction log §20).
  */
 export default function TeacherAttendancePage() {
-  const [rows, setRows] = useState<RosterStudent[]>(() => freshRoster());
+  const [klass, setKlass] = useState<string>(TEACHER_CLASSES[1]);
+  const [rows, setRows] = useState<RosterStudent[]>(() => freshRoster(TEACHER_CLASSES[1]));
   const [posted, setPosted] = useState<string | null>(null);
+
+  function switchClass(c: string) {
+    haptic("light");
+    setKlass(c);
+    setPosted(null);
+    setRows(freshRoster(c));
+  }
 
   const counts = useMemo(() => {
     const c: Record<string, number> = {};
@@ -57,20 +69,19 @@ export default function TeacherAttendancePage() {
   return (
     <div className="mx-auto max-w-2xl">
       <header className="rise">
-        <p className="text-[13px] font-semibold uppercase tracking-wide text-muted">
-          Class 8B ·{" "}
-          {new Date().toLocaleDateString("en-MY", {
-            weekday: "long",
-            day: "numeric",
-            month: "short",
-          })}
-        </p>
-        <h1 className="mt-1 font-display text-2xl font-semibold tracking-tight md:text-3xl">
+        <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Attendance
         </h1>
         <p className="mt-1 text-[15px] text-muted">
-          Everyone starts as in — tap a name only to change it
+          Everyone starts as in — touch a name only to change it
         </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {TEACHER_CLASSES.map((c) => (
+            <Chip key={c} active={klass === c} onClick={() => switchClass(c)}>
+              {c}
+            </Chip>
+          ))}
+        </div>
       </header>
 
       <ul
@@ -143,17 +154,8 @@ export default function TeacherAttendancePage() {
           </p>
         )}
         <p className="mt-3 text-[13px] leading-5 text-muted">
-          Design preview — nothing is stored yet. The real teacher app keeps a
-          draft if the connection drops, so attendance is never entered twice.
-        </p>
-        <p className="mt-2 text-[13px]">
-          <Link
-            href="/teacher/post"
-            className="pressable inline-flex min-h-[44px] items-center font-semibold text-accent underline-offset-4 hover:underline"
-          >
-            Next: post homework in 30 seconds
-            <ChevronIcon className="h-4 w-4" />
-          </Link>
+          Design preview — nothing is stored yet. The real app keeps a draft if
+          the connection drops, so attendance is never entered twice.
         </p>
       </div>
     </div>

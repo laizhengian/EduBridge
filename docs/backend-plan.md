@@ -162,11 +162,19 @@ leaderboard, and that's on the not-building list for the student app.
 
 EduBridge ships as **one app with role-based feature sets**, not separate
 student/teacher/admin products: sign-in decides which doors exist. Teacher
-tools live under `/teacher/*` and are invisible to students and parents; the
-admin surface arrives later the same way. In the database this is just RLS +
-role claims — the vault already treats "who you are" as the access rule, so
-"which screens you see" falls out of the same mechanism. The family screens
-stay view-only forever.
+tools live under `/teacher/*` with their own tab bar and home screen, and are
+invisible to students and parents; the admin surface arrives later the same
+way. In the database this is just RLS + role claims — the vault already treats
+"who you are" as the access rule, so "which screens you see" falls out of the
+same mechanism. The family screens stay view-only forever.
+
+**Teacher classes are assigned, never picked.** The `teacher_classes` table
+(teacher_id, class_id, academic_year) is the year-start personalization: the
+office assigns each teacher their classes once a year, and every teacher's app
+— rosters, homework targets, mark sheets — follows that assignment. At sign-in
+a teacher selects nothing; when the year rolls over, new assignment rows
+re-personalize the app. The same pattern assigns students to classes and
+covers mid-year moves: one row change, applied everywhere.
 
 ## Phase B3 — the job queue (nothing slow blocks a tap)
 
