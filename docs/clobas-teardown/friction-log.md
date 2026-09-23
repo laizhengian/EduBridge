@@ -318,7 +318,8 @@ verbatim-first, with judgement applied separately — see "far-fetched" notes.*
 
 *The survey closed September 2026. The four early complaints held across every
 response — no new categories appeared, so the requirement stands as written in
-section 19: fast, one-tap, obvious. Responses in full:*
+section 19: fast, one-tap, obvious. The full structured responses are in §22
+below.*
 
 - **Frequency:** the answers span "once a day" to "many times a day" — the
   portal is a several-times-daily tool, which is exactly why its slowness hurts.
@@ -330,6 +331,86 @@ section 19: fast, one-tap, obvious. Responses in full:*
 *No redesign decisions were made from early data (as promised in section 19);
 the closing data matched it, so the standing answers — static prerendering,
 state-first screens, one-tap depth — are confirmed as the baseline.*
+
+## 22. Student survey — the structured results (14 responses, CSV)
+
+*Fourteen students, September 2026, four questions in order: how often they use
+Clobas, what they use it for, what issues they've hit, what they'd add. Usernames
+and any identifying detail are deliberately left out of this log — the raw CSV
+stays out of the repository (it contains student emails). Verbatim answers,
+anonymized; judgement applied separately, as with the teacher interviews.*
+
+| # | Uses Clobas | Uses it for | Issues hit | Asked for |
+| --- | --- | --- | --- | --- |
+| 1 | a few times a week | events/announcements; test results | slow and unresponsive | bigger font; "when clicking announcements I don't need to have another pop up tab to read" |
+| 2 | once or twice a day | events/announcements; test results | difficult/complicated to navigate | a dedicated latest-news page that's easy to access |
+| 3 | a few times a week | events/announcements; homework | difficult/complicated to navigate | accurate assessment average — "it currently includes A3000, which makes my actual avg incorrect" |
+| 4 | once or twice a day | events/announcements | slow and unresponsive | nothing, is chill |
+| 5 | a few times a week | events/announcements; test results | slow and unresponsive | an easy introduction for parents, or a simpler interface |
+| 6 | once or twice a day | class schedule; events/announcements; homework | nothing | nothing |
+| 7 | once or twice a day | events/announcements; homework; test results | difficult/complicated to navigate | none |
+| 8 | a few times a week | events/announcements | difficult/complicated to navigate | not sure |
+| 9 | a few times a week | events/announcements | slow and unresponsive | results "pop out all at once so I can see all the results in a glance" |
+| 10 | a few times a week | class schedule; events/announcements; test results | difficult to navigate; **difficult for parents to use** | — |
+| 11 | a few times a week | class schedule; events/announcements; homework; test results | slow and unresponsive; difficult to navigate | nothing |
+| 12 | once or twice a day | events/announcements; the next holiday | no problems so far | a chat where students can ask teachers about homework |
+| 13 | a few times a week | test results | **test results include subjects I don't take, lowering my grade** | update the photos and videos |
+| 14 | once or twice a day | events/announcements; homework; test results | slow and unresponsive; difficult to navigate; difficult for parents to use; **not enough information** | redo the homework flow |
+
+### What the structured survey actually says (judgement applied)
+
+1. **The early survey's findings are confirmed, with the same spread.** Six of
+   fourteen name "slow and unresponsive" or "difficult to navigate" as their
+   *only* complaints; three add "difficult for parents to use"; one says "not
+   enough information"; two report no problems. Announcements/events are the
+   #1 use (12 of 14), then test results (8), homework (5), schedule (3). The
+   requirement stands: fast, one-tap, obvious — and the family app's Today
+   screen already opens with announcements.
+
+2. **A new confirmed defect: averages are computed wrong.** Two students hit
+   the same bug from different angles (#3 and #13): the average includes items
+   that aren't real grades (the A3000 administrative entry) and subjects the
+   student doesn't take, so the number shown is not their actual average. This
+   is exactly the "dishonest data" class of failure that loses trust
+   permanently. **New requirement, now in the backend plan:** averages are
+   computed over **enrolled subjects and graded items only**, and the result
+   page says what an average includes. Implemented in
+   `backend-plan.md` (marks pipeline rules).
+
+3. **Announcements must read in place.** #1's "another pop up tab" is web-page
+   thinking — the read experience must never leave the app. EduBridge's
+   circulars open full text on the same page or in a sheet; confirmed as a
+   rule, not a preference.
+
+4. **"Results all at once" (#9) vs one decision per screen — reconciled.** The
+   results page deliberately opens showing *one* exam with the change-since-
+   last line (a Higgs Law choice). The student's ask is for the *overview*:
+   the honest fix is a glanceable all-subjects summary **one scroll down** —
+   zero extra taps, one more scroll. Recorded for the results page's next
+   pass; the default view stays one decision.
+
+5. **The chat request (#12) is rejected, with the reason on record.** A
+   student-to-teacher chat is already on the not-building list (we'd be a
+   worse WhatsApp), and it carries a safeguarding dimension a school must
+   own: moderated channels, records, boundaries. The legitimate need behind
+   it — "I have a question about my homework" — is served by the feedback
+   loop with visible replies, and by making homework entries carry the
+   details that prevent the question in the first place.
+
+6. **Content is a feature.** "Update the photos and videos!" (#13) is the
+   ship-nothing-empty principle validated from the other side: students want
+   the school's life in the app. The gallery and videos pages exist with
+   honest placeholder content — the school supplies the real thing.
+
+7. **"Difficult for parents to use" (three responses) feeds the parent view.**
+   Already planned (read-only parent mode); the survey makes it evidence, not
+   speculation. #5's tutorial ask gets the honest answer: the app should not
+   need a tutorial (principle 7), but a single "for parents" primer card in
+   the Hub is a cheap pilot experiment, not a pre-built tour.
+
+8. **Five of fourteen asked for nothing.** That's not apathy to fix — for a
+   portal this broken, it's the reminder that the replacement must earn
+   attention with speed and clarity, not novelty.
 
 ## Design rules this log commits us to (full list in `../ux-teardown.md`)
 
@@ -344,4 +425,4 @@ state-first screens, one-tap depth — are confirmed as the baseline.*
 
 ---
 
-*Sources: 20 screenshots collected 16 Sep 2026 (`screenshots/`, 8 named + additional shots), direct testimony from a daily student user, the September 2026 student survey (closed; section 21), and five teacher interviews (September 2026; section 20). Compiled as the requirements baseline for the replacement portal.*
+*Sources: 20 screenshots collected 16 Sep 2026 (`screenshots/`, 8 named + additional shots), direct testimony from a daily student user, the September 2026 student survey (closed; §21) with its structured responses (§22, anonymized — the raw CSV stays out of the repo), and five teacher interviews (September 2026; §20). Compiled as the requirements baseline for the replacement portal.*

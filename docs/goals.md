@@ -95,13 +95,21 @@ Help students act earlier, not just know later:
 9. **One backend, every surface** — a teacher post appears on the website and the
    future app alike; no syncing, ever
 10. **Honest data** — dates are validated on entry, counts are real. An app that
-    shows `00/08/2026` once loses trust permanently
+    shows `00/08/2026` once loses trust permanently. Averages are computed over
+    **enrolled subjects and graded items only** — and say what they include
+    (a confirmed defect from the student survey, friction log §22)
 11. **One decision per screen** — show only the choice that's relevant *now*,
     hide the rest until they are (Higgs Law: every extra option adds decision
     time, and decision time is friction). The Welcome screen asks *how do you
     sign in?* — one primary door, the alternative revealed only when asked for.
     The Hub groups ten destinations by need instead of listing them as equals.
     Complex on the back end, one clear action on the front.
+12. **Worth opening, not addictive** — if people are interested in learning
+    more and staying on the app, it is already good. Attention is earned with
+    speed, fresh information and one-tap answers — never begged for with
+    streaks, points or notification floods (all on the not-building list).
+    Notifications are digest-first; the app treats the user's attention as
+    finite and loans it back with interest.
 
 ---
 

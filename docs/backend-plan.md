@@ -100,6 +100,24 @@ create view assessment_totals as
   group by student_id, class_id, subject;
 ```
 
+### The averages rule (a confirmed defect from the student survey)
+
+Two students independently reported the same bug in the old portal: their
+average included **administrative entries** (the A3000 line) and **subjects
+they don't take**, so the number shown was not their real average (friction
+log §22). The marks pipeline therefore computes every average with exactly two
+filters, and states them on screen:
+
+1. **Enrolled subjects only** — averages derive from the student's class
+   enrolment, never from every subject that has a mark somewhere.
+2. **Graded items only** — non-instructional rows (administrative codes,
+   ungraded placeholders) never enter the denominator. An entry either has a
+   real max_mark and weight, or it is not an assessment.
+
+Any results surface that shows an average must also say what it includes
+("7 graded items across 8 subjects") — the number without its basis is the
+exact dishonest-data failure EduBridge exists to end.
+
 Plus two tables the app already promises: `circulars` (poster, body, urgency)
 and `absence_notes` (student, days, reason, certificate photo path, status —
 the office queue). `read_receipts(post_id, user_id, seen_at)` completes the
@@ -170,3 +188,7 @@ Digest-first, categories, opt-out:
 - Excel import (deferred: with a one-grid + autosave entry and auto-aggregation,
   the pressure that made Annie ask for import mostly disappears; revisit only
   if teachers still import after a term).
+- **Student–teacher chat** (asked for directly in the student survey): rejected
+  — a worse WhatsApp with a safeguarding dimension a school must own. The
+  homework question it would carry is answered by feedback-with-replies and
+  homework entries that carry enough detail to not need asking.

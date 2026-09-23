@@ -65,7 +65,10 @@ Everything else is a gimmick and goes on the "not building" list.
 - **Fix:** one exam at a glance with change-since-last-exam, colour used for
   exactly one thing (below pass mark) with the legend written out, teacher
   comments kept, and the progress report **stamped with its issue date** plus an
-  up-to-date marker so staleness is visible, never silent.
+  up-to-date marker so staleness is visible, never silent. The student survey
+  (§22) asks for "results all at once" — the answer is a glanceable
+  all-subjects summary **one scroll below** the featured exam (zero extra
+  taps), with averages computed over enrolled subjects and graded items only.
 
 ### 11. School life: gallery + competitions — built in mockup (`/life`)
 - **Problem:** the portal's Photo Gallery is an empty page with zero photos
