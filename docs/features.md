@@ -32,7 +32,10 @@ Everything else is a gimmick and goes on the "not building" list.
 - **Now evidence-backed:** five teacher interviews (friction log §20) name the
   same flaw from four of five teachers — every action is typed or re-typed, and
   the portal sometimes loses what was entered. The two flows below (§14–15) are
-  the first teacher screens for that reason.
+  the first teacher screens for that reason. **They are mockable today**: teacher
+  tools are the same app behind a role (design.md) — sign in as a teacher and the
+  Hub grows a Teacher tools group; attendance (§14) and the 30-second post are
+  already clickable, writing into the shared store the family app reads.
 
 ### 5. Read receipts for homework
 - **Problem:** teachers currently have no idea whether students saw the homework.
@@ -94,11 +97,11 @@ Everything else is a gimmick and goes on the "not building" list.
   tag ("Received — in review" → "Replied"), and the school's answer is printed
   on the item itself. The loop visibly closes.
 
-### 14. Tap-the-row attendance — the template that fills itself (teacher app)
+### 14. Tap-the-row attendance — the template that fills itself (**mocked up at `/teacher/attendance`**, September 2026)
 - **Problem (Nisha, Deborah, Annie):** attendance is a per-student dropdown, sometimes won't load, and records "late" as "absent". Nisha's ask is the whole spec: *"a template that automatically has all the info — I just post it."*
 - **Fix:** the roster opens **all present by default** — the template *is* filled in. A tap moves a child through present → late → excused → absent (four states from day one; "late ≠ absent" is a live data bug in the old portal). Default-nothing is the old app's mistake; default-everyone-present means a well-behaved class is **two taps total** ("Everyone in?" → "Post"), and a normal class is one tap per exception. A morning reminder arrives if attendance isn't taken by a set time (Deborah's ask). Reasons are chips, not typing. Saves autosave-as-draft, and the post shows an explicit server-confirmed "Saved" — because the portal's habit of losing entered marks (Nisha) is the trust-killer we are reversing.
 
-### 15. The marks grid — one pipeline from quiz to report card (teacher app)
+### 15. The marks grid — one pipeline from quiz to report card (teacher app; **next to mock up**)
 - **Problem (Puvi, Nisha, Annie):** marks are typed by hand, sometimes twice (they don't save); mid-terms are calculated manually; homework and marks live in separate modules though they're the same thing in STEM; report cards can't fit a page when printed.
 - **Fix:** **one marks table** behind every assessment — homework scores, quizzes, tests, continuous marks. The teacher sees a spreadsheet-like grid (rows = students, columns = assessments) with **autosave and an explicit "Saved" per cell**. Totals, mid-term aggregates and report-card numbers are **computed by the database, never keyed in** (the backend view is already designed in backend-plan.md). Because the pipeline is unified, the one-page printable report card becomes a template problem, not a data problem. Excel import is deliberately deferred — if entry costs ~2 seconds per cell, the import pressure disappears.
 

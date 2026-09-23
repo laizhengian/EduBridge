@@ -216,6 +216,33 @@ body {
   }
 }
 
+/* ---- text size ----
+   The accessibility setting (lib/text-size.ts) scales the ROOT font size.
+   Because type is sized in rem, the whole app grows in proportion — text can
+   never clip its container the way a per-element bump can. Layout is fluid. */
+.text-large {
+  font-size: 112.5%; /* 18px root */
+}
+.text-larger {
+  font-size: 125%; /* 20px root */
+}
+
+/* Screen-reader-only text: present for assistive tech, invisible and —
+   importantly for the text-size guarantee — zero-size for layout. */
+.sr-only {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* the signature: a drawn strike across finished work */
 
 .strike {

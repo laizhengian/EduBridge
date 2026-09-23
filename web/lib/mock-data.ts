@@ -38,8 +38,12 @@ export type SchoolEvent = {
   title: string;
   type: "event" | "holiday" | "exam";
   location?: string;
-  /** Longer description, shown when the reader taps "More". */
+  /** Longer description, shown when the reader taps "More". Real school
+      letters run long — the renderer splits on blank lines into paragraphs. */
   details?: string;
+  /** Links inside the event letter (forms, maps, full schedules). Each opens
+      in a new tab; the vault will store these as a links column (backend plan). */
+  links?: { label: string; url: string }[];
 };
 
 export type Circular = {
@@ -223,7 +227,11 @@ export const events: SchoolEvent[] = [
     type: "event",
     location: " Stadium",
     details:
-      "Gates open 7:30am. Students arrive in house shirts. Track events run from 8:00am to 1:00pm; the parent relay is at 12:15pm. Food stalls accept cashless vouchers only.",
+      "Gates open at 7:30am. Students arrive in house shirts and go straight to their house tents.\n\nTrack events run from 8:00am to 1:00pm. The parent relay is at 12:15pm — sign up at the PA table near the gate.\n\nFood stalls accept cashless vouchers only. Vouchers are sold at the office all week and at the gate until 9:00am.",
+    links: [
+      { label: "Full track schedule (PDF)", url: "https://example.com/sports-day-schedule" },
+      { label: "Stadium map & parking", url: "https://maps.example.com/sports-day" },
+    ],
   },
   {
     id: "e2",
@@ -237,7 +245,10 @@ export const events: SchoolEvent[] = [
     title: "Junior Kitchen Workshop — Grades 3, 4 & 5",
     type: "event",
     details:
-      "Sign-up closes the Friday before. Aprons and ingredients are provided; students only need a water bottle and a container to bring their bakes home.",
+      "Sign-up closes the Friday before. Aprons and ingredients are provided; students only need a water bottle and a container to bring their bakes home.\n\nPickup is at the canteen at 12:30pm sharp.",
+    links: [
+      { label: "Sign-up form", url: "https://forms.example.com/junior-kitchen" },
+    ],
   },
   {
     id: "e4",
@@ -604,4 +615,29 @@ export const schoolVideos: SchoolVideo[] = [
     duration: "6:02",
     url: null,
   },
+];
+
+/* ---- Class roster (teacher mode) ----------------------------------------- */
+
+export type RosterStudent = {
+  id: string;
+  name: string;
+  /** attendance state for today — set by the teacher app, read by /attendance */
+  att: "present" | "late" | "excused" | "absent";
+  /** why, when not present — chips, never typing */
+  reason?: string;
+};
+
+/** Class 8B's roll. Generic names; the real roster comes from the vault. */
+export const roster: RosterStudent[] = [
+  { id: "s1", name: "Aisyah Rahman", att: "present" },
+  { id: "s2", name: "Benjamin Lee", att: "present" },
+  { id: "s3", name: "Chong Wei Jian", att: "present" },
+  { id: "s4", name: "Farah Danisha", att: "present" },
+  { id: "s5", name: "Harith Imran", att: "present" },
+  { id: "s6", name: "Mei Ling Chan", att: "present" },
+  { id: "s7", name: "Nurul Hidayah", att: "present" },
+  { id: "s8", name: "Ryan Pillay", att: "present" },
+  { id: "s9", name: "Sofia Ahmed", att: "present" },
+  { id: "s10", name: "Tan Jun Kai", att: "present" },
 ];

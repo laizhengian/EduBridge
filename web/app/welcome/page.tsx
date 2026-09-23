@@ -9,7 +9,7 @@ import {
 } from "motion/react";
 import { Chip } from "@/components/ui";
 import { haptic } from "@/lib/haptics";
-import { loadProfile, saveProfile, type Profile } from "@/lib/profile";
+import { loadProfile, saveProfile, type Profile, type Role } from "@/lib/profile";
 
 const CLASSES = [
   "Class 5A", "Class 5B",
@@ -19,7 +19,7 @@ const CLASSES = [
   "Class 10A", "Class 10B",
 ];
 
-type Step = "signin" | "username" | "class" | "done";
+type Step = "signin" | "username" | "role" | "class" | "done";
 
 /** Stage changes animate like a native flow: the old stage slides up and
     fades, the new one slides in. Nothing jumps. Reduced motion = fade only. */
@@ -37,6 +37,7 @@ export default function WelcomePage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [klass, setKlass] = useState<string | null>(null);
+  const [role, setRole] = useState<Role>("student");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function WelcomePage() {
               type="button"
               onClick={() => {
                 haptic("light");
-                setStep("class");
+                setStep("role");
               }}
               className="pressable flex min-h-[52px] w-full items-center justify-center gap-3 rounded-xl border border-hairline bg-paper text-[15px] font-semibold shadow-sm"
             >
@@ -165,6 +166,51 @@ export default function WelcomePage() {
           </motion.form>
         )}
 
+        {step === "role" && (
+          <motion.div
+            key="role"
+            {...stage}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
+            className="mt-8 space-y-3"
+          >
+            <p className="text-center text-sm font-semibold">
+              Which are you?
+            </p>
+            <p className="mx-auto mt-1 max-w-[34ch] text-center text-xs leading-5 text-muted">
+              Parents pick “student” — you see everything about your child.
+              The app shows the tools that match.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                haptic("light");
+                setRole("student");
+                setStep("class");
+              }}
+              className="pressable flex min-h-[64px] w-full flex-col items-start justify-center rounded-xl border border-hairline bg-paper px-4 text-left shadow-sm"
+            >
+              <span className="text-[15px] font-semibold">Student or parent</span>
+              <span className="mt-0.5 text-[13px] text-muted">
+                Homework, timetable, events and school announcements
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                haptic("light");
+                setRole("teacher");
+                setStep("class");
+              }}
+              className="pressable flex min-h-[64px] w-full flex-col items-start justify-center rounded-xl border border-hairline bg-paper px-4 text-left shadow-sm"
+            >
+              <span className="text-[15px] font-semibold">Teacher</span>
+              <span className="mt-0.5 text-[13px] text-muted">
+                Everything above, plus attendance and homework posting
+              </span>
+            </button>
+          </motion.div>
+        )}
+
         {step === "class" && (
           <motion.div
             key="class"
@@ -173,10 +219,14 @@ export default function WelcomePage() {
             className="mt-8"
           >
             <p className="text-center text-sm font-semibold">
-              {name ? `${name}, which class are you in?` : "Which class are you in?"}
+              {role === "teacher"
+                ? "Which class do you teach?"
+                : name
+                  ? `${name}, which class are you in?`
+                  : "Which class are you in?"}
             </p>
             <p className="mt-1 text-center text-xs text-muted">
-              This sets your timetable and homework for the whole app.
+              This sets {role === "teacher" ? "the class you take attendance for" : "your timetable and homework"} for the whole app.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               {CLASSES.map((c) => (
@@ -190,7 +240,11 @@ export default function WelcomePage() {
               disabled={!klass}
               onClick={() => {
                 haptic("success");
-                finish({ name: name || "Student", className: klass! });
+                finish({
+                  name: name || (role === "teacher" ? "Teacher" : "Student"),
+                  className: klass!,
+                  role,
+                });
               }}
               className="pressable mt-6 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
             >

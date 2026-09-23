@@ -1,8 +1,14 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
+  AdjustIcon,
   BookOpenIcon,
   CalendarCheckIcon,
   CalendarPlusIcon,
+  Chip,
+  GraduationCapIcon,
   ImagesIcon,
   MegaphoneIcon,
   MessageIcon,
@@ -15,11 +21,28 @@ import {
   TrophyIcon,
   UserIcon,
 } from "@/components/ui";
+import { loadProfile, type Role } from "@/lib/profile";
+import {
+  loadTextSize,
+  saveTextSize,
+  TEXT_SIZES,
+  type TextSize,
+} from "@/lib/text-size";
 
 // Hub = grouped by need, not one flat grid. A student looking for "what about
 // me?" sees four tiles; the school-reference stuff lives in its own corner
 // where it can't compete for attention (goals.md → principle 11).
 export default function MorePage() {
+  // Role decides whether Teacher tools appear at all — same app, different
+  // doors. Text size is the accessibility setting (design.md: the whole app
+  // scales from the root font size, so nothing clips).
+  const [size, setSize] = useState<TextSize>("standard");
+  const [role, setRole] = useState<Role>("student");
+  useEffect(() => {
+    setSize(loadTextSize());
+    setRole(loadProfile()?.role ?? "student");
+  }, []);
+
   return (
     <div>
       <header className="rise">
@@ -49,6 +72,26 @@ export default function MorePage() {
           Icon={PenLineIcon}
         />
       </Group>
+
+      {role === "teacher" && (
+        <Group
+          icon={<GraduationCapIcon className="h-4.5 w-4.5" />}
+          title="Teacher tools"
+        >
+          <Tile
+            href="/teacher/attendance"
+            title="Take attendance"
+            desc="Everyone starts as in — tap only the exceptions"
+            Icon={CalendarCheckIcon}
+          />
+          <Tile
+            href="/teacher/post"
+            title="Post homework"
+            desc="Three taps and one line, straight to the class board"
+            Icon={PenLineIcon}
+          />
+        </Group>
+      )}
 
       <Group
         icon={<MegaphoneIcon className="h-4.5 w-4.5" />}
@@ -104,6 +147,43 @@ export default function MorePage() {
         />
         <CalendarTile />
       </Group>
+
+      <Group icon={<AdjustIcon className="h-4.5 w-4.5" />} title="Settings" last>
+        <TextSizeSetting
+          size={size}
+          onChoose={(s) => {
+            setSize(s);
+            saveTextSize(s);
+          }}
+        />
+      </Group>
+    </div>
+  );
+}
+
+/** The accessibility setting. It scales the ROOT font size (see
+    lib/text-size.ts), so every screen grows in proportion and nothing can
+    clip — the layout is fluid, there is no zoom to break it. */
+function TextSizeSetting({
+  size,
+  onChoose,
+}: {
+  size: TextSize;
+  onChoose: (s: TextSize) => void;
+}) {
+  return (
+    <div className="col-span-2 rounded-xl border border-hairline bg-paper p-4 md:col-span-4">
+      <p className="font-display text-[15px] font-semibold">Text size</p>
+      <p className="mt-1 text-xs leading-5 text-muted">
+        Makes every word in the app bigger — nothing moves or gets cut off
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {TEXT_SIZES.map((s) => (
+          <Chip key={s} active={size === s} onClick={() => onChoose(s)}>
+            {s === "standard" ? "Standard" : s === "large" ? "Large" : "Larger"}
+          </Chip>
+        ))}
+      </div>
     </div>
   );
 }

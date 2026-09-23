@@ -124,7 +124,7 @@ export default function LifePage() {
                   Watch
                 </a>
               ) : (
-                <span className="shrink-0 text-right text-xs font-medium text-muted">
+                <span className="max-w-[11rem] shrink text-right text-xs font-medium text-muted">
                   Link slot ready —
                   <br className="hidden sm:block" /> the school pastes its
                   YouTube URL

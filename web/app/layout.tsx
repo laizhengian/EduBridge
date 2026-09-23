@@ -47,7 +47,24 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${nunito.variable} ${publicSans.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${nunito.variable} ${publicSans.variable} h-full antialiased`}
+      // The pre-paint script above may add the saved text-size class before
+      // hydration — that attribute difference is intentional (next-themes does
+      // the same); suppress the dev-only warning without affecting children.
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Restore the saved text-size class before first paint — no flash of
+            small text for users who chose Large or Larger (see lib/text-size). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var s=localStorage.getItem("ois-text-size");if(s==="large")document.documentElement.classList.add("text-large");else if(s==="larger")document.documentElement.classList.add("text-larger")}catch(e){}',
+          }}
+        />
+      </head>
       <body className="min-h-full">
         <Shell>{children}</Shell>
       </body>

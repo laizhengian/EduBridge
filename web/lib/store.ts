@@ -27,6 +27,12 @@ export function getHomework(): Homework[] {
   return read().sort((a, b) => +new Date(a.dueAt) - +new Date(b.dueAt));
 }
 
+/** Teacher app writes here too — one store, every surface. The new item
+    appears in the family homework board immediately. */
+export function addHomework(item: Homework) {
+  write([item, ...read()]);
+}
+
 export function toggleDone(id: string): Homework | null {
   const items = read();
   const target = items.find((h) => h.id === id);

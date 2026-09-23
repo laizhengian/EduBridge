@@ -70,6 +70,9 @@ export {
   CalendarCheck as CalendarCheckIcon,
   PenLine as PenLineIcon,
   ScrollText as ScrollTextIcon,
+  ExternalLink as ExternalLinkIcon,
+  Settings2 as AdjustIcon,
+  GraduationCap as GraduationCapIcon,
 } from "lucide-react";
 
 export function CloseIcon(p: IconProps) {

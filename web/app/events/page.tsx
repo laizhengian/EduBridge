@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DotTag, ChevronIcon } from "@/components/ui";
+import { DotTag, ChevronIcon, ExternalLinkIcon } from "@/components/ui";
 import { AddToCalendar } from "@/components/AddToCalendar";
 import { events, type SchoolEvent } from "@/lib/mock-data";
 
@@ -79,7 +79,29 @@ function Row({ e, first }: { e: SchoolEvent; first: boolean }) {
             />
           </button>
           {open && (
-            <p className="mt-1 text-sm leading-6 text-foreground/80">{e.details}</p>
+            <div className="mt-1 space-y-2.5">
+              {e.details?.split(/\n\s*\n/).map((para, i) => (
+                <p key={i} className="text-sm leading-6 text-foreground/80">
+                  {para}
+                </p>
+              ))}
+              {e.links?.length ? (
+                <div className="flex flex-wrap gap-2 pt-0.5">
+                  {e.links.map((l) => (
+                    <a
+                      key={l.url}
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pressable inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-hairline bg-background px-3 text-sm font-medium text-accent"
+                    >
+                      {l.label}
+                      <ExternalLinkIcon className="h-3.5 w-3.5" />
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </div>
           )}
         </div>
       )}

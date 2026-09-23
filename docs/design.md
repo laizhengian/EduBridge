@@ -14,6 +14,13 @@ grandparents. Consequences:
 - High contrast text; muted color only for genuinely secondary details
 - One obvious action per section; nothing depends on hover or prior app experience
 - Fonts have clear jobs (see below) — variety must mean something, never decoration
+- **Text size is a setting, not a compromise** (added from user review): the Hub
+  offers Standard / Large / Larger. It scales the **root font size**, and type is
+  sized in rem — so every screen grows in proportion and nothing can clip (a
+  per-element bump would break rows; root scaling can't). The choice restores
+  before first paint, so larger type never flashes small. New screens must keep
+  type in rem/text-* classes — never fixed px — or they silently opt out of
+  accessibility
 
 ## Fonts — two, each with a clear job
 - **Nunito** (`.font-display`): headings, section titles, big numbers, buttons' labels.
@@ -68,6 +75,12 @@ tabs, everything else is in the tree.
 - **The teacher/admin app (later):** same visual language, same database; exists for
   posting and managing. Never mix posting controls into the family app
 - A post in one app appears in the other automatically — one database, no syncing
+- **One codebase, doors by role** (updated September 2026): teacher tools live at
+  `/teacher/*` inside the same app and appear only for teacher accounts — the Hub
+  grows a Teacher tools group. Students and parents never see the doors, so the
+  family surface stays view-only; there is still no posting UI *in the family
+  screens*. This matches the product plan (one app, role-based feature sets) and
+  keeps one design system, one deploy, one review surface
 
 ## Hard bans (from app-skill, enforced here)
 - No emoji in headings, buttons, or navigation

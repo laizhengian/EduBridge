@@ -54,6 +54,13 @@ create table homework (
   updated_at timestamptz not null default now()
 );
 
+-- 3b. Events: real school letters run long and carry links (forms, maps,
+--     schedules). The links column renders as tappable buttons inside the
+--     event's expanded letter — the survey's "don't make me open another
+--     tab to read" rule means the letter reads in place, links included.
+alter table (events) add column if not exists links jsonb not null default '[]';
+--       events.links = [{ label: "Sign-up form", url: "https://…" }, …]
+
 -- 4. The four-state attendance log. Four states because "late" recorded as
 --    "absent" is a live bug in the old portal (Annie, friction log §20).
 create table attendance (
@@ -150,6 +157,16 @@ leaderboard, and that's on the not-building list for the student app.
 3. **Offline tolerance, honest labels.** On flaky school Wi-Fi, reads come from
    the cache with a visible "last updated" stamp (already the documented
    pattern); writes queue and confirm when the network returns.
+
+## Roles, one app (the product decision)
+
+EduBridge ships as **one app with role-based feature sets**, not separate
+student/teacher/admin products: sign-in decides which doors exist. Teacher
+tools live under `/teacher/*` and are invisible to students and parents; the
+admin surface arrives later the same way. In the database this is just RLS +
+role claims — the vault already treats "who you are" as the access rule, so
+"which screens you see" falls out of the same mechanism. The family screens
+stay view-only forever.
 
 ## Phase B3 — the job queue (nothing slow blocks a tap)
 

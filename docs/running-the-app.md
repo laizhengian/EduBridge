@@ -77,6 +77,8 @@ The screens live in `web/app` — one folder per page:
 | `web/app/life` | School life: photo galleries, videos, competitions, campus info |
 | `web/app/feedback` | Student feedback form with visible status and replies |
 | `web/app/hotlines` | Hotlines with tap-to-call |
+| `web/app/teacher/*` | Teacher tools (same app, role-gated): attendance + homework post; Hub shows the group only for teacher profiles |
+| Hub → Settings | Text size (Standard/Large/Larger) — scales the root font size, so every screen grows without clipping |
 | `web/app/faq` | Common questions |
 | `web/app/welcome` | First-run sign-in screen |
 | `web/lib/mock-data.ts` | The sample homework, events and classes |
