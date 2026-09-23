@@ -8,35 +8,24 @@ import {
   cycleAtt,
   freshRoster,
   TEACHER_CLASSES,
+  REASON_OPTIONS,
 } from "@/lib/teacher-store";
 import { haptic } from "@/lib/haptics";
 
-const REASONS = [
-  "Sick",
-  "Medical certificate",
-  "Family matter",
-  "School duty",
-  "Late transport",
-] as const;
-
 /**
- * Tap-the-row attendance (features.md §14). The roster opens all-present —
- * the template fills itself. A tap moves a child through present → late →
- * excused → absent. Reason chips instead of typing. The post confirms
- * explicitly, because the old portal's habit of losing entered marks is the
- * trust-killer we are reversing (Nisha, friction log §20).
+ * Tap-the-row attendance (features.md §14). The roster opens all-present.
+ * A tap moves a child through present → late → excused → absent. Reasons are
+ * OPTIONAL — a quick-pick chip, a written line, or nothing at all; the post
+ * is never blocked. Recurring reasons surface as one-tap suggestions based
+ * on the term so far (the lateness tracker's data).
  */
 export default function TeacherAttendancePage() {
   const [klass, setKlass] = useState<string>(TEACHER_CLASSES[1]);
-  const [rows, setRows] = useState<RosterStudent[]>(() => freshRoster(TEACHER_CLASSES[1]));
+  const [rows, setRows] = useState<RosterStudent[]>(() =>
+    freshRoster(TEACHER_CLASSES[1]),
+  );
   const [posted, setPosted] = useState<string | null>(null);
-
-  function switchClass(c: string) {
-    haptic("light");
-    setKlass(c);
-    setPosted(null);
-    setRows(freshRoster(c));
-  }
+  const [writing, setWriting] = useState<string | null>(null); // student id with the custom-reason box open
 
   const counts = useMemo(() => {
     const c: Record<string, number> = {};
@@ -45,8 +34,7 @@ export default function TeacherAttendancePage() {
   }, [rows]);
 
   const exceptions = rows.filter((s) => s.att !== "present");
-  const readyToPost =
-    exceptions.length === 0 || exceptions.every((s) => Boolean(s.reason));
+  const lates = rows.filter((s) => s.att === "late");
 
   function tap(id: string) {
     haptic("light");
@@ -54,7 +42,7 @@ export default function TeacherAttendancePage() {
     setRows(rows.map((r) => (r.id === id ? cycleAtt(r) : r)));
   }
 
-  function chooseReason(id: string, reason: string) {
+  function setReason(id: string, reason: string | undefined) {
     setPosted(null);
     setRows(rows.map((r) => (r.id === id ? { ...r, reason } : r)));
   }
@@ -77,7 +65,17 @@ export default function TeacherAttendancePage() {
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {TEACHER_CLASSES.map((c) => (
-            <Chip key={c} active={klass === c} onClick={() => switchClass(c)}>
+            <Chip
+              key={c}
+              active={klass === c}
+              onClick={() => {
+                haptic("light");
+                setKlass(c);
+                setPosted(null);
+                setWriting(null);
+                setRows(freshRoster(c));
+              }}
+            >
               {c}
             </Chip>
           ))}
@@ -113,17 +111,53 @@ export default function TeacherAttendancePage() {
               <StateDot state={s.att} />
             </button>
 
-            {(s.att === "excused" || s.att === "absent") && (
-              <div className="flex flex-wrap gap-1.5 pb-2 pl-0.5">
-                {REASONS.map((r) => (
+            {s.att !== "present" && (
+              <div className="space-y-2 pb-2 pl-0.5">
+                <div className="flex flex-wrap gap-1.5">
+                  {/* Recurring reasons first, from the term's history */}
+                  {s.frequentReason &&
+                    s.frequentReason !== s.reason &&
+                    REASON_OPTIONS.includes(s.frequentReason) && (
+                      <Chip
+                        active={false}
+                        onClick={() => setReason(s.id, s.frequentReason)}
+                      >
+                        {s.frequentReason} (again)
+                      </Chip>
+                    )}
+                  {REASON_OPTIONS.filter((r) => r !== s.frequentReason).map(
+                    (r) => (
+                      <Chip
+                        key={r}
+                        active={s.reason === r}
+                        onClick={() =>
+                          setReason(s.id, s.reason === r ? undefined : r)
+                        }
+                      >
+                        {r}
+                      </Chip>
+                    ),
+                  )}
                   <Chip
-                    key={r}
-                    active={s.reason === r}
-                    onClick={() => chooseReason(s.id, r)}
+                    active={Boolean(s.reason) && !REASON_OPTIONS.includes(s.reason ?? "")}
+                    onClick={() => setWriting(writing === s.id ? null : s.id)}
                   >
-                    {r}
+                    Write a reason…
                   </Chip>
-                ))}
+                </div>
+                {writing === s.id && (
+                  <input
+                    value={
+                      s.reason && !REASON_OPTIONS.includes(s.reason)
+                        ? s.reason
+                        : ""
+                    }
+                    onChange={(e) => setReason(s.id, e.target.value || undefined)}
+                    placeholder="e.g. Doctor's appointment till 10am"
+                    enterKeyHint="done"
+                    className="w-full rounded-xl border border-hairline bg-background px-3.5 py-2.5 text-base outline-none focus:border-accent"
+                  />
+                )}
               </div>
             )}
           </li>
@@ -138,15 +172,10 @@ export default function TeacherAttendancePage() {
         </p>
         <button
           type="button"
-          disabled={!readyToPost}
           onClick={post}
-          className="pressable mt-3 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
+          className="pressable mt-3 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
         >
-          {exceptions.length === 0
-            ? "Post — everyone is in"
-            : exceptions.every((s) => Boolean(s.reason))
-              ? "Post attendance"
-              : "Pick a reason for everyone marked away"}
+          Post attendance
         </button>
         {posted && (
           <p className="mt-2.5 rounded-lg bg-accent-soft px-3 py-2.5 text-sm font-medium text-accent-strong">
@@ -154,10 +183,56 @@ export default function TeacherAttendancePage() {
           </p>
         )}
         <p className="mt-3 text-[13px] leading-5 text-muted">
-          Design preview — nothing is stored yet. The real app keeps a draft if
-          the connection drops, so attendance is never entered twice.
+          Reasons are optional. The real app saves a draft as you go, so
+          attendance is never entered twice.
         </p>
       </div>
+
+      {lates.length > 0 && (
+        <section
+          className="rise mt-8 rounded-xl border border-hairline bg-paper p-4"
+          style={{ "--i": 3 } as React.CSSProperties}
+        >
+          <h2 className="font-display text-[17px] font-semibold">
+            Lateness tracker
+          </h2>
+          <p className="mt-1 text-sm text-muted">
+            Times late this term, and what keeps happening
+          </p>
+          <ul className="mt-3 space-y-2.5">
+            {lates.map((s) => (
+              <li key={s.id} className="flex items-center justify-between gap-3">
+                <span className="min-w-0">
+                  <span className="block truncate text-[15px] font-medium">
+                    {s.name}
+                  </span>
+                  <span className="block text-[13px] text-muted">
+                    {s.reason
+                      ? `today: ${s.reason}`
+                      : s.frequentReason
+                        ? `usually: ${s.frequentReason}`
+                        : "no reason given"}
+                  </span>
+                </span>
+                <span
+                  className={`shrink-0 rounded-full px-3 py-1 text-[13px] font-semibold ${
+                    (s.latesThisTerm ?? 0) >= 5
+                      ? "bg-danger-soft text-danger"
+                      : "bg-accent-soft text-accent-strong"
+                  }`}
+                >
+                  {(s.latesThisTerm ?? 0) + 1} lates
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 border-t border-hairline pt-3 text-[13px] leading-5 text-muted">
+            Five or more lates turns red — worth a word with the family before
+            it becomes a habit. The full class history lives in each student's
+            overview.
+          </p>
+        </section>
+      )}
     </div>
   );
 }

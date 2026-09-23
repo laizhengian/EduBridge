@@ -7,15 +7,16 @@ import {
   ChevronIcon,
   ClipboardListIcon,
   PenLineIcon,
+  TrophyIcon,
 } from "@/components/ui";
 import { getHomework } from "@/lib/store";
 import { TEACHER_CLASSES } from "@/lib/teacher-store";
 import { haptic } from "@/lib/haptics";
 
 /**
- * The teacher's home. It looks nothing like the student Today screen because
- * the job is different: your classes and the two things teachers do all day.
- * Classes come from the account (assigned at year start) — nothing to pick.
+ * The teacher's home: your classes (each opens the class overview), one
+ * actions hub, and your recent posts. Nothing repeats — the actions live
+ * here once, and the class cards are about the *students*, not shortcuts.
  */
 export default function TeacherHomePage() {
   const [recent, setRecent] = useState<ReturnType<typeof getHomework>>([]);
@@ -62,14 +63,13 @@ export default function TeacherHomePage() {
           {TEACHER_CLASSES.map((c) => (
             <Link
               key={c}
-              href="/teacher/attendance"
+              href={`/teacher/class?name=${encodeURIComponent(c)}`}
               onClick={() => haptic("light")}
               className="pressable rounded-xl border border-hairline bg-paper p-4"
             >
               <p className="font-display text-lg font-semibold">{c}</p>
               <p className="mt-1 flex items-center gap-1.5 text-sm text-muted">
-                <CalendarCheckIcon className="h-4 w-4 text-accent" />
-                Take attendance
+                Roll, lateness & attendance history
               </p>
             </Link>
           ))}
@@ -78,13 +78,13 @@ export default function TeacherHomePage() {
 
       <section className="rise mt-8" style={{ "--i": 2 } as React.CSSProperties}>
         <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">
-          Do now
+          Quick actions
         </h2>
-        <div className="mt-2.5 grid gap-3.5 sm:grid-cols-2">
+        <div className="mt-2.5 rounded-xl border border-hairline bg-paper px-4 py-1">
           <Link
             href="/teacher/attendance"
             onClick={() => haptic("light")}
-            className="pressable flex min-h-[64px] items-center justify-between gap-3 rounded-xl border border-hairline bg-paper px-4"
+            className="pressable flex min-h-[56px] items-center justify-between gap-3"
           >
             <span className="flex items-center gap-3">
               <CalendarCheckIcon className="h-5.5 w-5.5 text-accent" />
@@ -95,7 +95,7 @@ export default function TeacherHomePage() {
           <Link
             href="/teacher/post"
             onClick={() => haptic("light")}
-            className="pressable flex min-h-[64px] items-center justify-between gap-3 rounded-xl border border-hairline bg-paper px-4"
+            className="pressable flex min-h-[56px] items-center justify-between gap-3 border-t border-hairline"
           >
             <span className="flex items-center gap-3">
               <PenLineIcon className="h-5.5 w-5.5 text-accent" />
@@ -103,6 +103,20 @@ export default function TeacherHomePage() {
             </span>
             <ChevronIcon className="h-4 w-4 text-stone-400" />
           </Link>
+          <div
+            aria-disabled
+            className="flex min-h-[56px] items-center justify-between gap-3 border-t border-hairline opacity-60"
+          >
+            <span className="flex items-center gap-3">
+              <TrophyIcon className="h-5.5 w-5.5 text-stone-400" />
+              <span className="text-[15px] font-semibold text-muted">
+                Enter marks{" "}
+                <span className="text-xs font-semibold text-muted">
+                  — coming soon
+                </span>
+              </span>
+            </span>
+          </div>
         </div>
       </section>
 
@@ -138,10 +152,6 @@ export default function TeacherHomePage() {
             ))}
           </ul>
         )}
-        <p className="mt-3 text-[13px] leading-5 text-muted">
-          Marks entry, read receipts and the admin tools arrive with the real
-          accounts — the plan is in the docs.
-        </p>
       </section>
     </div>
   );

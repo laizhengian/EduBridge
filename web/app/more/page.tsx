@@ -9,7 +9,6 @@ import {
   CalendarPlusIcon,
   Chip,
   EventsIcon,
-  GraduationCapIcon,
   ImagesIcon,
   MegaphoneIcon,
   MessageIcon,
@@ -116,26 +115,6 @@ export default function MorePage() {
           Icon={PenLineIcon}
         />
       </Group>
-
-      {role === "teacher" && (
-        <Group
-          icon={<GraduationCapIcon className="h-4.5 w-4.5" />}
-          title="Teacher tools"
-        >
-          <Tile
-            href="/teacher/attendance"
-            title="Take attendance"
-            desc="Everyone starts as in — tap only the exceptions"
-            Icon={CalendarCheckIcon}
-          />
-          <Tile
-            href="/teacher/post"
-            title="Post homework"
-            desc="Three taps and one line, straight to the class board"
-            Icon={PenLineIcon}
-          />
-        </Group>
-      )}
 
       <Group icon={<ImagesIcon className="h-4.5 w-4.5" />} title="School life">
         <Tile

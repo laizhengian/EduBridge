@@ -739,6 +739,10 @@ export type RosterStudent = {
   att: "present" | "late" | "excused" | "absent";
   /** why, when not present — chips, never typing */
   reason?: string;
+  /** lateness tracker: times late this term, and the reason that keeps
+      coming up — powers the tracker card and recurring quick-picks */
+  latesThisTerm?: number;
+  frequentReason?: string;
 };
 
 /** Class 8B's roll. Generic names; the real roster comes from the vault. */
@@ -746,11 +750,11 @@ export const roster: RosterStudent[] = [
   { id: "s1", name: "Aisyah Rahman", att: "present" },
   { id: "s2", name: "Benjamin Lee", att: "present" },
   { id: "s3", name: "Chong Wei Jian", att: "present" },
-  { id: "s4", name: "Farah Danisha", att: "present" },
+  { id: "s4", name: "Farah Danisha", att: "present", latesThisTerm: 6, frequentReason: "Late transport" },
   { id: "s5", name: "Harith Imran", att: "present" },
   { id: "s6", name: "Mei Ling Chan", att: "present" },
-  { id: "s7", name: "Nurul Hidayah", att: "present" },
+  { id: "s7", name: "Nurul Hidayah", att: "present", latesThisTerm: 3, frequentReason: "Traffic" },
   { id: "s8", name: "Ryan Pillay", att: "present" },
-  { id: "s9", name: "Sofia Ahmed", att: "present" },
+  { id: "s9", name: "Sofia Ahmed", att: "present", latesThisTerm: 4, frequentReason: "Late transport" },
   { id: "s10", name: "Tan Jun Kai", att: "present" },
 ];

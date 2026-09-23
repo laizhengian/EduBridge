@@ -15,6 +15,18 @@ import {
     they teach, and updates when the year rolls over. */
 export const TEACHER_CLASSES = ["Class 7A", "Class 8B", "Class 9A"] as const;
 
+/** Reason quick-picks. Optional by design — writing a custom reason is one
+    tap away, and no mark ever waits on one. Custom-written reasons join this
+    list as recurring picks once they repeat (the vault clusters them). */
+export const REASON_OPTIONS: readonly string[] = [
+  "Sick",
+  "Medical certificate",
+  "Family matter",
+  "School duty",
+  "Late transport",
+  "Traffic",
+];
+
 export type AttState = "present" | "late" | "excused" | "absent";
 export const ATT_STATES: AttState[] = ["present", "late", "excused", "absent"];
 

@@ -11,16 +11,14 @@ import {
 } from "@/components/ui";
 
 /**
- * The teacher app's own chrome — deliberately NOT the family app's. Four
- * destinations a teacher actually uses (Home, Attendance, Post homework, and
- * a door back to the family app for what students see), no Hub tiles, and a
- * teacher-green top bar so you always know which app you're in.
+ * The teacher app's own chrome — deliberately NOT the family app's. Three
+ * destinations (Home, Attendance, Post), no Hub tiles, and a teacher-green
+ * top bar so you always know which app you're in.
  */
 const tabs = [
   { href: "/teacher", label: "Home", Icon: HomeIcon, exact: true },
   { href: "/teacher/attendance", label: "Attendance", Icon: CalendarCheckIcon, exact: false },
   { href: "/teacher/post", label: "Post", Icon: PenLineIcon, exact: false },
-  { href: "/", label: "Family app", Icon: GraduationCapIcon, exact: true },
 ];
 
 export function TeacherShell({ children }: { children: React.ReactNode }) {
@@ -49,8 +47,9 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
           <Link
             href="/more"
             className="pressable rounded-lg px-2 py-1 text-xs font-semibold text-paper/80 underline-offset-4 hover:text-paper hover:underline"
+            aria-label="Open the Hub for settings, privacy and school reference"
           >
-            Settings & profile
+            Settings
           </Link>
         </div>
       </header>
@@ -65,9 +64,9 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
           scrolled ? "shadow-[0_-12px_24px_-20px_rgba(20,86,62,0.8)]" : ""
         }`}
       >
-        <div className="mx-auto grid max-w-md grid-cols-4">
+        <div className="mx-auto grid max-w-md grid-cols-3">
           {tabs.map(({ href, label, Icon, exact }) => {
-            const active = exact ? pathname === href : pathname.startsWith(href) && href !== "/";
+            const active = exact ? pathname === href : pathname.startsWith(href);
             return (
               <Link
                 key={href}
