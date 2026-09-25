@@ -169,7 +169,7 @@ function Row({
         <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1">
           <SubjectChip>{h.subject}</SubjectChip>
           <span className="text-xs text-muted">due {dueLabel(h.dueAt)}</span>
-          {isOverdue && <DotTag color="red">overdue</DotTag>}
+          {isOverdue && <DotTag color="red" icon>overdue</DotTag>}
           <span className="text-xs text-muted">
             {h.postedBy} · {dayGroupLabel(h.postedAt)}
           </span>
@@ -185,7 +185,7 @@ function Row({
             <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
               <SubjectChip>{h.subject}</SubjectChip>
               <span className="text-xs text-muted">due {dueLabel(h.dueAt)}</span>
-              {isOverdue && <DotTag color="red">overdue</DotTag>}
+              {isOverdue && <DotTag color="red" icon>overdue</DotTag>}
             </div>
           </div>
           <div className="rounded-xl border border-hairline bg-background px-4 py-3 text-sm leading-6">

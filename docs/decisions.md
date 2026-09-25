@@ -190,14 +190,18 @@ This is the decision the user specifically asked to see justified:
   exactly the "weird red" the user flagged. Three more palettes (teal,
   indigo, rose) fill out the picker for the eight-strong row. The SubjectChip
   tan and one hover pill were the last hard-coded hexes — both now go through
-  `--chip` tokens.
+  `--chip` tokens. Selected swatches show a plain white checkmark (the ring +
+  inner dot read as two competing signals); overdue marks carry an alarm-clock
+  glyph, not just a red word.
 - **Page backdrops:** the faint graph-paper + stationery-glyph wallpaper
   (PageBackdrop) is one component and one CSS block, opt-in per page with a
   motif name, token-coloured so palettes and dark mode tint it for free,
   aria-hidden with no pointer events, fading out after the first screenful so
-  it never fights the content. Seven pages use it; the Hub and Settings stay
-  clean on purpose (the Hub is the tile wall; Settings is the calm control
-  room).
+  it never fights the content. Nine pages use it — Today and the Hub included,
+  after review showed the wallpaper reads as the app's fabric, not noise
+  (Today's motif mixes the school-day tools; the Hub's doodles are its own
+  destination glyphs). Settings and the legal pages stay clean: the control
+  room and the fine print don't decorate.
 - **What lost:** reusing light colours at reduced opacity for dark mode (the
   muddy-red trap, again); scattering doodles as per-page JSX (n palettes of
   drift, unmaintainable); embedding the motif inside Shell (pages couldn't

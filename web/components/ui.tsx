@@ -29,6 +29,7 @@ import {
   FlaskConical,
   Newspaper,
   Ruler,
+  AlarmClock,
   ScrollText,
   Send,
   ShieldCheck,
@@ -78,6 +79,7 @@ export {
   FlaskConical as FlaskGlyph,
   Newspaper as NewspaperGlyph,
   Ruler as RulerGlyph,
+  AlarmClock as AlarmClockIcon,
   ExternalLink as ExternalLinkIcon,
   Settings2 as AdjustIcon,
   GraduationCap as GraduationCapIcon,
@@ -131,13 +133,17 @@ export function ExclaimGlyph(p: IconProps) {
   );
 }
 
-/** Small dot + word label. No colored pill backgrounds. */
+/** Small dot + word label. No colored pill backgrounds. An optional glyph
+    (e.g. the alarm clock on "overdue") can stand in for the dot when the
+    meaning needs a picture, not just a colour. */
 export function DotTag({
   color,
   children,
+  icon = false,
 }: {
   color: "green" | "red" | "amber" | "gray";
   children: React.ReactNode;
+  icon?: boolean;
 }) {
   const dot = {
     green: "bg-accent",
@@ -153,7 +159,11 @@ export function DotTag({
   }[color];
   return (
     <span className="inline-flex items-center gap-1.5 text-xs font-medium">
-      <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${dot}`} />
+      {icon ? (
+        <AlarmClock aria-hidden className={`h-3.5 w-3.5 ${text}`} />
+      ) : (
+        <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${dot}`} />
+      )}
       <span className={text}>{children}</span>
     </span>
   );

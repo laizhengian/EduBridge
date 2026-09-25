@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Chip } from "@/components/ui";
+import { CheckGlyph, Chip } from "@/components/ui";
 import { loadProfile, saveProfile, type Role } from "@/lib/profile";
 import {
   loadTextSize,
@@ -132,10 +132,7 @@ export default function SettingsPage() {
                     style={{ background: ACCENT_SWATCH[a] }}
                   >
                     {accent === a && (
-                      <span
-                        aria-hidden
-                        className="h-2.5 w-2.5 rounded-full bg-white"
-                      />
+                      <CheckGlyph className="h-4 w-4 text-white" />
                     )}
                   </span>
                 </button>
@@ -149,7 +146,7 @@ export default function SettingsPage() {
 
           <section>
             <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">
-              Brightness
+              Theme
             </h2>
             <div className="mt-2.5 flex flex-wrap gap-2">
               {(["light", "dark", "system"] as Mode[]).map((m) => (

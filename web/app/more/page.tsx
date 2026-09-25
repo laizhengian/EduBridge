@@ -23,6 +23,7 @@ import {
   UserIcon,
 } from "@/components/ui";
 import { circulars, events } from "@/lib/mock-data";
+import { PageBackdrop } from "@/components/PageBackdrop";
 import { getStudy } from "@/lib/study-store";
 import { loadProfile, type Role } from "@/lib/profile";
 
@@ -54,6 +55,7 @@ export default function MorePage() {
 
   return (
     <div>
+      <PageBackdrop motif="hub" />
       <header className="rise">
         <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Hub

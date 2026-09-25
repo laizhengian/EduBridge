@@ -1,7 +1,11 @@
 import {
+  BookOpenIcon,
+  EventsIcon,
   FlaskGlyph,
+  MegaphoneIcon,
   NewspaperGlyph,
   PenLineIcon,
+  PhoneIcon,
   PencilGlyph,
   PlayIcon,
   RulerGlyph,
@@ -21,6 +25,10 @@ import {
  */
 
 const MOTIFS = {
+  /** a bit of everything — Today, the morning dashboard */
+  today: [PencilGlyph, PenLineIcon, NewspaperGlyph, RulerGlyph, FlaskGlyph],
+  /** the Hub's own destinations, as wallpaper */
+  hub: [MegaphoneIcon, EventsIcon, PlayIcon, PhoneIcon, BookOpenIcon],
   /** pencils + ruler — Study Center, practice and worksheets */
   study: [PencilGlyph, RulerGlyph, FlaskGlyph, PenLineIcon, PencilGlyph],
   /** megaphone + newspaper — News/circulars from the office */

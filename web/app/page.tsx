@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { DotTag, SectionTitle, ArrowRightIcon } from "@/components/ui";
+import { DotTag, SectionTitle, ArrowRightIcon, AlarmClockIcon } from "@/components/ui";
 import {
   circulars,
   dueLabel,
@@ -12,6 +12,7 @@ import {
   timeAgo,
 } from "@/lib/mock-data";
 import { loadProfile, type Profile } from "@/lib/profile";
+import { PageBackdrop } from "@/components/PageBackdrop";
 
 function Box({
   children,
@@ -71,6 +72,7 @@ export default function TodayPage() {
 
   return (
     <div>
+      <PageBackdrop motif="today" />
       <header className="rise">
         <p className="text-sm text-muted">
           {now.toLocaleDateString("en-MY", { weekday: "long", day: "numeric", month: "long" })}
@@ -108,7 +110,7 @@ export default function TodayPage() {
                 href="/homework"
                 className="flex items-center gap-3 px-4 py-3.5"
               >
-                <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-danger" />
+                <AlarmClockIcon aria-hidden className="h-4 w-4 shrink-0 text-danger" />
                 <span className="min-w-0 flex-1 truncate text-[15px] font-semibold text-danger">
                   {h.title}
                   <span className="sr-only"> (overdue)</span>

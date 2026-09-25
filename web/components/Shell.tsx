@@ -147,15 +147,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
             );
           })}
         </div>
-        <div className="flex items-center justify-center gap-5 border-t border-hairline py-2.5 text-[11px] text-muted">
-          <Link href="/privacy" className="underline-offset-2 hover:text-foreground">
-            Privacy
-          </Link>
-          <span aria-hidden>·</span>
-          <Link href="/privacy#terms" className="underline-offset-2 hover:text-foreground">
-            Terms
-          </Link>
-        </div>
+        {/* Privacy and Terms live at the Hub's foot — reference reading,
+            not a permanent bar competing with the tabs. */}
       </nav>
     </div>
   );

@@ -147,6 +147,24 @@ and `absence_notes` (student, days, reason, certificate photo path, status —
 the office queue). `read_receipts(post_id, user_id, seen_at)` completes the
 teacher-app promise of "seen by 18/24".
 
+### Optional images on posts (planned, not built)
+
+News letters and event letters should be able to carry an image — a poster
+for the sports day, a photo of the lost-and-found table. Deliberately **not**
+in the frontend preview: mock data that pretends to have pictures teaches the
+wrong layout (an image-less list wraps differently than an image-led one, and
+the wrong habit is hard to unlearn). When the vault connects:
+
+- `circulars.image_path` and `events.image_path`, nullable — a post without
+  an image renders exactly as today's text list, never a broken placeholder.
+- Storage bucket with signed URLs (the same recipe as the absence-note
+  certificate photo), server-side size/type limits, EXIF stripped.
+- **The layout rule:** an image is a *banner above the letter's text*, with a
+  fixed aspect ratio and rounded top corners matching the card — never a
+  thumbnail floating in the row, which turns news into a feed of clickable
+  ambiguities. The Today screen stays text-only regardless: it's the summary,
+  the full letter lives one tap deeper.
+
 ### The rules data must follow (Row-Level Security)
 
 Deny-by-default on every table — full SQL in [production-hardening.md](production-hardening.md).
