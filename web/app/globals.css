@@ -14,22 +14,35 @@
   --danger-soft: #fbeeec;
   --warn: #b45309;
   --warn-soft: #fffbeb;
+  --chip: #f0ebe2;
+  --chip-text: #57503f;
 }
 
 /* Colour and dark mode are user settings (lib/appearance.ts): the accent
    palette swaps via an .accent-* class, dark mode via .dark — both restored
    before first paint by the script in layout.tsx. Everything coloured goes
    through these tokens, so a theme change is one class on <html>. */
+/* Dark surfaces follow iOS: colours don't simply inherit — they lift a step
+   brighter so each hue keeps its identity on near-black. Danger is the clearest
+   case: the light-mode brick red read muddy on charcoal, so dark mode uses the
+   systemRed-dark family (iOS #FF453A, softened to our warm palette). The same
+   rule lifts the accent (with dark text on amber, as iOS does for yellow) and
+   gives --accent-strong a bright tint for labels on dark surfaces. */
 .dark {
   --background: #16181a;
   --foreground: #ece9e4;
   --paper: #1e2124;
   --hairline: #33383c;
   --muted: #a2a49e;
+  --accent: #2b8464;
+  --accent-strong: #7fc4a6;
   --accent-soft: #24312b;
-  --danger-soft: #3a2422;
+  --danger: #ff6b61;
+  --danger-soft: #452721;
   --warn: #e0a33e;
   --warn-soft: #38301f;
+  --chip: #2e2b25;
+  --chip-text: #c9c2b2;
 }
 
 @theme inline {
@@ -46,17 +59,24 @@
   --color-danger-soft: var(--danger-soft);
   --color-warn: var(--warn);
   --color-warn-soft: var(--warn-soft);
+  --color-chip: var(--chip);
+  --color-chip-text: var(--chip-text);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 }
 
-/* accent palettes — the picker lives in Settings (lib/appearance.ts) */
+/* accent palettes — the picker lives in Settings (lib/appearance.ts).
+   Each palette states light and dark values; the dark accent sits two steps
+   brighter so it holds its own on charcoal while keeping 4.5:1 under white
+   text (amber is the exception — it goes bright and flips to dark text). */
 .accent-blue {
   --accent: #1e5a8a;
   --accent-strong: #17486f;
   --accent-soft: #e7eef5;
 }
 .dark.accent-blue {
+  --accent: #3579ad;
+  --accent-strong: #93c2e4;
   --accent-soft: #23303c;
 }
 .accent-maroon {
@@ -65,6 +85,8 @@
   --accent-soft: #f5eaea;
 }
 .dark.accent-maroon {
+  --accent: #a9544c;
+  --accent-strong: #e0a8a2;
   --accent-soft: #382728;
 }
 .accent-plum {
@@ -73,6 +95,8 @@
   --accent-soft: #f2ebf4;
 }
 .dark.accent-plum {
+  --accent: #8f5ca0;
+  --accent-strong: #d3abde;
   --accent-soft: #2f2733;
 }
 .accent-amber {
@@ -81,7 +105,75 @@
   --accent-soft: #f6efe0;
 }
 .dark.accent-amber {
+  --accent: #d29a3f;
+  --accent-strong: #e6bd80;
   --accent-soft: #362d1d;
+  --accent-contrast: #241a08;
+}
+.accent-teal {
+  --accent: #16766a;
+  --accent-strong: #0f5c52;
+  --accent-soft: #e4f1ee;
+}
+.dark.accent-teal {
+  --accent: #2b8274;
+  --accent-strong: #8fcac0;
+  --accent-soft: #1f302d;
+}
+.accent-indigo {
+  --accent: #4a58a8;
+  --accent-strong: #3a4689;
+  --accent-soft: #ebecf6;
+}
+.dark.accent-indigo {
+  --accent: #5a68c2;
+  --accent-strong: #b3bcf0;
+  --accent-soft: #272b3d;
+}
+.accent-rose {
+  --accent: #b04a68;
+  --accent-strong: #8f3a54;
+  --accent-soft: #f7eaee;
+}
+.dark.accent-rose {
+  --accent: #b45671;
+  --accent-strong: #efb0c1;
+  --accent-soft: #38242b;
+}
+
+/* ---- page backdrops ----
+   The school-notebook layer: faint graph lines and a few stationery glyphs,
+   strongest at the top of the page and faded out before content gets dense.
+   Decorative only (aria-hidden, no pointer events), fixed so it reads as
+   wallpaper behind the scrolling paper, and token-coloured so every palette
+   and dark mode tint it automatically. Pages opt in per motif
+   (components/PageBackdrop.tsx). */
+.page-backdrop {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 26rem;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+.page-backdrop-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.4;
+  -webkit-mask-image: radial-gradient(130% 100% at 50% 0%, black, transparent 72%);
+  mask-image: radial-gradient(130% 100% at 50% 0%, black, transparent 72%);
+}
+.page-backdrop-doodle {
+  position: absolute;
+  color: var(--accent-strong);
+  opacity: 0.09;
+}
+.dark .page-backdrop-doodle {
+  opacity: 0.14;
 }
 
 html {

@@ -5,6 +5,7 @@ import {
   type EcaSession,
 } from "@/lib/mock-data";
 import { DotTag, SectionTitle, CheckGlyph, CrossGlyph, DashGlyph, ExclaimGlyph } from "@/components/ui";
+import { PageBackdrop } from "@/components/PageBackdrop";
 
 function shortDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -36,6 +37,7 @@ export default function AttendancePage() {
 
   return (
     <div className="mx-auto max-w-3xl">
+      <PageBackdrop motif="attendance" />
       <header className="rise">
         <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Attendance

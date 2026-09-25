@@ -65,7 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{var s=localStorage.getItem("ois-text-size");if(s==="large")document.documentElement.classList.add("text-large");else if(s==="larger")document.documentElement.classList.add("text-larger");var a=localStorage.getItem("ois-accent");if(a==="blue")document.documentElement.classList.add("accent-blue");else if(a==="maroon")document.documentElement.classList.add("accent-maroon");else if(a==="plum")document.documentElement.classList.add("accent-plum");else if(a==="amber")document.documentElement.classList.add("accent-amber");var m=localStorage.getItem("ois-mode");if(m==="dark"||( !m||m==="system")&&matchMedia("(prefers-color-scheme: dark)").matches)document.documentElement.classList.add("dark")}catch(e){}',
+              'try{var s=localStorage.getItem("ois-text-size");if(s==="large")document.documentElement.classList.add("text-large");else if(s==="larger")document.documentElement.classList.add("text-larger");var a=localStorage.getItem("ois-accent");if(a&&a!=="green")document.documentElement.classList.add("accent-"+a);var m=localStorage.getItem("ois-mode");if(m==="dark"||(!m||m==="system")&&matchMedia("(prefers-color-scheme: dark)").matches)document.documentElement.classList.add("dark")}catch(e){}',
           }}
         />
       </head>

@@ -180,6 +180,29 @@ This is the decision the user specifically asked to see justified:
   tile) and hard-coded palette colours in components (made dark mode and
   accent choices impossible to retrofit cheaply).
 
+### 18. Dark colours lift, they don't inherit — and page wallpaper is one opt-in layer — over hard-coded hexes
+- **Why it won:** dark mode isn't a filter over the light palette — iOS lifts
+  every system colour a step brighter on near-black, and we now follow: the
+  overdue red reads as systemRed-dark (#FF453A family, softened), the accent
+  gains a bright tint for labels on dark surfaces (with dark text on amber, as
+  iOS does for yellow), and every palette states its own dark values in one
+  place (globals.css). The old brick red (#b3382e) read muddy on charcoal —
+  exactly the "weird red" the user flagged. Three more palettes (teal,
+  indigo, rose) fill out the picker for the eight-strong row. The SubjectChip
+  tan and one hover pill were the last hard-coded hexes — both now go through
+  `--chip` tokens.
+- **Page backdrops:** the faint graph-paper + stationery-glyph wallpaper
+  (PageBackdrop) is one component and one CSS block, opt-in per page with a
+  motif name, token-coloured so palettes and dark mode tint it for free,
+  aria-hidden with no pointer events, fading out after the first screenful so
+  it never fights the content. Seven pages use it; the Hub and Settings stay
+  clean on purpose (the Hub is the tile wall; Settings is the calm control
+  room).
+- **What lost:** reusing light colours at reduced opacity for dark mode (the
+  muddy-red trap, again); scattering doodles as per-page JSX (n palettes of
+  drift, unmaintainable); embedding the motif inside Shell (pages couldn't
+  choose — and teacher routes would need a fork).
+
 ---
 
 *Where a decision isn't listed, it's small enough to change without a meeting —

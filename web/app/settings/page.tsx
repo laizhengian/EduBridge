@@ -25,7 +25,10 @@ import {
 const ACCENT_SWATCH: Record<Accent, string> = {
   green: "#1d6b4f",
   blue: "#1e5a8a",
+  teal: "#16766a",
+  indigo: "#4a58a8",
   maroon: "#8a2f2f",
+  rose: "#b04a68",
   plum: "#6d3d78",
   amber: "#9a6a1f",
 };

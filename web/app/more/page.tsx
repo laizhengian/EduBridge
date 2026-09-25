@@ -155,28 +155,29 @@ export default function MorePage() {
       </Group>
 
       {/* Quiet legal + settings row — they answer questions, they don't
-          compete for attention with the things families came for. */}
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pb-2 text-[13px] text-muted">
-        <Link
-          href="/settings"
-          className="pressable min-h-[32px] font-medium underline-offset-4 hover:text-foreground hover:underline"
-        >
-          Settings
-        </Link>
-        <span aria-hidden>·</span>
-        <Link
-          href="/privacy"
-          className="underline-offset-4 hover:text-foreground hover:underline"
-        >
-          Privacy
-        </Link>
-        <span aria-hidden>·</span>
-        <Link
-          href="/privacy#terms"
-          className="underline-offset-4 hover:text-foreground hover:underline"
-        >
-          Terms
-        </Link>
+          compete for attention with the things families came for. All three
+          links share one style (same height, same weight) so the row reads as
+          one line and wraps as whole words, never as a lone raised link. */}
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 pb-2 text-[13px] text-muted">
+        {[
+          { href: "/settings", label: "Settings" },
+          { href: "/privacy", label: "Privacy" },
+          { href: "/privacy#terms", label: "Terms" },
+        ].map((l, i) => (
+          <span key={l.href} className="flex items-center gap-x-4">
+            {i > 0 && (
+              <span aria-hidden className="text-muted/60">
+                ·
+              </span>
+            )}
+            <Link
+              href={l.href}
+              className="pressable inline-flex min-h-[32px] items-center font-medium underline-offset-4 hover:text-foreground hover:underline"
+            >
+              {l.label}
+            </Link>
+          </span>
+        ))}
       </div>
     </div>
   );

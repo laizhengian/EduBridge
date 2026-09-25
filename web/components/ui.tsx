@@ -25,6 +25,10 @@ import {
   PenLine,
   Phone,
   Plus,
+  Pencil,
+  FlaskConical,
+  Newspaper,
+  Ruler,
   ScrollText,
   Send,
   ShieldCheck,
@@ -70,6 +74,10 @@ export {
   CalendarCheck as CalendarCheckIcon,
   PenLine as PenLineIcon,
   ScrollText as ScrollTextIcon,
+  Pencil as PencilGlyph,
+  FlaskConical as FlaskGlyph,
+  Newspaper as NewspaperGlyph,
+  Ruler as RulerGlyph,
   ExternalLink as ExternalLinkIcon,
   Settings2 as AdjustIcon,
   GraduationCap as GraduationCapIcon,
@@ -153,7 +161,7 @@ export function DotTag({
 
 export function SubjectChip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-md bg-[#f0ebe2] px-1.5 py-0.5 text-[11px] font-semibold text-[#57503f]">
+    <span className="inline-flex items-center rounded-md bg-chip px-1.5 py-0.5 text-[11px] font-semibold text-chip-text">
       {children}
     </span>
   );

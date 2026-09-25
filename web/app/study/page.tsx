@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Chip, PlayIcon, BookOpenIcon } from "@/components/ui";
+import { PageBackdrop } from "@/components/PageBackdrop";
 import { getStudy, subscribe } from "@/lib/study-store";
 import { timeAgo, type StudyResource } from "@/lib/mock-data";
 import { haptic } from "@/lib/haptics";
@@ -48,6 +49,7 @@ export default function StudyPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
+      <PageBackdrop motif="study" />
       <header className="rise">
         <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Study Center

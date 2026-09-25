@@ -3,7 +3,16 @@
 // flips every surface token (globals.css). Both are restored before first
 // paint by the script in layout.tsx, so there is no flash of the wrong
 // theme, the same mechanism text-size uses.
-export const ACCENTS = ["green", "blue", "maroon", "plum", "amber"] as const;
+export const ACCENTS = [
+  "green",
+  "blue",
+  "teal",
+  "indigo",
+  "maroon",
+  "rose",
+  "plum",
+  "amber",
+] as const;
 export type Accent = (typeof ACCENTS)[number];
 
 export const MODES = ["light", "dark", "system"] as const;
@@ -15,7 +24,10 @@ const MODE_KEY = "ois-mode";
 const ACCENT_CLASS: Record<Accent, string> = {
   green: "",
   blue: "accent-blue",
+  teal: "accent-teal",
+  indigo: "accent-indigo",
   maroon: "accent-maroon",
+  rose: "accent-rose",
   plum: "accent-plum",
   amber: "accent-amber",
 };

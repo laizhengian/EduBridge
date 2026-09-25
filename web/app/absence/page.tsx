@@ -126,7 +126,7 @@ export default function AbsencePage() {
                   type="button"
                   onClick={() => setPhoto(null)}
                   aria-label="Remove photo"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted hover:bg-[#f0ebe2]"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted hover:bg-chip"
                 >
                   <CloseIcon className="h-4.5 w-4.5" />
                 </button>
