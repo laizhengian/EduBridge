@@ -25,12 +25,6 @@ import {
 import { circulars, events } from "@/lib/mock-data";
 import { getStudy } from "@/lib/study-store";
 import { loadProfile, type Role } from "@/lib/profile";
-import {
-  loadTextSize,
-  saveTextSize,
-  TEXT_SIZES,
-  type TextSize,
-} from "@/lib/text-size";
 
 /** Live "new this week" counts — the Hub proves it's organized, not stale.
     Counts fill after mount so server and client render identically. */
@@ -52,10 +46,8 @@ function useNewCounts(): { news: number; events: number; study: number } {
 // leads because the survey says announcements are the #1 use; teacher tools
 // appear only for teacher profiles; Administration is an honest placeholder.
 export default function MorePage() {
-  const [size, setSize] = useState<TextSize>("standard");
   const [role, setRole] = useState<Role>("student");
   useEffect(() => {
-    setSize(loadTextSize());
     setRole(loadProfile()?.role ?? "student");
   }, []);
   const counts = useNewCounts();
@@ -128,13 +120,14 @@ export default function MorePage() {
         />
       </Group>
 
-      <Group icon={<BookOpenIcon className="h-4.5 w-4.5" />} title="Learn">
+      <Group icon={<PlayIcon className="h-4.5 w-4.5" />} title="Learn">
         <Tile
           href="/study"
           title="Study Center"
           desc="Videos, quizzes and practice your teachers share"
           Icon={PlayIcon}
           badge={counts.study > 0 ? `${counts.study} this week` : undefined}
+          wide
         />
       </Group>
 
@@ -151,12 +144,6 @@ export default function MorePage() {
           desc="Short answers to what families ask most"
           Icon={QuestionIcon}
         />
-        <Tile
-          href="/privacy"
-          title="Privacy & terms"
-          desc="What the app stores, in plain words"
-          Icon={ShieldIcon}
-        />
         <CalendarTile />
       </Group>
 
@@ -167,15 +154,30 @@ export default function MorePage() {
         />
       </Group>
 
-      <Group icon={<AdjustIcon className="h-4.5 w-4.5" />} title="Settings" last>
-        <TextSizeSetting
-          size={size}
-          onChoose={(s) => {
-            setSize(s);
-            saveTextSize(s);
-          }}
-        />
-      </Group>
+      {/* Quiet legal + settings row — they answer questions, they don't
+          compete for attention with the things families came for. */}
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pb-2 text-[13px] text-muted">
+        <Link
+          href="/settings"
+          className="pressable min-h-[32px] font-medium underline-offset-4 hover:text-foreground hover:underline"
+        >
+          Settings
+        </Link>
+        <span aria-hidden>·</span>
+        <Link
+          href="/privacy"
+          className="underline-offset-4 hover:text-foreground hover:underline"
+        >
+          Privacy
+        </Link>
+        <span aria-hidden>·</span>
+        <Link
+          href="/privacy#terms"
+          className="underline-offset-4 hover:text-foreground hover:underline"
+        >
+          Terms
+        </Link>
+      </div>
     </div>
   );
 }
@@ -208,17 +210,19 @@ function Tile({
   desc,
   Icon,
   badge,
+  wide = false,
 }: {
   href: string;
   title: string;
   desc: string;
   Icon: (p: { className?: string }) => React.ReactNode;
   badge?: string;
+  wide?: boolean;
 }) {
   return (
     <Link
       href={href}
-      className="rounded-xl border border-hairline bg-paper p-4 transition-transform active:scale-[0.98]"
+      className={`rounded-xl border border-hairline bg-paper p-4 transition-transform active:scale-[0.98]${wide ? " col-span-2 md:col-span-4" : ""}`}
     >
       <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent">
         <Icon className="h-5.5 w-5.5" />
@@ -275,29 +279,3 @@ function CalendarTile() {
   );
 }
 
-/** The accessibility setting. It scales the ROOT font size (see
-    lib/text-size.ts), so every screen grows in proportion and nothing can
-    clip — the layout is fluid, there is no zoom to break it. */
-function TextSizeSetting({
-  size,
-  onChoose,
-}: {
-  size: TextSize;
-  onChoose: (s: TextSize) => void;
-}) {
-  return (
-    <div className="col-span-2 rounded-xl border border-hairline bg-paper p-4 md:col-span-4">
-      <p className="font-display text-[15px] font-semibold">Text size</p>
-      <p className="mt-1 text-xs leading-5 text-muted">
-        Makes every word in the app bigger — nothing moves or gets cut off
-      </p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {TEXT_SIZES.map((s) => (
-          <Chip key={s} active={size === s} onClick={() => onChoose(s)}>
-            {s === "standard" ? "Standard" : s === "large" ? "Large" : "Larger"}
-          </Chip>
-        ))}
-      </div>
-    </div>
-  );
-}

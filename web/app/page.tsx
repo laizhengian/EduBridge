@@ -47,6 +47,12 @@ export default function TodayPage() {
     .filter((e) => new Date(e.date) > now)
     .sort((a, b) => +new Date(a.date) - +new Date(b.date))
     .slice(0, 2);
+  // Today shows the top of each list — never the whole inbox (Higgs Law:
+  // one decision per screen). Each section's link goes deeper.
+  const overdueShown = overdue.slice(0, 3);
+  const dueTodayShown = dueToday.slice(0, 4);
+  const newsShown = circulars.slice(0, 3);
+  const dayMs = 24 * 60 * 60 * 1000;
 
   // Teachers land on their own app at /teacher — Today stays the family view.
   if (profile?.role === "teacher") {
@@ -55,7 +61,7 @@ export default function TodayPage() {
         <p className="text-[15px] text-muted">You're signed in as a teacher.</p>
         <Link
           href="/teacher"
-          className="pressable mt-4 min-h-[52px] rounded-xl bg-accent px-8 text-[15px] font-semibold leading-[52px] text-paper"
+          className="pressable mt-4 min-h-[52px] rounded-xl bg-accent px-8 text-[15px] font-semibold leading-[52px] text-accent-contrast"
         >
           Open the teacher app
         </Link>
@@ -96,7 +102,7 @@ export default function TodayPage() {
             Overdue
           </SectionTitle>
           <Box className="mt-2 divide-y divide-hairline">
-            {overdue.map((h) => (
+            {overdueShown.map((h) => (
               <Link
                 key={h.id}
                 href="/homework"
@@ -133,7 +139,7 @@ export default function TodayPage() {
           </Box>
         ) : (
           <Box className="mt-2 divide-y divide-hairline">
-            {dueToday.map((h) => (
+            {dueTodayShown.map((h) => (
               <Link
                 key={h.id}
                 href="/homework"
@@ -163,15 +169,17 @@ export default function TodayPage() {
           Latest news
         </SectionTitle>
         <Box className="mt-2 divide-y divide-hairline">
-          {circulars.map((c) => (
+          {newsShown.map((c) => (
             <Link key={c.id} href="/circulars" className="block px-4 py-3.5">
               <div className="flex items-baseline justify-between gap-3">
                 <p className="min-w-0 flex-1 truncate text-[15px] font-medium leading-6">
                   {c.title}
                 </p>
-                <span className="shrink-0 text-xs font-semibold text-accent-strong">
-                  New
-                </span>
+                {now.getTime() - +new Date(c.postedAt) < dayMs && (
+                  <span className="shrink-0 text-xs font-semibold text-accent-strong">
+                    New
+                  </span>
+                )}
               </div>
               <p className="mt-0.5 text-xs text-muted">
                 {c.postedBy} · {timeAgo(c.postedAt)}
@@ -197,7 +205,7 @@ export default function TodayPage() {
               <span
                 aria-hidden
                 className={`h-2 w-2 shrink-0 rounded-full ${
-                  e.type === "exam" ? "bg-amber-500" : e.type === "holiday" ? "bg-accent" : "bg-stone-400"
+                  e.type === "exam" ? "bg-warn" : e.type === "holiday" ? "bg-accent" : "bg-muted/60"
                 }`}
               />
               <span className="min-w-0 flex-1 truncate text-[15px] font-medium">

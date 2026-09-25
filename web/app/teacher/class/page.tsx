@@ -72,7 +72,7 @@ function ClassPageInner() {
         <Link
           href="/teacher/attendance"
           onClick={() => haptic("light")}
-          className="pressable flex min-h-[56px] w-full items-center justify-between gap-3 rounded-xl bg-accent px-4 text-[15px] font-semibold text-paper"
+          className="pressable flex min-h-[56px] w-full items-center justify-between gap-3 rounded-xl bg-accent px-4 text-[15px] font-semibold text-accent-contrast"
         >
           Take today's attendance
           <ChevronIcon className="h-4 w-4" />
@@ -99,7 +99,7 @@ function ClassPageInner() {
                 <div className="flex items-center justify-between gap-3">
                   <span className="truncate text-[15px] font-medium">{s.name}</span>
                   {(s.latesThisTerm ?? 0) > 0 ? (
-                    <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-0.5 text-[13px] font-semibold text-amber-700">
+                    <span className="shrink-0 rounded-full bg-warn-soft px-2.5 py-0.5 text-[13px] font-semibold text-warn">
                       {(s.latesThisTerm ?? 0)} lates
                     </span>
                   ) : (
@@ -139,7 +139,7 @@ function ClassPageInner() {
                         className={`shrink-0 rounded-full px-3 py-1 text-[13px] font-semibold ${
                           (s.latesThisTerm ?? 0) >= 5
                             ? "bg-danger-soft text-danger"
-                            : "bg-amber-50 text-amber-700"
+                            : "bg-warn-soft text-warn"
                         }`}
                       >
                         {s.latesThisTerm} lates

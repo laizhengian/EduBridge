@@ -181,7 +181,7 @@ export default function TeacherStudyPage() {
           type="button"
           onClick={send}
           disabled={!parsed.ok}
-          className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-50"
+          className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast disabled:opacity-50"
         >
           Share with your classes
         </button>
@@ -212,7 +212,7 @@ export default function TeacherStudyPage() {
                   key={r.id}
                   className={`flex items-center gap-3 py-3${i === 0 ? "" : " border-t border-hairline"}`}
                 >
-                  <ClipboardListIcon className="h-5 w-5 shrink-0 text-stone-400" />
+                  <ClipboardListIcon className="h-5 w-5 shrink-0 text-muted/70" />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[15px] font-medium leading-6">
                       {r.title}

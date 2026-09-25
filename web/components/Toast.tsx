@@ -72,7 +72,7 @@ export function Toast({
             transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 480, damping: 34 }}
             className="pointer-events-auto flex touch-none items-center gap-4 rounded-xl bg-foreground/90 px-4 py-2.5 shadow-lg backdrop-blur-xl"
           >
-            <span className="text-sm font-medium text-paper">{shown.message}</span>
+            <span className="text-sm font-medium text-accent-contrast">{shown.message}</span>
             {shown.undo && (
               <button
                 type="button"

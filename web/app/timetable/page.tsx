@@ -72,7 +72,7 @@ export default function TimetablePage() {
               aria-pressed={day === d}
               className={`min-h-[44px] rounded-lg text-[13px] font-semibold transition-transform active:scale-95 ${
                 day === d
-                  ? "bg-accent text-paper"
+                  ? "bg-accent text-accent-contrast"
                   : "border border-hairline bg-paper text-muted"
               }`}
             >

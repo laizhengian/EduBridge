@@ -94,7 +94,7 @@ export function Sheet({
                 onPointerDown={(e) => dragControls.start(e)}
               >
                 <div
-                  className="mx-auto h-1.5 w-10 rounded-full bg-stone-300"
+                  className="mx-auto h-1.5 w-10 rounded-full bg-muted/40"
                   aria-hidden
                 />
                 <div className="flex items-center justify-between pt-2.5">

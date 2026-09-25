@@ -134,13 +134,13 @@ export function DotTag({
   const dot = {
     green: "bg-accent",
     red: "bg-danger",
-    amber: "bg-amber-500",
-    gray: "bg-stone-400",
+    amber: "bg-warn",
+    gray: "bg-muted/60",
   }[color];
   const text = {
     green: "text-accent-strong",
     red: "text-danger",
-    amber: "text-amber-700",
+    amber: "text-warn",
     gray: "text-muted",
   }[color];
   return (
@@ -197,7 +197,7 @@ export function Chip({
       className={`pressable min-h-[38px] rounded-full px-3.5 text-sm font-semibold ${
         active
           ? "bg-accent text-white"
-          : "border border-hairline bg-paper text-muted hover:border-stone-300 hover:text-foreground"
+          : "border border-hairline bg-paper text-muted hover:border-hairline hover:text-foreground"
       }`}
     >
       {children}

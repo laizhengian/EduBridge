@@ -156,7 +156,7 @@ export default function WelcomePage() {
             {error && <p className="text-sm text-danger">{error}</p>}
             <button
               type="submit"
-              className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+              className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast"
             >
               Sign in
             </button>
@@ -241,7 +241,7 @@ export default function WelcomePage() {
                   role,
                 });
               }}
-              className="pressable mt-6 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
+              className="pressable mt-6 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast disabled:opacity-40"
             >
               Start using the app
             </button>
@@ -265,7 +265,7 @@ export default function WelcomePage() {
                 haptic("light");
                 router.replace("/");
               }}
-              className="pressable mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+              className="pressable mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast"
             >
               Go to Today
             </button>

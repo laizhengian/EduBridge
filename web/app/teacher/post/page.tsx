@@ -156,7 +156,7 @@ export default function TeacherPostPage() {
         <button
           type="button"
           onClick={send}
-          className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+          className="pressable min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast"
         >
           Post to {klass}
         </button>

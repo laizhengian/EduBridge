@@ -25,9 +25,9 @@ const SUBJECTS = [
 
 const KIND_MARK: Record<StudyResource["kind"], string> = {
   Video: "▶",
-  Quiz: "?" ,
+  Quiz: "?",
   Practice: "✎",
-  Reading: "📖",
+  Reading: "☰",
 };
 
 export default function StudyPage() {
@@ -58,21 +58,19 @@ export default function StudyPage() {
         </p>
       </header>
 
-      <div className="rise mt-4 -mx-5 overflow-x-auto px-5 pb-1" style={{ "--i": 1 } as React.CSSProperties}>
-        <div className="flex w-max gap-2">
-          {SUBJECTS.map((s) => (
-            <Chip
-              key={s}
-              active={subject === s}
-              onClick={() => {
-                haptic("light");
-                setSubject(s);
-              }}
-            >
-              {s}
-            </Chip>
-          ))}
-        </div>
+      <div className="rise mt-4 flex flex-wrap gap-2" style={{ "--i": 1 } as React.CSSProperties}>
+        {SUBJECTS.map((s) => (
+          <Chip
+            key={s}
+            active={subject === s}
+            onClick={() => {
+              haptic("light");
+              setSubject(s);
+            }}
+          >
+            {s}
+          </Chip>
+        ))}
       </div>
 
       {items === null ? (
@@ -92,9 +90,7 @@ export default function StudyPage() {
       )}
 
       <p className="mt-2 text-[13px] leading-5 text-muted">
-        Suggestions and Kahoots stay live on their own sites (YouTube, Kahoot) —
-        the app takes you there in one tap and never re-hosts them, so nothing
-        breaks when those sites change.
+        Shared by your subject teachers.
       </p>
     </div>
   );
@@ -111,7 +107,7 @@ function StudyCard({ resource: r }: { resource: StudyResource }) {
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-          <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-stone-600">
+          <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-accent-strong">
             {r.kind}
           </span>
           <span className="text-[12px] text-muted">{r.subject}</span>

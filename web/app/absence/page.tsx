@@ -70,7 +70,7 @@ export default function AbsencePage() {
             setDetail("");
             setPhoto(null);
           }}
-          className="pressable mt-6 min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
+          className="pressable mt-6 min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast disabled:opacity-40"
         >
           Done
         </button>
@@ -133,7 +133,7 @@ export default function AbsencePage() {
               </div>
             </div>
           ) : (
-            <label className="pressable mt-2.5 flex min-h-[56px] cursor-pointer items-center gap-3 rounded-xl border border-dashed border-stone-300 bg-paper px-4 text-[15px] font-medium text-accent">
+            <label className="pressable mt-2.5 flex min-h-[56px] cursor-pointer items-center gap-3 rounded-xl border border-dashed border-hairline bg-paper px-4 text-[15px] font-medium text-accent">
               <PaperclipIcon className="h-5 w-5" />
               Take or choose a photo
               <input
@@ -162,7 +162,7 @@ export default function AbsencePage() {
           type="button"
           disabled={!valid || sending}
           onClick={send}
-          className="pressable min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper disabled:opacity-40"
+          className="pressable min-h-[48px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast disabled:opacity-40"
         >
           {sending ? "Sending…" : "Send note"}
         </button>

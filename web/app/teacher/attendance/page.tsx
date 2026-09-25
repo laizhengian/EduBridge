@@ -173,7 +173,7 @@ export default function TeacherAttendancePage() {
         <button
           type="button"
           onClick={post}
-          className="pressable mt-3 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+          className="pressable mt-3 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast"
         >
           Post attendance
         </button>
@@ -243,7 +243,7 @@ function StateDot({ state }: { state: RosterStudent["att"] }) {
     { bg: string; text: string; label: string }
   > = {
     present: { bg: "bg-accent-soft", text: "text-accent", label: "In" },
-    late: { bg: "bg-amber-50", text: "text-amber-700", label: "Late" },
+    late: { bg: "bg-warn-soft", text: "text-warn", label: "Late" },
     excused: { bg: "bg-sky-50", text: "text-sky-700", label: "Excused" },
     absent: { bg: "bg-danger-soft", text: "text-danger", label: "Away" },
   };

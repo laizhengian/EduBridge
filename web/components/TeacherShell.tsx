@@ -37,7 +37,7 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh bg-background">
       <header
-        className={`fixed inset-x-0 top-0 z-40 border-b border-accent/20 bg-accent text-paper transition-shadow ${
+        className={`fixed inset-x-0 top-0 z-40 border-b border-accent/20 bg-accent text-accent-contrast transition-shadow ${
           scrolled ? "shadow-[0_12px_24px_-20px_rgba(20,86,62,0.7)]" : ""
         }`}
       >
@@ -47,9 +47,9 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
             EduBridge · Teacher
           </p>
           <Link
-            href="/more"
-            className="pressable rounded-lg px-2 py-1 text-xs font-semibold text-paper/80 underline-offset-4 hover:text-paper hover:underline"
-            aria-label="Open the Hub for settings, privacy and school reference"
+            href="/settings"
+            className="pressable rounded-lg px-2 py-1 text-xs font-semibold text-accent-contrast/80 underline-offset-4 hover:text-accent-contrast hover:underline"
+            aria-label="Open Settings for appearance and the signed-in account"
           >
             Settings
           </Link>
@@ -75,7 +75,7 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={`pressable flex min-h-[60px] flex-col items-center justify-center gap-1 text-xs font-medium ${
-                  active ? "text-paper" : "text-paper/60"
+                  active ? "text-accent-contrast" : "text-accent-contrast/60"
                 }`}
               >
                 <Icon className="h-5.5 w-5.5" />

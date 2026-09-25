@@ -123,7 +123,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 >
                   <span
                     className={`flex h-12 w-12 items-center justify-center rounded-full border shadow-sm transition-colors ${
-                      active ? "border-accent bg-accent text-paper" : "border-hairline bg-paper"
+                      active ? "border-accent bg-accent text-accent-contrast" : "border-hairline bg-paper"
                     }`}
                   >
                     <MoreIcon className="h-6 w-6" />
@@ -141,7 +141,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   active ? "text-accent" : "text-muted"
                 }`}
               >
-                <Icon className={active ? "text-accent" : "text-stone-400"} />
+                <Icon className={active ? "text-accent" : "text-muted/70"} />
                 {label}
               </Link>
             );

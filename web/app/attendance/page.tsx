@@ -51,10 +51,10 @@ export default function AttendancePage() {
         <span
           className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${
             today.status === "present"
-              ? "bg-accent text-paper"
+              ? "bg-accent text-accent-contrast"
               : today.status === "late"
-                ? "bg-amber-500 text-paper"
-                : "bg-danger text-paper"
+                ? "bg-warn text-accent-contrast"
+                : "bg-danger text-accent-contrast"
           }`}
           aria-hidden
         >

@@ -165,6 +165,21 @@ This is the decision the user specifically asked to see justified:
   patterns we don't control) and an unfiltered link list (drowning students
   in everything defeats the point — chips and recency do the curating).
 
+### 17. Appearance lives in a real Settings page; legal sits quietly at the Hub's foot — over tiles for everything
+- **Why it won:** the Hub answers "where do I find things?", Settings answers
+  "how do I make it mine?" — different questions, different surfaces. Colour
+  (five accent palettes, not just green), brightness (light/dark/automatic,
+  following the OS), and text size are user choices that belong together on
+  one page; the signed-in-as card there is also the preview's honest door into
+  the teacher app. Privacy and Terms are reference reading, not destinations —
+  demoting them to quiet links at the Hub's foot (plus the tab-bar footer)
+  keeps them findable without spending tile real estate. Everything coloured
+  goes through CSS custom-property tokens, so a theme change is one class on
+  `<html>` restored before first paint — no flash, no per-element overrides.
+  What lost: a Settings tile inside the Hub (buried a whole surface under a
+  tile) and hard-coded palette colours in components (made dark mode and
+  accent choices impossible to retrofit cheaply).
+
 ---
 
 *Where a decision isn't listed, it's small enough to change without a meeting —

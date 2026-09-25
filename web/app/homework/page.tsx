@@ -143,8 +143,8 @@ function Row({
         aria-label={h.done ? "Mark as not done" : "Mark as done"}
         className={`pressable relative mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 transition-all after:absolute after:-inset-2 after:rounded-full after:content-[''] ${
           h.done
-            ? "border-accent bg-accent text-paper"
-            : "border-stone-300 hover:border-accent"
+            ? "border-accent bg-accent text-accent-contrast"
+            : "border-hairline hover:border-accent"
         }`}
       >
         {h.done && <CheckGlyph className="h-4 w-4" />}
@@ -204,7 +204,7 @@ function Row({
             className={`pressable min-h-[44px] w-full rounded-xl text-sm font-semibold ${
               h.done
                 ? "border border-hairline bg-paper text-foreground"
-                : "bg-accent text-paper"
+                : "bg-accent text-accent-contrast"
             }`}
           >
             {h.done ? "Move back to to do" : "Mark as done"}

@@ -31,7 +31,7 @@ export default function HotlinesPage() {
             </div>
             <a
               href={`tel:${h.phone.replace(/\s/g, "")}`}
-              className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-xl bg-accent px-4 text-sm font-semibold text-paper transition-transform active:scale-[0.98]"
+              className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-xl bg-accent px-4 text-sm font-semibold text-accent-contrast transition-transform active:scale-[0.98]"
             >
               <PhoneIcon className="h-4.5 w-4.5" aria-hidden />
               {h.phone}

@@ -6,11 +6,30 @@
   --accent: #1d6b4f;
   --accent-strong: #14563e;
   --accent-soft: #e9f1ec;
+  --accent-contrast: #ffffff;
   --hairline: #e6e1d8;
   --muted: #6f6a61;
   --paper: #fffdf9;
   --danger: #b3382e;
   --danger-soft: #fbeeec;
+  --warn: #b45309;
+  --warn-soft: #fffbeb;
+}
+
+/* Colour and dark mode are user settings (lib/appearance.ts): the accent
+   palette swaps via an .accent-* class, dark mode via .dark — both restored
+   before first paint by the script in layout.tsx. Everything coloured goes
+   through these tokens, so a theme change is one class on <html>. */
+.dark {
+  --background: #16181a;
+  --foreground: #ece9e4;
+  --paper: #1e2124;
+  --hairline: #33383c;
+  --muted: #a2a49e;
+  --accent-soft: #24312b;
+  --danger-soft: #3a2422;
+  --warn: #e0a33e;
+  --warn-soft: #38301f;
 }
 
 @theme inline {
@@ -19,13 +38,50 @@
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-contrast: var(--accent-contrast);
   --color-hairline: var(--hairline);
   --color-muted: var(--muted);
   --color-paper: var(--paper);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
+}
+
+/* accent palettes — the picker lives in Settings (lib/appearance.ts) */
+.accent-blue {
+  --accent: #1e5a8a;
+  --accent-strong: #17486f;
+  --accent-soft: #e7eef5;
+}
+.dark.accent-blue {
+  --accent-soft: #23303c;
+}
+.accent-maroon {
+  --accent: #8a2f2f;
+  --accent-strong: #6f2525;
+  --accent-soft: #f5eaea;
+}
+.dark.accent-maroon {
+  --accent-soft: #382728;
+}
+.accent-plum {
+  --accent: #6d3d78;
+  --accent-strong: #593063;
+  --accent-soft: #f2ebf4;
+}
+.dark.accent-plum {
+  --accent-soft: #2f2733;
+}
+.accent-amber {
+  --accent: #9a6a1f;
+  --accent-strong: #7d5517;
+  --accent-soft: #f6efe0;
+}
+.dark.accent-amber {
+  --accent-soft: #362d1d;
 }
 
 html {
@@ -33,6 +89,14 @@ html {
   /* iOS Safari inflates small text on wide layouts — stop it. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Filter switches change the page height, and the scrollbar appearing /
+     disappearing used to nudge the whole layout sideways. Reserve the
+     gutter always so nothing shifts. */
+  scrollbar-gutter: stable;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {

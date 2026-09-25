@@ -115,7 +115,7 @@ export default function FeedbackPage() {
           <button
             type="button"
             onClick={send}
-            className="pressable mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-paper"
+            className="pressable mt-4 min-h-[52px] w-full rounded-xl bg-accent text-[15px] font-semibold text-accent-contrast"
           >
             Send to the office
           </button>

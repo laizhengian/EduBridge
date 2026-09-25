@@ -106,7 +106,7 @@ export default function TeacherHomePage() {
               <CalendarCheckIcon className="h-5.5 w-5.5 text-accent" />
               <span className="text-[15px] font-semibold">Take attendance</span>
             </span>
-            <ChevronIcon className="h-4 w-4 text-stone-400" />
+            <ChevronIcon className="h-4 w-4 text-muted/70" />
           </Link>
           <Link
             href="/teacher/post"
@@ -117,7 +117,7 @@ export default function TeacherHomePage() {
               <PenLineIcon className="h-5.5 w-5.5 text-accent" />
               <span className="text-[15px] font-semibold">Post homework</span>
             </span>
-            <ChevronIcon className="h-4 w-4 text-stone-400" />
+            <ChevronIcon className="h-4 w-4 text-muted/70" />
           </Link>
           <Link
             href="/teacher/study"
@@ -128,14 +128,14 @@ export default function TeacherHomePage() {
               <PlayIcon className="h-5.5 w-5.5 text-accent" />
               <span className="text-[15px] font-semibold">Share a study video or quiz</span>
             </span>
-            <ChevronIcon className="h-4 w-4 text-stone-400" />
+            <ChevronIcon className="h-4 w-4 text-muted/70" />
           </Link>
           <div
             aria-disabled
             className="flex min-h-[56px] items-center justify-between gap-3 border-t border-hairline opacity-60"
           >
             <span className="flex items-center gap-3">
-              <TrophyIcon className="h-5.5 w-5.5 text-stone-400" />
+              <TrophyIcon className="h-5.5 w-5.5 text-muted/70" />
               <span className="text-[15px] font-semibold text-muted">
                 Enter marks{" "}
                 <span className="text-xs font-semibold text-muted">
@@ -163,9 +163,9 @@ export default function TeacherHomePage() {
                 className={`flex items-center gap-3 py-3${i === 0 ? "" : " border-t border-hairline"}`}
               >
                 {p.kind === "homework" ? (
-                  <ClipboardListIcon className="h-5 w-5 shrink-0 text-stone-400" />
+                  <ClipboardListIcon className="h-5 w-5 shrink-0 text-muted/70" />
                 ) : (
-                  <PlayIcon className="h-5 w-5 shrink-0 text-stone-400" />
+                  <PlayIcon className="h-5 w-5 shrink-0 text-muted/70" />
                 )}
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-[15px] font-medium leading-6">

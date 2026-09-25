@@ -38,6 +38,9 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  // The browser chrome (and iOS status bar) follow the user's accent choice —
+  // The browser chrome follows the user's accent choice — the swatch in
+  // Settings syncs this when the school picks its colour.
   themeColor: "#1d6b4f",
   // Android: the keyboard resizes the page instead of overlaying it, so the
   // focused input and the action buttons always stay visible above it.
@@ -56,12 +59,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        {/* Restore the saved text-size class before first paint — no flash of
-            small text for users who chose Large or Larger (see lib/text-size). */}
+        {/* Restore the saved preferences before first paint — no flash of the
+            wrong text size, accent colour or mode (see lib/text-size and
+            lib/appearance). Same pre-paint pattern next-themes uses. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{var s=localStorage.getItem("ois-text-size");if(s==="large")document.documentElement.classList.add("text-large");else if(s==="larger")document.documentElement.classList.add("text-larger")}catch(e){}',
+              'try{var s=localStorage.getItem("ois-text-size");if(s==="large")document.documentElement.classList.add("text-large");else if(s==="larger")document.documentElement.classList.add("text-larger");var a=localStorage.getItem("ois-accent");if(a==="blue")document.documentElement.classList.add("accent-blue");else if(a==="maroon")document.documentElement.classList.add("accent-maroon");else if(a==="plum")document.documentElement.classList.add("accent-plum");else if(a==="amber")document.documentElement.classList.add("accent-amber");var m=localStorage.getItem("ois-mode");if(m==="dark"||( !m||m==="system")&&matchMedia("(prefers-color-scheme: dark)").matches)document.documentElement.classList.add("dark")}catch(e){}',
           }}
         />
       </head>
