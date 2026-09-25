@@ -61,6 +61,23 @@ create table homework (
 alter table (events) add column if not exists links jsonb not null default '[]';
 --       events.links = [{ label: "Sign-up form", url: "https://…" }, …]
 
+-- 3c. Study resources — what teachers share to the Study Center (features.md
+--     §18). Link-out by design: the app stores the pointer, never hosts or
+--     embeds the content, so a third party changing their site can't break
+--     the page. url is nullable — a recommendation can be shared before its
+--     link is attached, and families see it honestly marked "link coming".
+create table study_resources (
+  id uuid primary key default gen_random_uuid(),
+  class_id uuid not null references classes(id),   -- who sees it
+  subject text not null,
+  kind text not null check (kind in ('video','quiz','practice','reading')),
+  title text not null,
+  note text,
+  url text,                                        -- null = link not attached yet
+  shared_by uuid not null references profiles(id),
+  shared_at timestamptz not null default now()
+);
+
 -- 4. The four-state attendance log. Four states because "late" recorded as
 --    "absent" is a live bug in the old portal (Annie, friction log §20).
 create table attendance (
@@ -140,6 +157,7 @@ The shape:
 | homework | read own class | write own classes | all |
 | attendance | read own (parent: own child) | write own classes | all |
 | marks | read own | write own classes | all |
+| study_resources | read own class | write own classes | all |
 | assessment_totals (ranks) | read own only | read own classes | all |
 | profiles | read self + own teachers' names | read own classes | all |
 

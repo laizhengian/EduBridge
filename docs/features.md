@@ -113,6 +113,10 @@ Everything else is a gimmick and goes on the "not building" list.
 - **Problem (Nisha's teacher-side ask, mirrored for families):** nobody should assemble their own attendance picture, and "excused vs unexplained" must never be conflated (the old portal counts every absence the same — §14).
 - **Fix:** the existing `/attendance` summary becomes **auto-maintained**: every teacher tap (present/late/excused/absent) updates the student's running record in real time — counts, the plain-language split of excused vs unexplained, and patterns stated honestly ("3 lates this month, all Mondays"). No form, no date picking, no manual anything — the summary *is* the data the teacher app already posted. Paired with the marks pipeline, this is the family-facing proof that the system is one thing, not modules.
 
+### 18. The Study Center — teachers share what's worth watching (**built in mockup**, `/study` + `/teacher/study`, September 2026)
+- **Problem:** good learning material lives scattered — a YouTube link here, a Kahoot there, mentioned in class and forgotten by dinner. The old portal has no place for any of it, and a chat group buries it by morning.
+- **Fix:** one calm list, filtered by subject, of **videos, quizzes, practice sets and reading** teachers share. Three chips and a paste on the teacher side; the family app shows it with zero changes. **Architecture decision: link-out, never embed** — the app opens YouTube/Kahoot in a new tab and re-hosts nothing, so a third party changing their site can never break the page (the old portal's embeds break exactly this way). A link is optional: a teacher can share the recommendation now and attach the link later, and the card honestly says "Link coming" — an unfinished paste never blocks a good suggestion. Compose validates the URL by parsing alone (shows the domain it will open), so the screen can't hang.
+
 ## Later (only after the pilot proves the core)
 
 - **Homework reminders:** browser/phone notification the evening before something is due. Useful, but only once there's real data worth reminding about.

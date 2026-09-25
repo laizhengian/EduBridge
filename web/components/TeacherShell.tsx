@@ -8,17 +8,19 @@ import {
   GraduationCapIcon,
   HomeIcon,
   PenLineIcon,
+  PlayIcon,
 } from "@/components/ui";
 
 /**
- * The teacher app's own chrome — deliberately NOT the family app's. Three
- * destinations (Home, Attendance, Post), no Hub tiles, and a teacher-green
- * top bar so you always know which app you're in.
+ * The teacher app's own chrome — deliberately NOT the family app's. Four
+ * destinations (Home, Attendance, Post, Study), no Hub tiles, and a
+ * teacher-green top bar so you always know which app you're in.
  */
 const tabs = [
   { href: "/teacher", label: "Home", Icon: HomeIcon, exact: true },
   { href: "/teacher/attendance", label: "Attendance", Icon: CalendarCheckIcon, exact: false },
   { href: "/teacher/post", label: "Post", Icon: PenLineIcon, exact: false },
+  { href: "/teacher/study", label: "Study", Icon: PlayIcon, exact: false },
 ];
 
 export function TeacherShell({ children }: { children: React.ReactNode }) {
@@ -64,7 +66,7 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
           scrolled ? "shadow-[0_-12px_24px_-20px_rgba(20,86,62,0.8)]" : ""
         }`}
       >
-        <div className="mx-auto grid max-w-md grid-cols-3">
+        <div className="mx-auto grid max-w-md grid-cols-4">
           {tabs.map(({ href, label, Icon, exact }) => {
             const active = exact ? pathname === href : pathname.startsWith(href);
             return (

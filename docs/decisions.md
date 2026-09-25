@@ -153,6 +153,18 @@ This is the decision the user specifically asked to see justified:
   trust failures. Every average says what it includes; every report shows its
   issue date. Honesty is a feature, not a disclaimer.
 
+### 16. Study Center: link-out, never embed — over in-app players or a link dump
+- **Why it won:** embedded YouTube/Kahoot players are the old portal's
+  breakage pattern — a third party changes their site and our page breaks with
+  it. EduBridge stores the *pointer* and opens the destination in a new tab:
+  the worst case is a stale link, never a broken screen. The link is optional
+  (share the recommendation now, attach the URL later — the card honestly
+  says "link coming"), and compose validates by parsing alone (shows the
+  domain it will open), so the teacher's screen can never hang on a paste.
+  What lost: in-app embeds (breakage, plus autoplay/microtransaction dark
+  patterns we don't control) and an unfiltered link list (drowning students
+  in everything defeats the point — chips and recency do the curating).
+
 ---
 
 *Where a decision isn't listed, it's small enough to change without a meeting —

@@ -730,6 +730,106 @@ export const schoolVideos: SchoolVideo[] = [
   },
 ];
 
+/* ---- Study Center ---------------------------------------------------------- */
+
+export type StudyKind = "Video" | "Quiz" | "Practice" | "Reading";
+
+export type StudyResource = {
+  id: string;
+  kind: StudyKind;
+  subject: string;
+  title: string;
+  note?: string;
+  /** Where it points — a YouTube link, a Kahoot, a worksheet. The app opens
+      it in a new tab and never hosts or embeds it, so nothing here can break
+      when a third party changes their site. Empty while the school is still
+      collecting links; the card then says so honestly. */
+  url: string | null;
+  sharedBy: string;
+  sharedAt: string; // ISO
+};
+
+export const studySeed: StudyResource[] = [
+  {
+    id: "st1",
+    kind: "Video",
+    subject: "Mathematics",
+    title: "Quadratic equations — the visual way",
+    note: "Watch before attempting exercise 4.2. Pause at 6:10 and try the example yourself.",
+    url: "https://youtube.com/watch?v=IlNAJl36-10",
+    sharedBy: "Mr. Tan",
+    sharedAt: at(-1, 16, 0),
+  },
+  {
+    id: "st2",
+    kind: "Quiz",
+    subject: "Science",
+    title: "Kahoot: neutralisation reactions",
+    note: "Live in class on Thursday — play once at home so the scoring makes sense.",
+    url: "https://kahoot.it/challenge/08123456",
+    sharedBy: "Mr. Raj",
+    sharedAt: at(-2, 10, 30),
+  },
+  {
+    id: "st3",
+    kind: "Practice",
+    subject: "English",
+    title: "Essay structure: PEEL paragraphs",
+    note: "The handout method we use in class — same four sentences, every paragraph.",
+    url: "https://example.com/peel-paragraphs",
+    sharedBy: "Ms. Wong",
+    sharedAt: at(-3, 9, 0),
+  },
+  {
+    id: "st4",
+    kind: "Video",
+    subject: "History",
+    title: "The Malayan Union in ten minutes",
+    url: null,
+    sharedBy: "Mr. Lim",
+    sharedAt: at(-4, 14, 0),
+  },
+  {
+    id: "st5",
+    kind: "Practice",
+    subject: "Mathematics",
+    title: "Timed drills: factorising",
+    note: "Ten questions a night beats fifty on Sunday.",
+    url: "https://example.com/factorise-drills",
+    sharedBy: "Mr. Tan",
+    sharedAt: at(-5, 8, 45),
+  },
+  {
+    id: "st6",
+    kind: "Reading",
+    subject: "English",
+    title: "Reading list: term break picks",
+    note: "Five books the library has ten copies of — no waiting list.",
+    url: "https://example.com/term-break-reading",
+    sharedBy: "Ms. Wong",
+    sharedAt: at(-6, 12, 0),
+  },
+  {
+    id: "st7",
+    kind: "Quiz",
+    subject: "Bahasa Malaysia",
+    title: "Kahoot: komsas bab 3",
+    url: "https://kahoot.it/challenge/07654321",
+    sharedBy: "Pn. Aida",
+    sharedAt: at(-7, 15, 0),
+  },
+  {
+    id: "st8",
+    kind: "Video",
+    subject: "Science",
+    title: "Titration technique — close-up walkthrough",
+    note: "For the lab report: this is exactly what your write-up should describe.",
+    url: "https://youtube.com/watch?v=sFpCPjS2jzo",
+    sharedBy: "Mr. Raj",
+    sharedAt: at(-8, 9, 30),
+  },
+];
+
 /* ---- Class roster (teacher mode) ----------------------------------------- */
 
 export type RosterStudent = {

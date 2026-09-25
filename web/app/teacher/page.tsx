@@ -7,9 +7,12 @@ import {
   ChevronIcon,
   ClipboardListIcon,
   PenLineIcon,
+  PlayIcon,
   TrophyIcon,
 } from "@/components/ui";
 import { getHomework } from "@/lib/store";
+import { getStudy } from "@/lib/study-store";
+import { timeAgo, type Homework, type StudyResource } from "@/lib/mock-data";
 import { TEACHER_CLASSES } from "@/lib/teacher-store";
 import { haptic } from "@/lib/haptics";
 
@@ -18,10 +21,23 @@ import { haptic } from "@/lib/haptics";
  * actions hub, and your recent posts. Nothing repeats — the actions live
  * here once, and the class cards are about the *students*, not shortcuts.
  */
+type RecentPost =
+  | { at: string; kind: "homework"; item: Homework }
+  | { at: string; kind: "study"; item: StudyResource };
+
 export default function TeacherHomePage() {
-  const [recent, setRecent] = useState<ReturnType<typeof getHomework>>([]);
+  const [recent, setRecent] = useState<RecentPost[]>([]);
   useEffect(() => {
-    setRecent(getHomework().slice(0, 4));
+    const merged: RecentPost[] = [
+      ...getHomework()
+        .slice(0, 4)
+        .map((item) => ({ at: item.postedAt, kind: "homework" as const, item })),
+      ...getStudy()
+        .slice(0, 3)
+        .map((item) => ({ at: item.sharedAt, kind: "study" as const, item })),
+    ];
+    merged.sort((a, b) => +new Date(b.at) - +new Date(a.at));
+    setRecent(merged.slice(0, 4));
   }, []);
 
   const now = useMemo(() => new Date(), []);
@@ -103,6 +119,17 @@ export default function TeacherHomePage() {
             </span>
             <ChevronIcon className="h-4 w-4 text-stone-400" />
           </Link>
+          <Link
+            href="/teacher/study"
+            onClick={() => haptic("light")}
+            className="pressable flex min-h-[56px] items-center justify-between gap-3 border-t border-hairline"
+          >
+            <span className="flex items-center gap-3">
+              <PlayIcon className="h-5.5 w-5.5 text-accent" />
+              <span className="text-[15px] font-semibold">Share a study video or quiz</span>
+            </span>
+            <ChevronIcon className="h-4 w-4 text-stone-400" />
+          </Link>
           <div
             aria-disabled
             className="flex min-h-[56px] items-center justify-between gap-3 border-t border-hairline opacity-60"
@@ -130,22 +157,24 @@ export default function TeacherHomePage() {
           </p>
         ) : (
           <ul className="mt-2.5 rounded-xl border border-hairline bg-paper px-4 py-1">
-            {recent.map((h, i) => (
+            {recent.map((p, i) => (
               <li
-                key={h.id}
+                key={p.kind === "homework" ? p.item.id : `st-${p.item.id}`}
                 className={`flex items-center gap-3 py-3${i === 0 ? "" : " border-t border-hairline"}`}
               >
-                <ClipboardListIcon className="h-5 w-5 shrink-0 text-stone-400" />
+                {p.kind === "homework" ? (
+                  <ClipboardListIcon className="h-5 w-5 shrink-0 text-stone-400" />
+                ) : (
+                  <PlayIcon className="h-5 w-5 shrink-0 text-stone-400" />
+                )}
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-[15px] font-medium leading-6">
-                    {h.title}
+                    {p.item.title}
                   </span>
                   <span className="block text-xs text-muted">
-                    {h.subject} · due{" "}
-                    {new Date(h.dueAt).toLocaleDateString("en-MY", {
-                      day: "numeric",
-                      month: "short",
-                    })}
+                    {p.kind === "homework"
+                      ? `${p.item.subject} · due ${new Date(p.item.dueAt).toLocaleDateString("en-MY", { day: "numeric", month: "short" })}`
+                      : `Study · ${p.item.kind} · ${p.item.subject} · ${timeAgo(p.item.sharedAt)}`}
                   </span>
                 </span>
               </li>

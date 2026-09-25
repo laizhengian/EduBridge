@@ -14,6 +14,7 @@ import {
   MessageIcon,
   PenLineIcon,
   PhoneIcon,
+  PlayIcon,
   QuestionIcon,
   ScrollTextIcon,
   ShieldIcon,
@@ -22,6 +23,7 @@ import {
   UserIcon,
 } from "@/components/ui";
 import { circulars, events } from "@/lib/mock-data";
+import { getStudy } from "@/lib/study-store";
 import { loadProfile, type Role } from "@/lib/profile";
 import {
   loadTextSize,
@@ -32,14 +34,15 @@ import {
 
 /** Live "new this week" counts — the Hub proves it's organized, not stale.
     Counts fill after mount so server and client render identically. */
-function useNewCounts(): { news: number; events: number } {
-  const [counts, setCounts] = useState({ news: 0, events: 0 });
+function useNewCounts(): { news: number; events: number; study: number } {
+  const [counts, setCounts] = useState({ news: 0, events: 0, study: 0 });
   useEffect(() => {
     const now = Date.now();
     const week = 7 * 24 * 60 * 60 * 1000;
     setCounts({
       news: circulars.filter((c) => now - +new Date(c.postedAt) < week).length,
       events: events.filter((e) => +new Date(e.date) - now < week && +new Date(e.date) > now).length,
+      study: getStudy().filter((r) => now - +new Date(r.sharedAt) < week).length,
     });
   }, []);
   return counts;
@@ -122,6 +125,16 @@ export default function MorePage() {
           title="Photos, videos & campus"
           desc="Galleries, competitions and campus info"
           Icon={ImagesIcon}
+        />
+      </Group>
+
+      <Group icon={<BookOpenIcon className="h-4.5 w-4.5" />} title="Learn">
+        <Tile
+          href="/study"
+          title="Study Center"
+          desc="Videos, quizzes and practice your teachers share"
+          Icon={PlayIcon}
+          badge={counts.study > 0 ? `${counts.study} this week` : undefined}
         />
       </Group>
 
