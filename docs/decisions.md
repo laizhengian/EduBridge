@@ -195,23 +195,27 @@ This is the decision the user specifically asked to see justified:
   glyph, not just a red word.
 - **Page backdrops:** the school-notebook wallpaper (PageBackdrop) is one
   component and one CSS block, opt-in per page with a motif name: accent-tinted
-  graph paper, a scatter of big friendly emoji per motif (News reads as
-  paper-and-ink, Study Center as pencil-and-flask), and an app-wide
-  crumpled-paper grain at ~4% opacity. v1 drew faint line-glyph doodles — a
-  review found them invisible, which is the one failure mode decoration can't
-  have: personality you have to squint for is no personality. v2 sizes the
-  emoji to be actually seen and tilts them like real doodles, while the layer
-  still fades out after the first screenful, stays aria-hidden with no pointer
-  events, and takes its colour from the theme tokens so every palette and dark
-  mode tints it for free. Nine pages use it — Today and the Hub included, after
-  review showed the wallpaper reads as the app's fabric, not noise. Settings
-  and the legal pages stay clean: the control room and the fine print don't
-  decorate.
+  graph paper across the whole viewport, under a sparse scatter of friendly
+  emoji per motif (News reads as paper-and-ink, Study Center as
+  pencil-and-flask), and an app-wide crumpled-paper grain at ~4% opacity. The
+  layer stays quiet on purpose — felt, not read: the paper boxes carry the
+  content and the wallpaper only fills the gaps between them (the first
+  attempt hid it entirely behind the shell's own background; the second
+  overshot into loud after the fix exposed it — both sides of the same
+  lesson: decoration must be perceptible but must never compete). It stays
+  aria-hidden with no pointer events and takes its colour from the theme
+  tokens so every palette and dark mode tints it for free. Nine pages use it
+  — Today and the Hub included, after review showed the wallpaper reads as the
+  app's fabric, not noise. Settings and the legal pages stay clean: the
+  control room and the fine print don't decorate. Content boxes carry no
+  emoji — the personality lives in the wallpaper, not stapled onto every tile.
 - **What lost:** reusing light colours at reduced opacity for dark mode (the
   muddy-red trap, again); scattering doodles as per-page JSX (n palettes of
   drift, unmaintainable); embedding the motif inside Shell (pages couldn't
   choose — and teacher routes would need a fork); v1's barely-there
-  line-glyph doodles (see above — decoration must be visible or absent).
+  line-glyph doodles and v2's too-loud tuning (see above — quiet but
+  perceptible is the target); emoji pinned onto Hub tiles (cluttered every
+  box — personality belongs to the wallpaper layer, not the content).
 
 ### 19. One list language: boxed grouped lists everywhere — over mixed open and boxed rows
 - **Why it won:** the user's review caught it precisely — Events lived in a box,

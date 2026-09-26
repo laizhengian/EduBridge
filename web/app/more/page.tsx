@@ -65,7 +65,6 @@ export default function MorePage() {
 
       <Group icon={<MegaphoneIcon className="h-4.5 w-4.5" />} title="From the school">
         <Tile
-          emoji="📣"
           href="/circulars"
           title="News"
           desc="Announcements and latest news from the office"
@@ -73,7 +72,6 @@ export default function MorePage() {
           badge={counts.news > 0 ? `${counts.news} new this week` : undefined}
         />
         <Tile
-          emoji="🎉"
           href="/events"
           title="Events"
           desc="What's coming up, with add-to-calendar"
@@ -81,14 +79,12 @@ export default function MorePage() {
           badge={counts.events > 0 ? `${counts.events} this week` : undefined}
         />
         <Tile
-          emoji="🏖️"
           href="/holidays"
           title="Holidays"
           desc="Days the school is closed this term"
           Icon={SunIcon}
         />
         <Tile
-          emoji="💬"
           href="/feedback"
           title="Student feedback"
           desc="Tell the school how it's going — read weekly"
@@ -98,21 +94,18 @@ export default function MorePage() {
 
       <Group icon={<UserIcon className="h-4.5 w-4.5" />} title="About me">
         <Tile
-          emoji="✅"
           href="/attendance"
           title="My attendance"
           desc="Days in, late, and away — excused counted separately"
           Icon={CalendarCheckIcon}
         />
         <Tile
-          emoji="🏆"
           href="/results"
           title="Exam results"
           desc="Marks by exam, with the teacher's progress report"
           Icon={TrophyIcon}
         />
         <Tile
-          emoji="✉️"
           href="/absence"
           title="Tell the school I'm away"
           desc="Send a quick absence note to your teacher"
@@ -122,7 +115,6 @@ export default function MorePage() {
 
       <Group icon={<ImagesIcon className="h-4.5 w-4.5" />} title="School life">
         <Tile
-          emoji="📸"
           href="/life"
           title="Photos, videos & campus"
           desc="Galleries, competitions and campus info"
@@ -132,7 +124,6 @@ export default function MorePage() {
 
       <Group icon={<PlayIcon className="h-4.5 w-4.5" />} title="Learn">
         <Tile
-          emoji="📚"
           href="/study"
           title="Study Center"
           desc="Videos, quizzes and practice your teachers share"
@@ -145,14 +136,12 @@ export default function MorePage() {
 
       <Group icon={<BookOpenIcon className="h-4.5 w-4.5" />} title="Reference">
         <Tile
-          emoji="📞"
           href="/hotlines"
           title="Hotlines"
           desc="Who to call, when, and for what"
           Icon={PhoneIcon}
         />
         <Tile
-          emoji="💡"
           href="/faq"
           title="Common questions"
           desc="Short answers to what families ask most"
@@ -226,7 +215,6 @@ function Tile({
   Icon,
   badge,
   marks,
-  emoji,
   wide = false,
 }: {
   href: string;
@@ -236,24 +224,13 @@ function Tile({
   badge?: string;
   /** Small kind-glyphs under the description (Study Center: what's inside). */
   marks?: string[];
-  /** One friendly emoji in the tile's corner — the personality layer, kept
-      to one per tile so the grid stays calm (aria-hidden, decorative). */
-  emoji?: string;
   wide?: boolean;
 }) {
   return (
     <Link
       href={href}
-      className={`relative rounded-xl border border-hairline bg-paper p-4 transition-transform active:scale-[0.98]${wide ? " col-span-2 md:col-span-4" : ""}`}
+      className={`rounded-xl border border-hairline bg-paper p-4 transition-transform active:scale-[0.98]${wide ? " col-span-2 md:col-span-4" : ""}`}
     >
-      {emoji && (
-        <span
-          aria-hidden
-          className="absolute right-3 top-3 select-none text-lg leading-none"
-        >
-          {emoji}
-        </span>
-      )}
       <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent">
         <Icon className="h-5.5 w-5.5" />
       </span>
@@ -309,11 +286,8 @@ function CalendarTile() {
     <a
       href="/events.ics"
       download
-      className="relative rounded-xl border border-hairline bg-paper p-4 transition-transform active:scale-[0.98]"
+      className="rounded-xl border border-hairline bg-paper p-4 transition-transform active:scale-[0.98]"
     >
-      <span aria-hidden className="absolute right-3 top-3 select-none text-lg leading-none">
-        🗓️
-      </span>
       <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent">
         <CalendarPlusIcon className="h-5.5 w-5.5" />
       </span>
