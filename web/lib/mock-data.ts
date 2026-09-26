@@ -37,6 +37,9 @@ export type SchoolEvent = {
   date: string; // ISO
   title: string;
   type: "event" | "holiday" | "exam";
+  /** Poster image, when the event carries one — a banner above the details
+      when the reader taps "More". Nullable, like Circular.image. */
+  image?: string;
   location?: string;
   /** Longer description, shown when the reader taps "More". Real school
       letters run long — the renderer splits on blank lines into paragraphs. */
@@ -51,6 +54,10 @@ export type Circular = {
   title: string;
   /** Two-line preview shown while the letter is collapsed. */
   snippet: string;
+  /** Poster image, when the letter carries one — rendered as a banner above
+      the letter's text (never a thumbnail in the row). Nullable: no image,
+      no placeholder, the row simply has no banner. */
+  image?: string;
   /** The full letter, shown when the reader taps it open. */
   body: string;
   postedBy: string;
@@ -234,6 +241,8 @@ export const circulars: Circular[] = [
   {
     id: "c1",
     title: "Change of school holiday dates — September",
+    image:
+      "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=1200&q=80&auto=format&fit=crop",
     snippet:
       "The holiday originally scheduled for 14–15 September is now moved to 21 September (Monday), following the postponement of National Sports Day…",
     postedBy: "School Office",
@@ -244,6 +253,8 @@ export const circulars: Circular[] = [
   {
     id: "c2",
     title: "Sports Day track events — final list and schedule",
+    image:
+      "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1200&q=80&auto=format&fit=crop",
     snippet:
       "Please find attached the final list of student participants and the track event schedule for this Friday…",
     postedBy: "Sports Department",
@@ -274,6 +285,8 @@ export const circulars: Circular[] = [
   {
     id: "c6",
     title: "Chess Open: register your class by Friday",
+    image:
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80&auto=format&fit=crop",
     snippet:
       "The annual Chess Open runs next Saturday. Register through your class teacher; open to all grades…",
     postedBy: "Co-Curricular Office",
@@ -284,6 +297,8 @@ export const circulars: Circular[] = [
   {
     id: "c7",
     title: "Library hours extended during exam weeks",
+    image:
+      "https://images.unsplash.com/photo-1481621983455-013316b9e56d?w=1200&q=80&auto=format&fit=crop",
     snippet:
       "From Monday the library stays open until 5:30pm on weekdays, with quiet study in the reading room…",
     postedBy: "Library",
@@ -314,6 +329,8 @@ export const circulars: Circular[] = [
   {
     id: "c10",
     title: "Parent–Teacher Conference: booking opens Monday",
+    image:
+      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80&auto=format&fit=crop",
     snippet:
       "Booking slots for the September conference open Monday at 9am. Each family books one 15-minute slot per subject teacher through the office…",
     postedBy: "School Office",
@@ -324,6 +341,8 @@ export const circulars: Circular[] = [
   {
     id: "c11",
     title: "New library books for the term",
+    image:
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&q=80&auto=format&fit=crop",
     snippet:
       "Sixty new titles arrived this week — graphic novels, Malay-language fiction and the science series students asked for in the survey…",
     postedBy: "Library",
@@ -349,6 +368,8 @@ export const events: SchoolEvent[] = [
     date: at(3, 8, 0),
     title: "Sports Day",
     type: "event",
+    image:
+      "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&q=80&auto=format&fit=crop",
     location: " Stadium",
     details:
       "Gates open at 7:30am. Students arrive in house shirts and go straight to their house tents.\n\nTrack events run from 8:00am to 1:00pm. The parent relay is at 12:15pm — sign up at the PA table near the gate.\n\nFood stalls accept cashless vouchers only. Vouchers are sold at the office all week and at the gate until 9:00am.",
@@ -397,6 +418,8 @@ export const events: SchoolEvent[] = [
     date: at(12, 8, 0),
     title: "Inter-house football finals",
     type: "event",
+    image:
+      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&q=80&auto=format&fit=crop",
     location: "Main field",
     details:
       "The finals kick off at 8:30am. House captains must submit final squad lists to Mr. Ravi by Wednesday.\n\nSpectators bring house colours; the canteen runs a special stall all morning.",

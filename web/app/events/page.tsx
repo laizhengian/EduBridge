@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import {
   CalendarCheckIcon,
@@ -101,6 +102,19 @@ function Row({ e, first }: { e: SchoolEvent; first: boolean }) {
           </button>
           {open && (
             <div className="mt-1 space-y-2.5">
+              {/* Poster letters lead with the picture — banner above the text,
+              never a thumbnail in the row (backend-plan layout rule). */}
+              {e.image && (
+                <div className="relative aspect-[3/2] overflow-hidden rounded-lg border border-hairline">
+                  <Image
+                    src={e.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 672px) 608px, calc(100vw - 32px)"
+                    className="object-cover"
+                  />
+                </div>
+              )}
               {e.details?.split(/\n\s*\n/).map((para, i) => (
                 <p key={i} className="text-sm leading-6 text-foreground/80">
                   {para}

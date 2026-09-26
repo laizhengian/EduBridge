@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { circulars } from "@/lib/mock-data";
 import { PageBackdrop } from "@/components/PageBackdrop";
 
@@ -7,6 +8,10 @@ import { PageBackdrop } from "@/components/PageBackdrop";
  * "what's the archive order?". Letters stay collapsed until tapped: the title
  * plus a two-line preview is enough to know if it's yours to read. The posted
  * day is written in plain words next to the sender — no timestamps to decode.
+ *
+ * Letters that carry a poster show it as a banner above the letter's text once
+ * opened (the backend-plan layout rule) — never as a thumbnail floating in the
+ * collapsed row. The Today screen stays text-only regardless.
  */
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
@@ -100,9 +105,26 @@ function Letter({ c, first }: { c: (typeof circulars)[number]; first: boolean })
           Close
         </span>
       </summary>
-      <p className="mt-1 text-[15px] leading-7 text-foreground/80">
+      {c.image && <Poster src={c.image} alt="" />}
+      <p className="mt-3 text-[15px] leading-7 text-foreground/80">
         {c.body}
       </p>
     </details>
+  );
+}
+
+/** The letter's poster, when it has one: a fixed-ratio banner above the
+    letter's text, rounded to the card like a photo pinned on top. */
+function Poster({ src, alt = "" }: { src: string; alt?: string }) {
+  return (
+    <div className="relative mt-2 aspect-[3/2] overflow-hidden rounded-lg border border-hairline">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(min-width: 672px) 608px, calc(100vw - 32px)"
+        className="object-cover"
+      />
+    </div>
   );
 }

@@ -193,19 +193,25 @@ This is the decision the user specifically asked to see justified:
   `--chip` tokens. Selected swatches show a plain white checkmark (the ring +
   inner dot read as two competing signals); overdue marks carry an alarm-clock
   glyph, not just a red word.
-- **Page backdrops:** the faint graph-paper + stationery-glyph wallpaper
-  (PageBackdrop) is one component and one CSS block, opt-in per page with a
-  motif name, token-coloured so palettes and dark mode tint it for free,
-  aria-hidden with no pointer events, fading out after the first screenful so
-  it never fights the content. Nine pages use it — Today and the Hub included,
-  after review showed the wallpaper reads as the app's fabric, not noise
-  (Today's motif mixes the school-day tools; the Hub's doodles are its own
-  destination glyphs). Settings and the legal pages stay clean: the control
-  room and the fine print don't decorate.
+- **Page backdrops:** the school-notebook wallpaper (PageBackdrop) is one
+  component and one CSS block, opt-in per page with a motif name: accent-tinted
+  graph paper, a scatter of big friendly emoji per motif (News reads as
+  paper-and-ink, Study Center as pencil-and-flask), and an app-wide
+  crumpled-paper grain at ~4% opacity. v1 drew faint line-glyph doodles — a
+  review found them invisible, which is the one failure mode decoration can't
+  have: personality you have to squint for is no personality. v2 sizes the
+  emoji to be actually seen and tilts them like real doodles, while the layer
+  still fades out after the first screenful, stays aria-hidden with no pointer
+  events, and takes its colour from the theme tokens so every palette and dark
+  mode tints it for free. Nine pages use it — Today and the Hub included, after
+  review showed the wallpaper reads as the app's fabric, not noise. Settings
+  and the legal pages stay clean: the control room and the fine print don't
+  decorate.
 - **What lost:** reusing light colours at reduced opacity for dark mode (the
   muddy-red trap, again); scattering doodles as per-page JSX (n palettes of
   drift, unmaintainable); embedding the motif inside Shell (pages couldn't
-  choose — and teacher routes would need a fork).
+  choose — and teacher routes would need a fork); v1's barely-there
+  line-glyph doodles (see above — decoration must be visible or absent).
 
 ### 19. One list language: boxed grouped lists everywhere — over mixed open and boxed rows
 - **Why it won:** the user's review caught it precisely — Events lived in a box,
@@ -231,6 +237,19 @@ This is the decision the user specifically asked to see justified:
   the wall of marks answered nothing. Grade letters (A/F chips) were dropped
   entirely — to an 11-year-old they read as favicons, and the mark plus the
   pass line carry the same meaning without the hieroglyphs.
+
+### 20. Optional poster images on News and Events letters — banner above the text, never a row thumbnail
+- **Why it won:** the backend-plan layout rule, now demonstrated in the preview
+  (mock data carries an optional `image` on both types). News reveals the
+  poster when the letter opens — the collapsed preview stays a two-line
+  snippet, so rows stay scannable and equal-height. Events shows it at the top
+  of the "More" expander. The Today screen stays text-only regardless: it's
+  the summary; the full letter lives one tap deeper. The banner is a fixed 3:2
+  ratio with the card's rounded corners — it reads as a poster pinned above
+  the letter, not a feed card.
+- **What lost:** thumbnails in the collapsed row (turns news into a feed of
+  clickable ambiguities and makes every row height depend on an image);
+  edge-to-edge unrounded banners (they fight #19's boxed language).
 
 ---
 

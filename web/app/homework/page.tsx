@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CheckGlyph, Chip, DotTag, SubjectChip } from "@/components/ui";
+import { AlarmClockIcon, CheckGlyph, Chip, SubjectChip } from "@/components/ui";
 import { PageBackdrop } from "@/components/PageBackdrop";
 import { Sheet } from "@/components/Sheet";
 import { Toast, type ToastState } from "@/components/Toast";
@@ -9,6 +9,7 @@ import { haptic } from "@/lib/haptics";
 import {
   dayGroupLabel,
   dueLabel,
+  isSameDay,
   type Homework,
 } from "@/lib/mock-data";
 import { getHomework, subscribe, toggleDone as storeToggle } from "@/lib/store";
@@ -73,7 +74,12 @@ export default function HomeworkPage() {
           Homework
         </h1>
         <p className="mt-1 text-[15px] text-muted">
-          {open.length} to do · {overdue.length} overdue
+          {open.length} to do
+          {overdue.length > 0
+            ? ` — ${overdue.length} overdue`
+            : upcoming.some((h) => isDueToday(h.dueAt))
+              ? " — some due today"
+              : ""}
         </p>
       </header>
 
@@ -116,6 +122,69 @@ export default function HomeworkPage() {
   );
 }
 
+/** Day arithmetic on local midnights — the calendar day, not the hour. */
+function isDueToday(iso: string): boolean {
+  return isSameDay(iso, new Date());
+}
+function isDueTomorrow(iso: string): boolean {
+  const t = new Date();
+  t.setDate(t.getDate() + 1);
+  return isSameDay(iso, t);
+}
+
+/** The due date as a small status pill: amber when due today, accent when due
+    tomorrow, the alarm-clock red when overdue — plain words for everything
+    else. One component so the list and the detail sheet never disagree. */
+function DuePill({
+  dueAt,
+  isOverdue,
+  dueToday,
+  dueTomorrow,
+}: {
+  dueAt: string;
+  isOverdue: boolean;
+  dueToday: boolean;
+  dueTomorrow: boolean;
+}) {
+  if (isOverdue)
+    return (
+      <DuePillShell tone="danger">
+        <AlarmClockIcon aria-hidden className="h-3 w-3" />
+        overdue
+      </DuePillShell>
+    );
+  if (dueToday)
+    return (
+      <DuePillShell tone="warn">due today</DuePillShell>
+    );
+  if (dueTomorrow)
+    return (
+      <DuePillShell tone="accent">due tomorrow</DuePillShell>
+    );
+  return <span className="text-xs text-muted">due {dueLabel(dueAt)}</span>;
+}
+
+function DuePillShell({
+  tone,
+  children,
+}: {
+  tone: "danger" | "warn" | "accent";
+  children: React.ReactNode;
+}) {
+  const cls = {
+    danger: "bg-danger/10 text-danger",
+    warn: "bg-warn/10 text-warn-strong",
+    accent: "bg-accent-soft text-accent-strong",
+  }[tone];
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${cls}`}
+    >
+      {children}
+    </span>
+  );
+}
+
 function Row({
   h,
   index,
@@ -126,6 +195,8 @@ function Row({
   onToggle: () => void;
 }) {
   const isOverdue = !h.done && new Date(h.dueAt) < new Date();
+  const dueToday = !h.done && !isOverdue && isDueToday(h.dueAt);
+  const dueTomorrow = !h.done && !isOverdue && isDueTomorrow(h.dueAt);
   const [open, setOpen] = useState(false);
 
   function toggle() {
@@ -168,8 +239,7 @@ function Row({
         </button>
         <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1">
           <SubjectChip>{h.subject}</SubjectChip>
-          <span className="text-xs text-muted">due {dueLabel(h.dueAt)}</span>
-          {isOverdue && <DotTag color="red" icon>overdue</DotTag>}
+          <DuePill dueAt={h.dueAt} isOverdue={isOverdue} dueToday={dueToday} dueTomorrow={dueTomorrow} />
           <span className="text-xs text-muted">
             {h.postedBy} · {dayGroupLabel(h.postedAt)}
           </span>
@@ -184,8 +254,7 @@ function Row({
             <p className="font-display text-lg font-semibold leading-7">{h.title}</p>
             <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
               <SubjectChip>{h.subject}</SubjectChip>
-              <span className="text-xs text-muted">due {dueLabel(h.dueAt)}</span>
-              {isOverdue && <DotTag color="red" icon>overdue</DotTag>}
+              <DuePill dueAt={h.dueAt} isOverdue={isOverdue} dueToday={dueToday} dueTomorrow={dueTomorrow} />
             </div>
           </div>
           <div className="rounded-xl border border-hairline bg-background px-4 py-3 text-sm leading-6">

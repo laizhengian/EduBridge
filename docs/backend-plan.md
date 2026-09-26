@@ -147,13 +147,14 @@ and `absence_notes` (student, days, reason, certificate photo path, status —
 the office queue). `read_receipts(post_id, user_id, seen_at)` completes the
 teacher-app promise of "seen by 18/24".
 
-### Optional images on posts (planned, not built)
+### Optional images on posts (layout built, backend pending)
 
 News letters and event letters should be able to carry an image — a poster
-for the sports day, a photo of the lost-and-found table. Deliberately **not**
-in the frontend preview: mock data that pretends to have pictures teaches the
-wrong layout (an image-less list wraps differently than an image-led one, and
-the wrong habit is hard to unlearn). When the vault connects:
+for the sports day, a photo of the lost-and-found table. The preview now
+demonstrates the layout with stock photos: optional `image` on both types,
+rendered as a banner above the letter's text (News: revealed when the letter
+opens; Events: at the top of the "More" expander; Today stays text-only).
+When the vault connects, only the storage plumbing is left:
 
 - `circulars.image_path` and `events.image_path`, nullable — a post without
   an image renders exactly as today's text list, never a broken placeholder.

@@ -54,8 +54,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
+  // isolate: the wallpaper (PageBackdrop, z -10) must paint ABOVE this
+  // wrapper's own background or it sits invisibly behind it forever.
   return (
-    <div className="min-h-dvh bg-background pt-[env(safe-area-inset-top)] text-foreground">
+    <div className="min-h-dvh isolate bg-background pt-[env(safe-area-inset-top)] text-foreground">
       {/* desktop header — sticky masthead: wordmark, today's date, pill navigation.
           System material: translucent paper over the page, blurred beneath. */}
       <header

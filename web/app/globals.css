@@ -141,13 +141,30 @@
   --accent-soft: #38242b;
 }
 
+/* ---- paper feel ----
+   Crumpled-paper grain over the whole app: one fixed noise film at ~4%
+   opacity. It sits above content (pointer-events: none) the way real paper
+   texture does — visible in the flat areas, harmless over text. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity: 0.055;
+}
+html.dark body::after {
+  opacity: 0.085;
+}
+
 /* ---- page backdrops ----
-   The school-notebook layer: faint graph lines and a few stationery glyphs,
-   strongest at the top of the page and faded out before content gets dense.
-   Decorative only (aria-hidden, no pointer events), fixed so it reads as
-   wallpaper behind the scrolling paper, and token-coloured so every palette
-   and dark mode tint it automatically. Pages opt in per motif
-   (components/PageBackdrop.tsx). */
+   The school-notebook layer: graph lines tinted in the ACCENT colour (like a
+   school exercise book, so the personality follows the user's palette), plus
+   a loose row of big, friendly emoji. Strong enough to actually see, masked
+   out before content gets dense. Decorative only (aria-hidden, no pointer
+   events), fixed so it reads as wallpaper behind the scrolling paper. Pages
+   opt in per motif (components/PageBackdrop.tsx). */
 .page-backdrop {
   position: fixed;
   inset: 0 0 auto 0;
@@ -160,20 +177,26 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(var(--hairline) 1px, transparent 1px),
-    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--accent-strong) 38%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent-strong) 38%, transparent) 1px, transparent 1px);
   background-size: 28px 28px;
-  opacity: 0.4;
   -webkit-mask-image: radial-gradient(130% 100% at 50% 0%, black, transparent 72%);
   mask-image: radial-gradient(130% 100% at 50% 0%, black, transparent 72%);
 }
-.page-backdrop-doodle {
-  position: absolute;
-  color: var(--accent-strong);
-  opacity: 0.09;
+html.dark .page-backdrop-lines {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--accent-strong) 48%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent-strong) 48%, transparent) 1px, transparent 1px);
 }
-.dark .page-backdrop-doodle {
-  opacity: 0.14;
+.page-backdrop-emoji {
+  position: absolute;
+  font-size: 34px;
+  line-height: 1;
+  opacity: 0.3;
+  transform: rotate(var(--tilt, 0deg));
+}
+html.dark .page-backdrop-emoji {
+  opacity: 0.4;
 }
 
 html {
