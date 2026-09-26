@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { examResults } from "@/lib/mock-data";
 import { ChevronIcon, DotTag } from "@/components/ui";
-import { PageBackdrop } from "@/components/PageBackdrop";
 
 function longDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -31,7 +30,6 @@ export default function ResultsPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageBackdrop motif="results" />
       <header className="rise">
         <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Exam results

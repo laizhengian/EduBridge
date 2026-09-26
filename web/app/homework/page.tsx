@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AlarmClockIcon, CheckGlyph, Chip, SubjectChip } from "@/components/ui";
-import { PageBackdrop } from "@/components/PageBackdrop";
 import { Sheet } from "@/components/Sheet";
 import { Toast, type ToastState } from "@/components/Toast";
 import { haptic } from "@/lib/haptics";
@@ -68,7 +67,6 @@ export default function HomeworkPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageBackdrop motif="homework" />
       <header className="rise">
         <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Homework

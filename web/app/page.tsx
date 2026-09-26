@@ -12,7 +12,6 @@ import {
   timeAgo,
 } from "@/lib/mock-data";
 import { loadProfile, type Profile } from "@/lib/profile";
-import { PageBackdrop } from "@/components/PageBackdrop";
 
 function Box({
   children,
@@ -72,7 +71,6 @@ export default function TodayPage() {
 
   return (
     <div>
-      <PageBackdrop motif="today" />
       <header className="rise">
         <p className="text-sm text-muted">
           {now.toLocaleDateString("en-MY", { weekday: "long", day: "numeric", month: "long" })}

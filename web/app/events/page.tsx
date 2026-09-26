@@ -11,7 +11,6 @@ import {
   PenLineIcon,
   TrophyIcon,
 } from "@/components/ui";
-import { PageBackdrop } from "@/components/PageBackdrop";
 import { AddToCalendar } from "@/components/AddToCalendar";
 import { events, type SchoolEvent } from "@/lib/mock-data";
 
@@ -43,7 +42,6 @@ export default function EventsPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageBackdrop motif="events" />
       <header className="rise">
         <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           Events

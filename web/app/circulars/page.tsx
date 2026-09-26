@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { circulars } from "@/lib/mock-data";
-import { PageBackdrop } from "@/components/PageBackdrop";
 
 /**
  * News. Grouped by how old it is — This week / Earlier this month — because
@@ -39,7 +38,6 @@ export default function CircularsPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <PageBackdrop motif="news" />
       <header className="rise">
         <h1 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
           News

@@ -34,10 +34,8 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // isolate: same wallpaper rule as Shell.tsx — a page-level backdrop must
-  // paint above this wrapper's background, not invisibly behind it.
   return (
-    <div className="min-h-dvh isolate bg-background">
+    <div className="min-h-dvh bg-background">
       <header
         className={`fixed inset-x-0 top-0 z-40 border-b border-accent/20 bg-accent text-accent-contrast transition-shadow ${
           scrolled ? "shadow-[0_12px_24px_-20px_rgba(20,86,62,0.7)]" : ""
