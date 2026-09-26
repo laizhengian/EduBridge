@@ -6,6 +6,7 @@ import {
 } from "@/lib/mock-data";
 import { DotTag, SectionTitle, CheckGlyph, CrossGlyph, DashGlyph, ExclaimGlyph } from "@/components/ui";
 import { PageBackdrop } from "@/components/PageBackdrop";
+import { ProgressBar } from "@/components/ProgressBar";
 
 function shortDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -47,9 +48,10 @@ export default function AttendancePage() {
 
       {/* today, first — the #1 question gets the #1 position */}
       <section
-        className="rise mt-6 flex items-center gap-4 rounded-xl border border-hairline bg-paper p-5"
+        className="rise mt-6 rounded-xl border border-hairline bg-paper p-5"
         style={{ "--i": 1 } as React.CSSProperties}
       >
+        <div className="flex items-center gap-4">
         <span
           className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${
             today.status === "present"
@@ -82,6 +84,12 @@ export default function AttendancePage() {
               : (today.reason ?? `Marked in by the class teacher`)}
           </p>
         </div>
+        </div>
+        <ProgressBar
+          done={present + late}
+          total={attendanceDays.length}
+          className="mt-4"
+        />
       </section>
 
       {/* the summary that counts excused and unexcused separately */}

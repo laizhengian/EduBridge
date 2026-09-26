@@ -13,6 +13,7 @@ import {
 } from "@/lib/mock-data";
 import { loadProfile, type Profile } from "@/lib/profile";
 import { PageBackdrop } from "@/components/PageBackdrop";
+import { ProgressBar } from "@/components/ProgressBar";
 
 function Box({
   children,
@@ -90,6 +91,11 @@ export default function TodayPage() {
             ? `${openCount} items to do · ${overdue.length} overdue`
             : "No homework to do right now."}
         </p>
+        <ProgressBar
+          done={homeworkSeed.length - openCount}
+          total={homeworkSeed.length}
+          className="mt-3 max-w-xs"
+        />
       </header>
 
       {overdue.length > 0 && (

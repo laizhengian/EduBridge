@@ -70,9 +70,9 @@ export function Toast({
                   }
             }
             transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 480, damping: 34 }}
-            className="pointer-events-auto flex touch-none items-center gap-4 rounded-xl bg-foreground/90 px-4 py-2.5 shadow-lg backdrop-blur-xl"
+            className="pointer-events-auto flex touch-none items-center gap-4 rounded-xl border border-white/10 bg-[#2a2d31] px-4 py-2.5 text-white shadow-lg backdrop-blur-xl"
           >
-            <span className="text-sm font-medium text-accent-contrast">{shown.message}</span>
+            <span className="text-sm font-medium text-white">{shown.message}</span>
             {shown.undo && (
               <button
                 type="button"
@@ -81,7 +81,7 @@ export function Toast({
                   shown.undo?.();
                   onDone();
                 }}
-                className="min-h-[36px] text-sm font-semibold text-[#8fd0b4]"
+                className="min-h-[36px] text-sm font-semibold text-[#7fc4a6]"
               >
                 Undo
               </button>

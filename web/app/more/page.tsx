@@ -129,6 +129,7 @@ export default function MorePage() {
           desc="Videos, quizzes and practice your teachers share"
           Icon={PlayIcon}
           badge={counts.study > 0 ? `${counts.study} this week` : undefined}
+          marks={["\u25b6", "?", "\u270e", "\u2630"]}
           wide
         />
       </Group>
@@ -213,6 +214,7 @@ function Tile({
   desc,
   Icon,
   badge,
+  marks,
   wide = false,
 }: {
   href: string;
@@ -220,6 +222,8 @@ function Tile({
   desc: string;
   Icon: (p: { className?: string }) => React.ReactNode;
   badge?: string;
+  /** Small kind-glyphs under the description (Study Center: what's inside). */
+  marks?: string[];
   wide?: boolean;
 }) {
   return (
@@ -232,6 +236,21 @@ function Tile({
       </span>
       <p className="mt-3 font-display text-[15px] font-semibold leading-5">{title}</p>
       <p className="mt-1 text-xs leading-5 text-muted">{desc}</p>
+      {marks && marks.length > 0 && (
+        <p
+          aria-hidden
+          className="mt-2 flex gap-1.5 text-[13px] leading-none text-accent-strong"
+        >
+          {marks.map((m, i) => (
+            <span
+              key={i}
+              className="flex h-6 w-6 items-center justify-center rounded-md bg-accent-soft"
+            >
+              {m}
+            </span>
+          ))}
+        </p>
+      )}
       {badge && (
         <p className="mt-2 text-xs font-semibold text-accent-strong">{badge}</p>
       )}

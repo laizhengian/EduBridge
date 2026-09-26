@@ -45,11 +45,14 @@ function Row({ e, first }: { e: SchoolEvent; first: boolean }) {
   return (
     <li className={`py-3.5${first ? "" : " border-t border-hairline"}`}>
       <div className="flex items-center gap-3">
-        <div className="w-14 shrink-0">
-          <p className="text-[13px] font-semibold leading-4">
+        <div
+          aria-hidden
+          className="w-14 shrink-0 rounded-lg bg-accent-soft py-1.5 text-center"
+        >
+          <p className="text-[13px] font-semibold leading-4 text-accent-strong">
             {new Date(e.date).toLocaleDateString("en-MY", { day: "numeric", month: "short" })}
           </p>
-          <p className="text-xs text-muted">
+          <p className="text-[11px] leading-4 text-accent-strong/80">
             {new Date(e.date).toLocaleDateString("en-MY", { weekday: "short" })}
           </p>
         </div>

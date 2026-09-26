@@ -13,19 +13,27 @@ export default function CircularsPage() {
         </p>
       </header>
 
-      <div className="rise mt-6" style={{ "--i": 1 } as React.CSSProperties}>
-        {circulars.map((c) => (
-          <article key={c.id} className="border-b border-hairline py-5 first:border-t">
-            <h2 className="text-base font-semibold leading-6">{c.title}</h2>
+      {/* Same boxed grouped-list language as Homework, Events and Results —
+          one material across the app (decisions.md #19). */}
+      <div
+        className="rise mt-6 rounded-xl border border-hairline bg-paper px-4 py-1 sm:px-5"
+        style={{ "--i": 1 } as React.CSSProperties}
+      >
+        {circulars.map((c, i) => (
+          <article
+            key={c.id}
+            className={`py-4${i > 0 ? " border-t border-hairline" : ""}`}
+          >
+            <h2 className="text-[15px] font-semibold leading-6">{c.title}</h2>
             <p className="mt-0.5 text-xs text-muted">
               {c.postedBy} · {timeAgo(c.postedAt)}
             </p>
-            <p className="mt-2.5 text-[15px] leading-7 text-foreground/80">
+            <p className="mt-1.5 text-[15px] leading-7 text-foreground/80">
               {c.snippet}
             </p>
             <button
               type="button"
-              className="mt-2.5 inline-flex min-h-[44px] items-center text-sm font-semibold text-accent underline underline-offset-4"
+              className="pressable mt-1.5 inline-flex min-h-[40px] items-center text-sm font-semibold text-accent"
             >
               Read the full letter
             </button>

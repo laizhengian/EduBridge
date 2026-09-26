@@ -50,6 +50,16 @@ Every goal below is the direct opposite of one of those failures.
   Target: under 1 second navigation on a 3-year-old mid-range Android
 - Never a loading spinner for data we already have (cached last-known data when
   Wi-Fi drops, with an "updated at" stamp)
+- **The speed ground rules** (user-set, non-negotiable — every change is judged
+  against them):
+  - **Never slow** — interactions answer within one frame (~16ms); no spinner
+    ever replaces data we already have
+  - **Never sluggish** — every animation under 400ms, feedback instant at the
+    tap (the visual movement may follow; the *acknowledgement* may not)
+  - **Never laggy** — scrolling and taps never queue behind work; effects stay
+    cheap (transform/opacity only), nothing animates layout properties
+  - **Never buggy** — a control that exists works in both light and dark mode;
+    theme regressions are defects, not polish (they get fixed before features)
 
 ### Goal 4 — Good habits, gently
 
