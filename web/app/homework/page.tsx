@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ProgressBar } from "@/components/ProgressBar";
 import { CheckGlyph, Chip, DotTag, SubjectChip } from "@/components/ui";
 import { PageBackdrop } from "@/components/PageBackdrop";
 import { Sheet } from "@/components/Sheet";
@@ -76,7 +75,6 @@ export default function HomeworkPage() {
         <p className="mt-1 text-[15px] text-muted">
           {open.length} to do · {overdue.length} overdue
         </p>
-        <ProgressBar done={done.length} total={items.length} className="mt-3" />
       </header>
 
       <div className="rise mt-5 flex gap-2 overflow-x-auto pb-1" style={{ "--i": 1 } as React.CSSProperties}>

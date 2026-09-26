@@ -49,7 +49,10 @@ export type SchoolEvent = {
 export type Circular = {
   id: string;
   title: string;
+  /** Two-line preview shown while the letter is collapsed. */
   snippet: string;
+  /** The full letter, shown when the reader taps it open. */
+  body: string;
   postedBy: string;
   postedAt: string; // ISO
 };
@@ -235,6 +238,8 @@ export const circulars: Circular[] = [
       "The holiday originally scheduled for 14–15 September is now moved to 21 September (Monday), following the postponement of National Sports Day…",
     postedBy: "School Office",
     postedAt: at(-1, 9, 0),
+    body:
+      "The holiday originally scheduled for 14–15 September is now moved to 21 September (Monday), following the postponement of National Sports Day. All other term dates are unchanged, and the updated calendar is on the Events page. Classes resume as normal on 22 September.",
   },
   {
     id: "c2",
@@ -243,6 +248,8 @@ export const circulars: Circular[] = [
       "Please find attached the final list of student participants and the track event schedule for this Friday…",
     postedBy: "Sports Department",
     postedAt: at(-2, 12, 30),
+    body:
+      "Please find the final list of student participants and the track event schedule for this Friday below. Students report to their house tents by 7:45am in house shirts. Spike checks happen at the track gate — bring both training shoes and spikes.",
   },
   {
     id: "c4",
@@ -251,6 +258,8 @@ export const circulars: Circular[] = [
       "Jalan Kenari will be closed 6:30–8:30am for utility works. Please use the Southgate drop-off…",
     postedBy: "School Office",
     postedAt: at(0, 7, 45),
+    body:
+      "Jalan Kenari will be closed 6:30–8:30am this Friday for utility works. Please use the Southgate drop-off instead — extra staff will be on hand to direct traffic, and buses run their normal routes throughout.",
   },
   {
     id: "c5",
@@ -259,6 +268,8 @@ export const circulars: Circular[] = [
       "Students can top up meal cards at the new kiosk beside the canteen entrance, before school and during both breaks…",
     postedBy: "Operations",
     postedAt: at(0, 8, 30),
+    body:
+      "Students can top up meal cards at the new kiosk beside the canteen entrance, before school and during both breaks. Card top-ups also work through the canteen counter as before — the kiosk is an extra queue, not a replacement.",
   },
   {
     id: "c6",
@@ -267,6 +278,8 @@ export const circulars: Circular[] = [
       "The annual Chess Open runs next Saturday. Register through your class teacher; open to all grades…",
     postedBy: "Co-Curricular Office",
     postedAt: at(-1, 14, 0),
+    body:
+      "The annual Chess Open runs next Saturday morning in the hall. Register through your class teacher by Friday; each class may enter up to six players. Boards and clocks are provided — bring nothing but patience.",
   },
   {
     id: "c7",
@@ -275,6 +288,8 @@ export const circulars: Circular[] = [
       "From Monday the library stays open until 5:30pm on weekdays, with quiet study in the reading room…",
     postedBy: "Library",
     postedAt: at(-2, 10, 0),
+    body:
+      "From Monday the library stays open until 5:30pm on weekdays. The reading room is reserved for silent study after 3pm, and the computer pods stay first-come first-served.",
   },
   {
     id: "c8",
@@ -283,6 +298,8 @@ export const circulars: Circular[] = [
       "Pickup moves 10 minutes earlier along Jalan Batu Tiga. Drivers will confirm at tomorrow's drop-off…",
     postedBy: "Transport Desk",
     postedAt: at(-3, 9, 0),
+    body:
+      "Pickup moves 10 minutes earlier along Jalan Batu Tiga from next week — affected stops are numbers 1 to 4. All other routes run as normal, and drivers will confirm at tomorrow's drop-off.",
   },
   {
     id: "c9",
@@ -291,6 +308,38 @@ export const circulars: Circular[] = [
       "A gentle reminder that children with fever should rest at home until 24 hours after it passes…",
     postedBy: "Health Room",
     postedAt: at(-4, 11, 0),
+    body:
+      "A gentle reminder that children with fever should rest at home until 24 hours after it passes. Hand-sanitiser stations are restocked daily and classrooms are aired between lessons — thank you for keeping sick children home.",
+  },
+  {
+    id: "c10",
+    title: "Parent–Teacher Conference: booking opens Monday",
+    snippet:
+      "Booking slots for the September conference open Monday at 9am. Each family books one 15-minute slot per subject teacher through the office…",
+    postedBy: "School Office",
+    postedAt: at(-8, 9, 0),
+    body:
+      "Booking slots for the September conference open Monday at 9am. Each family books one 15-minute slot per subject teacher through the office; if you need a longer conversation, the office will arrange a separate day.",
+  },
+  {
+    id: "c11",
+    title: "New library books for the term",
+    snippet:
+      "Sixty new titles arrived this week — graphic novels, Malay-language fiction and the science series students asked for in the survey…",
+    postedBy: "Library",
+    postedAt: at(-12, 9, 30),
+    body:
+      "Sixty new titles arrived this week — graphic novels, Malay-language fiction and the science series students asked for in the survey. The borrowing limit rises to four books for the rest of the term.",
+  },
+  {
+    id: "c12",
+    title: "Inter-house quiz: results and photos",
+    snippet:
+      "Merbau house took the quiz trophy after a tie-break round. Full results and photo galleries are on the School life page…",
+    postedBy: "Co-Curricular Office",
+    postedAt: at(-16, 14, 0),
+    body:
+      "Merbau house took the quiz trophy after a tie-break round that went to five questions. Full results are with the class teachers, and the photo galleries are on the School life page.",
   },
 ];
 

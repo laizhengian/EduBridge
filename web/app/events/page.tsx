@@ -1,13 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { DotTag, ChevronIcon, ExternalLinkIcon } from "@/components/ui";
+import {
+  CalendarCheckIcon,
+  ChevronIcon,
+  DotTag,
+  EventsIcon,
+  ExternalLinkIcon,
+  PenLineIcon,
+  TrophyIcon,
+} from "@/components/ui";
 import { PageBackdrop } from "@/components/PageBackdrop";
 import { AddToCalendar } from "@/components/AddToCalendar";
 import { events, type SchoolEvent } from "@/lib/mock-data";
 
-function tagColor(type: SchoolEvent["type"]): "amber" | "green" | "gray" {
-  return type === "exam" ? "amber" : type === "holiday" ? "green" : "gray";
+/** One quiet icon that says what kind of day it is — colour plus shape,
+    so it never rests on colour alone. */
+function TypeMark({ type }: { type: SchoolEvent["type"] }) {
+  const cls =
+    type === "exam"
+      ? "bg-warn-soft text-warn"
+      : type === "holiday"
+        ? "bg-accent-soft text-accent-strong"
+        : "bg-muted/10 text-muted";
+  const Icon = type === "exam" ? PenLineIcon : type === "holiday" ? EventsIcon : CalendarCheckIcon;
+  return (
+    <span
+      aria-hidden
+      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${cls}`}
+    >
+      <Icon className="h-4.5 w-4.5" />
+    </span>
+  );
 }
 
 export default function EventsPage() {
@@ -45,29 +69,21 @@ function Row({ e, first }: { e: SchoolEvent; first: boolean }) {
   return (
     <li className={`py-3.5${first ? "" : " border-t border-hairline"}`}>
       <div className="flex items-center gap-3">
-        <div
-          aria-hidden
-          className="w-14 shrink-0 rounded-lg bg-accent-soft py-1.5 text-center"
-        >
-          <p className="text-[13px] font-semibold leading-4 text-accent-strong">
-            {new Date(e.date).toLocaleDateString("en-MY", { day: "numeric", month: "short" })}
-          </p>
-          <p className="text-[11px] leading-4 text-accent-strong/80">
-            {new Date(e.date).toLocaleDateString("en-MY", { weekday: "short" })}
-          </p>
-        </div>
+        <TypeMark type={e.type} />
 
         <div className="min-w-0 flex-1">
           <p className="text-[15px] font-medium leading-6">{e.title}</p>
-          {e.location?.trim() && (
-            <p className="text-xs text-muted">{e.location.trim()}</p>
-          )}
+          <p className="text-xs text-muted">
+            {new Date(e.date).toLocaleDateString("en-MY", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })}
+            {e.location?.trim() ? ` · ${e.location.trim()}` : ""}
+          </p>
         </div>
 
         <AddToCalendar ev={e} />
-        <span className="w-[64px] shrink-0 text-right">
-          <DotTag color={tagColor(e.type)}>{e.type}</DotTag>
-        </span>
       </div>
 
       {hasMore && (

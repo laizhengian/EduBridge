@@ -214,14 +214,23 @@ This is the decision the user specifically asked to see justified:
   lists) won: **one rounded paper box per group, hairline dividers inside**.
   Within the language, surfaces earn variety by *content*, not structure — Events
   date chips fill with the accent-soft tint, the Study Center Hub tile shows the
-  kind-glyphs it contains, list headers carry a quiet progress bar (done vs total)
-  so a list tells you its state before you read a word. Toasts pin the rule:
-  one fixed charcoal surface in both modes — adaptive inverse-pair surfaces
-  (`bg-foreground`) with hard-coded text is exactly the dark-mode contrast bug
-  class this app already outlawed.
+  kind-glyphs it contains. A progress bar is **content, not chrome** — it
+  appears where the done-vs-total ratio is the information (Attendance), never
+  as decoration under a header whose numbers already say it (Today, Homework).
+  Toasts pin the rule: one fixed charcoal surface in both modes — adaptive
+  inverse-pair surfaces (`bg-foreground`) with hard-coded text is exactly the
+  dark-mode contrast bug class this app already outlawed.
 - **What lost:** the open editorial rows for News (read nicely, but made the app
   feel like two products stitched together); per-page inventiveness with list
   structure (invent inside the box — chips, glyphs, bars — never with the box).
+- **News and Results follow the same demotion principle** (review #3): letters
+  collapse behind a two-line preview and open in place, grouped by how old they
+  are, because "what's new since I looked?" beats an archive order; Results
+  headline the average (with its stated basis) and demote the eight subject
+  marks behind one tap, because one number answers "how did the term go?" and
+  the wall of marks answered nothing. Grade letters (A/F chips) were dropped
+  entirely — to an 11-year-old they read as favicons, and the mark plus the
+  pass line carry the same meaning without the hieroglyphs.
 
 ---
 
