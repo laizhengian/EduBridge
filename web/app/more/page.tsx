@@ -22,22 +22,52 @@ import {
   TrophyIcon,
   UserIcon,
 } from "@/components/ui";
-import { circulars, events } from "@/lib/mock-data";
+import {
+  attendanceDays,
+  circulars,
+  events,
+  examResults,
+  type SchoolEvent,
+} from "@/lib/mock-data";
+import {
+  getEvents,
+  subscribe as subscribeEvents,
+} from "@/lib/events-store";
+import { buildIcsAll, downloadIcsFile } from "@/lib/ics";
 import { getStudy } from "@/lib/study-store";
 import { loadProfile, type Role } from "@/lib/profile";
 
-/** Live "new this week" counts — the Hub proves it's organized, not stale.
-    Counts fill after mount so server and client render identically. */
-function useNewCounts(): { news: number; events: number; study: number } {
-  const [counts, setCounts] = useState({ news: 0, events: 0, study: 0 });
+/** Live counts and one-line facts for the tiles — the Hub shows the school
+    as it is right now (latest letter, next event, the term's average), not
+    as a static menu. Reads the shared stores so admin posts count too. */
+function useNewCounts(): {
+  news: number;
+  events: number;
+  study: number;
+  nextEvent: SchoolEvent | null;
+} {
+  const [counts, setCounts] = useState<{ news: number; events: number; study: number; nextEvent: SchoolEvent | null }>({
+    news: 0,
+    events: 0,
+    study: 0,
+    nextEvent: null,
+  });
   useEffect(() => {
-    const now = Date.now();
-    const week = 7 * 24 * 60 * 60 * 1000;
-    setCounts({
-      news: circulars.filter((c) => now - +new Date(c.postedAt) < week).length,
-      events: events.filter((e) => +new Date(e.date) - now < week && +new Date(e.date) > now).length,
-      study: getStudy().filter((r) => now - +new Date(r.sharedAt) < week).length,
-    });
+    const load = () => {
+      const now = Date.now();
+      const week = 7 * 24 * 60 * 60 * 1000;
+      const upcoming = getEvents()
+        .filter((e) => +new Date(e.date) > now)
+        .sort((a, b) => +new Date(a.date) - +new Date(b.date));
+      setCounts({
+        news: circulars.filter((c) => now - +new Date(c.postedAt) < week).length,
+        events: upcoming.filter((e) => +new Date(e.date) - now < week).length,
+        study: getStudy().filter((r) => now - +new Date(r.sharedAt) < week).length,
+        nextEvent: upcoming[0] ?? null,
+      });
+    };
+    load();
+    return subscribeEvents(load);
   }, []);
   return counts;
 }
@@ -74,8 +104,14 @@ export default function MorePage() {
           title="Events"
           desc="What's coming up, with add-to-calendar"
           Icon={EventsIcon}
-          badge={counts.events > 0 ? `${counts.events} this week` : undefined}
-        />
+          badge={
+            counts.nextEvent
+              ? `Next: ${counts.nextEvent.title} · ${new Date(counts.nextEvent.date).toLocaleDateString("en-MY", { weekday: "short", day: "numeric", month: "short" })}`
+              : counts.events > 0
+                ? `${counts.events} this week`
+                : undefined
+          }
+ />
         <Tile
           href="/holidays"
           title="Holidays"
@@ -96,12 +132,14 @@ export default function MorePage() {
           title="My attendance"
           desc="Days in, late, and away — excused counted separately"
           Icon={CalendarCheckIcon}
+          badge={attendanceBadge()}
         />
         <Tile
           href="/results"
           title="Exam results"
           desc="Marks by exam, with the teacher's progress report"
           Icon={TrophyIcon}
+          badge={`Mid-term average ${resultsAverage()}/100`}
         />
         <Tile
           href="/absence"
@@ -149,9 +187,12 @@ export default function MorePage() {
       </Group>
 
       <Group icon={<UserIcon className="h-4.5 w-4.5" />} title="Administration" last>
-        <SoonTile
+        <Tile
+          href="/admin"
           title="Office & admin tools"
-          desc="Circulars with read receipts, absence overview, accounts — after the admin interviews"
+          desc="Memos, calendar, results monitoring and student records — staff sign-in"
+          Icon={ShieldIcon}
+          wide
         />
       </Group>
 
@@ -250,41 +291,47 @@ function Tile({
         </p>
       )}
       {badge && (
-        <p className="mt-2 text-xs font-semibold text-accent-strong">{badge}</p>
+        <p className="mt-2 truncate text-xs font-semibold text-accent-strong">{badge}</p>
       )}
     </Link>
   );
 }
 
-/** An honest placeholder: says what will exist and why it isn't here yet. */
-function SoonTile({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div
-      aria-disabled
-      className="col-span-2 rounded-xl border border-dashed border-hairline bg-paper/60 p-4 md:col-span-4"
-    >
-      <div className="flex items-center gap-3">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-background text-muted">
-          <ShieldIcon className="h-5.5 w-5.5" />
-        </span>
-        <div className="min-w-0">
-          <p className="font-display text-[15px] font-semibold leading-5">
-            {title} <span className="text-xs font-semibold text-muted">— coming soon</span>
-          </p>
-          <p className="mt-1 text-xs leading-5 text-muted">{desc}</p>
-        </div>
-      </div>
-    </div>
-  );
+/** Mid-term average across subjects, from the same data the results page shows. */
+function resultsAverage(): number {
+  const r = examResults[0]?.results ?? [];
+  if (r.length === 0) return 0;
+  return Math.round(r.reduce((sum, s) => sum + (s.score / s.max) * 100, 0) / r.length);
 }
 
-/** One tap, complete export — every event leaves with you as a calendar file. */
+/** Days in (present or late) out of recorded school days, in plain words. */
+function attendanceBadge(): string {
+  const inDays = attendanceDays.filter((d) => d.status !== "absent").length;
+  return `In ${inDays} of ${attendanceDays.length} days`;
+}
+
+/** One tap, complete export — every upcoming event leaves with you as one
+    calendar file, built in the browser from the live events store. */
 function CalendarTile() {
+  const [events, setEvents] = useState<SchoolEvent[]>([]);
+  useEffect(() => {
+    const load = () => setEvents(getEvents());
+    load();
+    return subscribeEvents(load);
+  }, []);
+
+  function downloadAll() {
+    const now = new Date();
+    const upcoming = events.filter((e) => new Date(e.date) >= now);
+    if (upcoming.length === 0) return;
+    downloadIcsFile("school-events.ics", buildIcsAll(upcoming));
+  }
+
   return (
-    <a
-      href="/events.ics"
-      download
-      className="rounded-xl border border-hairline bg-paper p-4 transition-transform active:scale-[0.98]"
+    <button
+      type="button"
+      onClick={downloadAll}
+      className="rounded-xl border border-hairline bg-paper p-4 text-left transition-transform active:scale-[0.98]"
     >
       <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent">
         <CalendarPlusIcon className="h-5.5 w-5.5" />
@@ -295,7 +342,7 @@ function CalendarTile() {
       <p className="mt-1 text-xs leading-5 text-muted">
         Add every school event to your calendar app
       </p>
-    </a>
+    </button>
   );
 }
 

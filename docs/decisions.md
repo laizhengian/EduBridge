@@ -238,16 +238,43 @@ This is the decision the user specifically asked to see justified:
 
 ### 20. Optional poster images on News and Events letters — banner above the text, never a row thumbnail
 - **Why it won:** the backend-plan layout rule, now demonstrated in the preview
-  (mock data carries an optional `image` on both types). News reveals the
-  poster when the letter opens — the collapsed preview stays a two-line
-  snippet, so rows stay scannable and equal-height. Events shows it at the top
-  of the "More" expander. The Today screen stays text-only regardless: it's
-  the summary; the full letter lives one tap deeper. The banner is a fixed 3:2
-  ratio with the card's rounded corners — it reads as a poster pinned above
-  the letter, not a feed card.
+  (mock data carries an optional `image` on both types). News reveals the poster
+  when the letter opens in the reader sheet — collapsed rows stay a quiet
+  title-plus-sender line, so rows stay scannable and equal-height. Events shows
+  it at the top of the row expander. The Today screen stays text-only
+  regardless: it's the summary; the full letter lives one tap deeper. The
+  banner is a fixed 3:2 ratio with the card's rounded corners — it reads as a
+  poster pinned above the letter, not a feed card.
 - **What lost:** thumbnails in the collapsed row (turns news into a feed of
   clickable ambiguities and makes every row height depend on an image);
   edge-to-edge unrounded banners (they fight #19's boxed language).
+
+### 21. The admin console is one place with five tabs — over a page per task
+- **Why it won:** the admin interview's only real complaint was "sometimes the
+  stuff is all over the place". The console answers with one indigo-chromed
+  surface — Overview (today's numbers + needs-attention list), Memos (compose
+  → live in family News), Calendar (add/remove → live in family Events),
+  Results (class monitoring, lowest first, plain-words trends), Students
+  (search + record sheet with guardian and phone). Writes land in the same
+  local stores the family app reads, so the "post → appears instantly" story
+  is demonstrated end to end before Supabase exists. Needs-attention is one
+  row per student with every reason joined — a phone-call list, not a pile of
+  alerts.
+- **What lost:** separate admin routes per task (three-to-five daily uses
+  means context-switching costs more than page length); editing student
+  records inline in the monitor (records change rarely; viewing is the daily
+  job — editing comes with the database).
+
+### 22. Staff sign-in is a fixed-account gate until Supabase auth
+- **Why it won:** the apps must be separate (interview: family / teacher /
+  admin are different tools), and a preview needs a door that works today.
+  One shared card (`StaffLogin`) checks fixed accounts — `teacher`/`123ABC`,
+  `admin`/`456DEF` — against localStorage, gates each staff shell, and offers
+  sign-out in the header. The check lives in `lib/staff-auth.ts` as three
+  functions so the Supabase swap touches nothing else.
+- **What lost and why it's okay:** anyone reading the bundle knows the
+  passwords (it's a design preview — the gate proves the flow, not security;
+  the security plan covers the real thing).
 
 ---
 

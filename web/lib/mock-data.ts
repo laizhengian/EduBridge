@@ -60,6 +60,9 @@ export type Circular = {
   image?: string;
   /** The full letter, shown when the reader taps it open. */
   body: string;
+  /** Forms, PDFs and maps attached to the letter — organized as tappable
+      rows in the letter reader (backend plan: links column on circulars). */
+  links?: { label: string; url: string }[];
   postedBy: string;
   postedAt: string; // ISO
 };
@@ -249,6 +252,9 @@ export const circulars: Circular[] = [
     postedAt: at(-1, 9, 0),
     body:
       "The holiday originally scheduled for 14–15 September is now moved to 21 September (Monday), following the postponement of National Sports Day. All other term dates are unchanged, and the updated calendar is on the Events page. Classes resume as normal on 22 September.",
+    links: [
+      { label: "Updated term calendar (PDF)", url: "https://example.com/term-calendar" },
+    ],
   },
   {
     id: "c2",
@@ -293,6 +299,9 @@ export const circulars: Circular[] = [
     postedAt: at(-1, 14, 0),
     body:
       "The annual Chess Open runs next Saturday morning in the hall. Register through your class teacher by Friday; each class may enter up to six players. Boards and clocks are provided — bring nothing but patience.",
+    links: [
+      { label: "Rules & registration form", url: "https://forms.example.com/chess-open" },
+    ],
   },
   {
     id: "c7",
@@ -337,6 +346,9 @@ export const circulars: Circular[] = [
     postedAt: at(-8, 9, 0),
     body:
       "Booking slots for the September conference open Monday at 9am. Each family books one 15-minute slot per subject teacher through the office; if you need a longer conversation, the office will arrange a separate day.",
+    links: [
+      { label: "Book your slot", url: "https://forms.example.com/ptc-booking" },
+    ],
   },
   {
     id: "c11",
@@ -974,6 +986,38 @@ export type RosterStudent = {
   latesThisTerm?: number;
   frequentReason?: string;
 };
+
+/* ---- Admin console: per-student summaries ------------------------------- */
+
+/** The monitoring numbers behind the admin console's results and attendance
+    views. In the real build the vault computes these from marks and rolls;
+    here they stand in, one row per roster student. */
+export type StudentSummary = {
+  id: string; // matches a roster id
+  klass: string;
+  /** Latest term average, out of 100. */
+  average: number;
+  /** The term before — the trend the console shows in plain words. */
+  previousAverage: number;
+  weakestSubject: string;
+  /** Attendance this term, percent of school days in (late still counts in). */
+  attendancePct: number;
+  guardian: string;
+  guardianPhone: string;
+};
+
+export const studentSummaries: StudentSummary[] = [
+  { id: "s1", klass: "8B", average: 78, previousAverage: 74, weakestSubject: "Mandarin", attendancePct: 96, guardian: "Rahman Ismail", guardianPhone: "012-345 6781" },
+  { id: "s2", klass: "8B", average: 64, previousAverage: 68, weakestSubject: "Mathematics", attendancePct: 92, guardian: "Lee Chin Ho", guardianPhone: "012-345 6782" },
+  { id: "s3", klass: "8B", average: 71, previousAverage: 70, weakestSubject: "History", attendancePct: 98, guardian: "Chong Ah Kau", guardianPhone: "012-345 6783" },
+  { id: "s4", klass: "8B", average: 55, previousAverage: 60, weakestSubject: "Mathematics", attendancePct: 84, guardian: "Danisha Omar", guardianPhone: "012-345 6784" },
+  { id: "s5", klass: "8B", average: 82, previousAverage: 79, weakestSubject: "Geography", attendancePct: 97, guardian: "Imran Bakar", guardianPhone: "012-345 6785" },
+  { id: "s6", klass: "8B", average: 88, previousAverage: 86, weakestSubject: "English", attendancePct: 99, guardian: "Chan Wai Man", guardianPhone: "012-345 6786" },
+  { id: "s7", klass: "8B", average: 69, previousAverage: 66, weakestSubject: "Science", attendancePct: 91, guardian: "Hidayah Zulkifli", guardianPhone: "012-345 6787" },
+  { id: "s8", klass: "8B", average: 47, previousAverage: 52, weakestSubject: "Mathematics", attendancePct: 89, guardian: "Pillay Rajoo", guardianPhone: "012-345 6788" },
+  { id: "s9", klass: "8B", average: 61, previousAverage: 63, weakestSubject: "History", attendancePct: 87, guardian: "Ahmed Sultan", guardianPhone: "012-345 6789" },
+  { id: "s10", klass: "8B", average: 75, previousAverage: 73, weakestSubject: "Bahasa Malaysia", attendancePct: 95, guardian: "Tan Kim Kai", guardianPhone: "012-345 6790" },
+];
 
 /** Class 8B's roll. Generic names; the real roster comes from the vault. */
 export const roster: RosterStudent[] = [

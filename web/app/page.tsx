@@ -4,13 +4,19 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DotTag, SectionTitle, ArrowRightIcon, AlarmClockIcon } from "@/components/ui";
 import {
-  circulars,
   dueLabel,
-  events,
-  homeworkSeed,
   isSameDay,
   timeAgo,
+  type Circular,
+  type Homework,
+  type SchoolEvent,
 } from "@/lib/mock-data";
+import { getHomework, subscribe as subscribeHomework } from "@/lib/store";
+import {
+  getCirculars,
+  subscribe as subscribeCirculars,
+} from "@/lib/circulars-store";
+import { getEvents, subscribe as subscribeEvents } from "@/lib/events-store";
 import { loadProfile, type Profile } from "@/lib/profile";
 
 function Box({
@@ -33,16 +39,30 @@ export default function TodayPage() {
   // is there when you want it — never a locked door.
   const [profile, setProfile] = useState<Profile | null>(null);
   const [checked, setChecked] = useState(false);
+  // Everything on Today reads the shared stores, so homework the teacher
+  // posts, memos the office sends and events the admin adds appear here the
+  // moment they exist — no refresh ceremony.
+  const [homework, setHomework] = useState<Homework[]>([]);
+  const [news, setNews] = useState<Circular[]>([]);
+  const [events, setEvents] = useState<SchoolEvent[]>([]);
 
   useEffect(() => {
     setProfile(loadProfile());
     setChecked(true);
+    const load = () => {
+      setHomework(getHomework());
+      setNews(getCirculars());
+      setEvents(getEvents());
+    };
+    load();
+    const unsubs = [subscribeHomework(load), subscribeCirculars(load), subscribeEvents(load)];
+    return () => unsubs.forEach((u) => u());
   }, []);
 
   const now = new Date();
-  const openCount = homeworkSeed.filter((h) => !h.done).length;
-  const overdue = homeworkSeed.filter((h) => !h.done && new Date(h.dueAt) < now);
-  const dueToday = homeworkSeed.filter((h) => !h.done && isSameDay(h.dueAt, now));
+  const openCount = homework.filter((h) => !h.done).length;
+  const overdue = homework.filter((h) => !h.done && new Date(h.dueAt) < now);
+  const dueToday = homework.filter((h) => !h.done && isSameDay(h.dueAt, now));
   const upcomingEvents = events
     .filter((e) => new Date(e.date) > now)
     .sort((a, b) => +new Date(a.date) - +new Date(b.date))
@@ -51,7 +71,7 @@ export default function TodayPage() {
   // one decision per screen). Each section's link goes deeper.
   const overdueShown = overdue.slice(0, 3);
   const dueTodayShown = dueToday.slice(0, 4);
-  const newsShown = circulars.slice(0, 3);
+  const newsShown = news.slice(0, 3);
   const dayMs = 24 * 60 * 60 * 1000;
 
   // Teachers land on their own app at /teacher — Today stays the family view.

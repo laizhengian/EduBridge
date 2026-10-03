@@ -10,6 +10,8 @@ import {
   PenLineIcon,
   PlayIcon,
 } from "@/components/ui";
+import { StaffLogin } from "@/components/StaffLogin";
+import { isStaffSignedIn, staffSignOut } from "@/lib/staff-auth";
 
 /**
  * The teacher app's own chrome — deliberately NOT the family app's. Four
@@ -26,13 +28,24 @@ const tabs = [
 export function TeacherShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  // The teacher app is behind its own sign-in. null = still checking this
+  // device, so nothing flashes before the gate decides.
+  const [authed, setAuthed] = useState<boolean | null>(null);
 
   useEffect(() => {
+    setAuthed(isStaffSignedIn("teacher"));
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (authed === null) {
+    return <div className="min-h-dvh bg-background" />;
+  }
+  if (!authed) {
+    return <StaffLogin role="teacher" onSignedIn={() => setAuthed(true)} />;
+  }
 
   return (
     <div className="min-h-dvh bg-background">
@@ -46,13 +59,25 @@ export function TeacherShell({ children }: { children: React.ReactNode }) {
             <GraduationCapIcon className="h-4.5 w-4.5" />
             EduBridge · Teacher
           </p>
-          <Link
-            href="/settings"
-            className="pressable rounded-lg px-2 py-1 text-xs font-semibold text-accent-contrast/80 underline-offset-4 hover:text-accent-contrast hover:underline"
-            aria-label="Open Settings for appearance and the signed-in account"
-          >
-            Settings
-          </Link>
+          <span className="flex items-center gap-3">
+            <Link
+              href="/settings"
+              className="pressable rounded-lg px-2 py-1 text-xs font-semibold text-accent-contrast/80 underline-offset-4 hover:text-accent-contrast hover:underline"
+              aria-label="Open Settings for appearance and the signed-in account"
+            >
+              Settings
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                staffSignOut("teacher");
+                setAuthed(false);
+              }}
+              className="pressable rounded-lg px-2 py-1 text-xs font-semibold text-accent-contrast/80 underline-offset-4 hover:text-accent-contrast hover:underline"
+            >
+              Sign out
+            </button>
+          </span>
         </div>
       </header>
 

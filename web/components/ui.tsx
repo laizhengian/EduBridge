@@ -36,6 +36,11 @@ import {
   Sun,
   Trophy,
   User,
+  Users,
+  Trash2,
+  Search,
+  BarChart3,
+  LogOut,
   X,
 } from "lucide-react";
 
@@ -84,6 +89,11 @@ export {
   Settings2 as AdjustIcon,
   GraduationCap as GraduationCapIcon,
   ClipboardList as ClipboardListIcon,
+  Users as UsersIcon,
+  Trash2 as TrashIcon,
+  Search as SearchIcon,
+  BarChart3 as ChartIcon,
+  LogOut as LogOutIcon,
 } from "lucide-react";
 
 export function CloseIcon(p: IconProps) {

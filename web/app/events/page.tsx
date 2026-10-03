@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useState } from "react";
 import {
   CalendarCheckIcon,
   ChevronIcon,
@@ -9,10 +9,13 @@ import {
   EventsIcon,
   ExternalLinkIcon,
   PenLineIcon,
-  TrophyIcon,
 } from "@/components/ui";
 import { AddToCalendar } from "@/components/AddToCalendar";
-import { events, type SchoolEvent } from "@/lib/mock-data";
+import {
+  getEvents,
+  subscribe as subscribeEvents,
+} from "@/lib/events-store";
+import type { SchoolEvent } from "@/lib/mock-data";
 
 /** One quiet icon that says what kind of day it is — colour plus shape,
     so it never rests on colour alone. */
@@ -34,7 +37,29 @@ function TypeMark({ type }: { type: SchoolEvent["type"] }) {
   );
 }
 
+/** Plain-words distance: "today", "tomorrow", "in 6 days". */
+function inDays(iso: string): string {
+  const now = new Date();
+  const d = new Date(iso);
+  const diff = Math.round(
+    (new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() -
+      new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()) /
+      86400000,
+  );
+  if (diff <= 0) return "today";
+  if (diff === 1) return "tomorrow";
+  return `in ${diff} days`;
+}
+
 export default function EventsPage() {
+  const [events, setEvents] = useState<SchoolEvent[]>([]);
+
+  useEffect(() => {
+    const load = () => setEvents(getEvents());
+    load();
+    return subscribeEvents(load);
+  }, []);
+
   const now = new Date();
   const upcoming = events
     .filter((e) => new Date(e.date) >= now)
@@ -54,88 +79,100 @@ export default function EventsPage() {
         style={{ "--i": 1 } as React.CSSProperties}
       >
         {upcoming.map((e, i) => (
-          <Row key={e.id} e={e} first={i === 0} />
+          <Row key={e.id} e={e} first={i === 0} upNext={i === 0} />
         ))}
       </ul>
     </div>
   );
 }
 
-function Row({ e, first }: { e: SchoolEvent; first: boolean }) {
+/** The whole row opens the event — details, links and the calendar file live
+    inside, so the row itself stays one quiet line. */
+function Row({ e, first, upNext }: { e: SchoolEvent; first: boolean; upNext: boolean }) {
   const [open, setOpen] = useState(false);
-  const hasMore = Boolean(e.details?.trim());
 
   return (
-    <li className={`py-3.5${first ? "" : " border-t border-hairline"}`}>
-      <div className="flex items-center gap-3">
+    <li className={`py-1${first ? "" : " border-t border-hairline"}`}>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="flex w-full items-center gap-3 py-2.5 text-left"
+      >
         <TypeMark type={e.type} />
 
-        <div className="min-w-0 flex-1">
-          <p className="text-[15px] font-medium leading-6">{e.title}</p>
-          <p className="text-xs text-muted">
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[15px] font-medium leading-6">
+            {e.title}
+          </span>
+          <span className="mt-0.5 block truncate text-xs text-muted">
             {new Date(e.date).toLocaleDateString("en-MY", {
               weekday: "long",
               day: "numeric",
               month: "long",
             })}
-            {e.location?.trim() ? ` · ${e.location.trim()}` : ""}
-          </p>
-        </div>
+            {e.location?.trim() ? ` · ${e.location.trim()}` : ""} · {inDays(e.date)}
+          </span>
+        </span>
 
-        <AddToCalendar ev={e} />
-      </div>
+        {upNext && (
+          <span className="shrink-0">
+            <DotTag color="green">Up next</DotTag>
+          </span>
+        )}
+        <ChevronIcon
+          aria-hidden
+          className={`h-4 w-4 shrink-0 text-muted/70 transition-transform ${open ? "rotate-90" : ""}`}
+        />
+      </button>
 
-      {hasMore && (
-        <div>
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            className="mt-1 inline-flex min-h-[36px] items-center gap-1 text-sm font-medium text-accent"
-          >
-            {open ? "Less" : "More"}
-            <ChevronIcon
-              className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-90" : ""}`}
-            />
-          </button>
-          {open && (
-            <div className="mt-1 space-y-2.5">
-              {/* Poster letters lead with the picture — banner above the text,
-              never a thumbnail in the row (backend-plan layout rule). */}
-              {e.image && (
-                <div className="relative aspect-[3/2] overflow-hidden rounded-lg border border-hairline">
-                  <Image
-                    src={e.image}
-                    alt=""
-                    fill
-                    sizes="(min-width: 672px) 608px, calc(100vw - 32px)"
-                    className="object-cover"
-                  />
-                </div>
-              )}
-              {e.details?.split(/\n\s*\n/).map((para, i) => (
-                <p key={i} className="text-sm leading-6 text-foreground/80">
-                  {para}
-                </p>
-              ))}
-              {e.links?.length ? (
-                <div className="flex flex-wrap gap-2 pt-0.5">
-                  {e.links.map((l) => (
-                    <a
-                      key={l.url}
-                      href={l.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="pressable inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-hairline bg-background px-3 text-sm font-medium text-accent"
-                    >
-                      {l.label}
-                      <ExternalLinkIcon className="h-3.5 w-3.5" />
-                    </a>
-                  ))}
-                </div>
-              ) : null}
+      {open && (
+        <div className="pb-4 pt-1">
+          {e.image && (
+            <div className="relative aspect-[3/2] overflow-hidden rounded-lg border border-hairline">
+              <Image
+                src={e.image}
+                alt=""
+                fill
+                sizes="(min-width: 672px) 608px, calc(100vw - 32px)"
+                className="object-cover"
+              />
             </div>
           )}
+
+          {e.details?.split(/\n\s*\n/).map((para, i) => (
+            <p key={i} className="mt-2.5 text-sm leading-6 text-foreground/80">
+              {para}
+            </p>
+          ))}
+
+          {e.links?.length ? (
+            <ul className="mt-3 rounded-xl border border-hairline bg-background px-4 py-1">
+              {e.links.map((l) => (
+                <li
+                  key={l.url}
+                  className={l === e.links![0] ? "" : "border-t border-hairline"}
+                >
+                  <a
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-[48px] items-center justify-between gap-3 text-[15px] font-medium text-accent"
+                  >
+                    {l.label}
+                    <ExternalLinkIcon aria-hidden className="h-4 w-4 shrink-0 text-muted/70" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          <div className="mt-3 flex items-start justify-between gap-3">
+            <AddToCalendar ev={e} />
+            <p className="max-w-[24ch] pt-1 text-right text-xs leading-5 text-muted">
+              Downloads a calendar file your phone's calendar app can open.
+            </p>
+          </div>
         </div>
       )}
     </li>

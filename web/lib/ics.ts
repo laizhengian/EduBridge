@@ -49,14 +49,35 @@ export function buildIcs(ev: IcsEvent): string {
     .join("\r\n");
 }
 
-export function downloadIcs(ev: IcsEvent): void {
-  const blob = new Blob([buildIcs(ev)], { type: "text/calendar;charset=utf-8" });
+/** Every event in one calendar file — the Hub's "Dates for your calendar"
+    tile. Wraps each event's VEVENT block into a single VCALENDAR. */
+export function buildIcsAll(evs: IcsEvent[]): string {
+  const body = evs
+    .map((ev) => buildIcs(ev).split("\r\n").slice(3, -1).join("\r\n"))
+    .join("\r\n");
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//EduBridge//Events//EN",
+    body,
+    "END:VCALENDAR",
+  ].join("\r\n");
+}
+
+export function downloadIcsFile(filename: string, text: string): void {
+  const blob = new Blob([text], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `${ev.title.replace(/[^\w\s-]/g, "").trim().slice(0, 40) || "event"}.ics`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+export function downloadIcs(ev: IcsEvent): void {
+  const filename =
+    `${ev.title.replace(/[^\w\s-]/g, "").trim().slice(0, 40) || "event"}.ics`;
+  downloadIcsFile(filename, buildIcs(ev));
 }

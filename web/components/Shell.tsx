@@ -48,9 +48,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Teacher routes carry their own chrome (TeacherShell) — no family tabs.
-  // Placed after all hooks so React's hook order never changes.
-  if (pathname.startsWith("/teacher")) {
+  // Teacher and admin routes carry their own chrome (TeacherShell /
+  // AdminShell) — no family tabs. Placed after all hooks so React's hook
+  // order never changes.
+  if (pathname.startsWith("/teacher") || pathname.startsWith("/admin")) {
     return <>{children}</>;
   }
 

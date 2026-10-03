@@ -4,12 +4,16 @@ import { useState } from "react";
 import { CalendarPlusIcon } from "@/components/ui";
 import { downloadIcs, type IcsEvent } from "@/lib/ics";
 
-/** Quiet per-row action: downloads a pre-filled .ics for the event. */
+/** Quiet per-row action: downloads a pre-filled .ics for the event. The
+    label says what it actually does — no bare "Add" that reads as a mystery
+    button. */
 export function AddToCalendar({
   ev,
+  label = "Add to calendar",
   className,
 }: {
   ev: IcsEvent;
+  label?: string;
   className?: string;
 }) {
   const [added, setAdded] = useState(false);
@@ -39,7 +43,7 @@ export function AddToCalendar({
       aria-label={`Add ${ev.title} to calendar`}
     >
       <CalendarPlusIcon className="h-4 w-4" />
-      <span>{added ? "Added" : "Add"}</span>
+      <span>{added ? "Added ✓" : label}</span>
     </button>
   );
 }
